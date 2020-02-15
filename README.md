@@ -1,2 +1,5 @@
 ### PROJECT for MODULE 2
-first attempt
+
+<<<<<<< HEAD
+
+First attempt to add smth to a readme file
