@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+hbs.registerPartials(__dirname + '/views/partials');
 
 // Routes
 // - Make sure when you're in routes not to include the routes end point

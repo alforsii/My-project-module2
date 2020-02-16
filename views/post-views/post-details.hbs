@@ -7,13 +7,18 @@
             <div> <span>Creator: <a href="/profile/user-details?user_id={{userId}}">{{username}}</a></span>
                 <img class="users-small" src="{{userImg}}" alt="username"></div>
             <p><a href="/comments/post-details/comments?post_id={{postId}}">Comments</a> </p>
+
             {{#if message}}
             <div class="error-message">{{ message }}</div>
             {{/if}}
+
+            {{#if user}}
             <form action="/comments/post-details?post_id={{postId}}" method="post">
                 <input name="comment" id="" cols="30" rows="3"></input>
                 <button>Save</button>
             </form>
+            {{/if}}
+
             {{!-- drop down button --}}
             {{#if isCreator}}
             <div class="btn-group" role="group">

@@ -40,7 +40,7 @@ router.get('/post-details', (req, res, next) => {
       //   console.log('foundOne: ', foundOne);
       let newObj;
       const { _id, content, creatorId, picPath, picName } = foundOne;
-      if (req.user._id.toString() === creatorId._id.toString()) {
+      if (req.user && req.user._id.toString() === creatorId._id.toString()) {
         newObj = {
           postId: _id,
           picPath,
