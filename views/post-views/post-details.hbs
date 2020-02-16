@@ -1,17 +1,34 @@
-<a href="/">Go back</a>
-<div class="form col-md-6 m-auto">
-    <div class="form">
-        <img class="image-details" src="{{picPath}}" alt="{{picName}}">
-        <p>{{content}}</p>
-        <div> <span>Creator: <a href="/profile/user-details?user_id={{userId}}">{{username}}</a></span>
-            <img class="users-small" src="{{userImg}}" alt="username"></div>
-        <p><a href="/comments/post-details/comments?post_id={{postId}}">Comments</a> </p>
-        {{#if message}}
-        <div class="error-message">{{ message }}</div>
-        {{/if}}
-        <form action="/comments/post-details?post_id={{postId}}" method="post">
-            <textarea name="comment" id="" cols="30" rows="3"></textarea>
-            <button>Save</button>
-        </form>
+<div class="main-post-details">
+    <a class="goHome" href="/">Go back</a>
+    <div class="col-md-6 m-auto">
+        <div class="form">
+            <img class="image-details" src="{{picPath}}" alt="{{picName}}">
+            <p>{{content}}</p>
+            <div> <span>Creator: <a href="/profile/user-details?user_id={{userId}}">{{username}}</a></span>
+                <img class="users-small" src="{{userImg}}" alt="username"></div>
+            <p><a href="/comments/post-details/comments?post_id={{postId}}">Comments</a> </p>
+            {{#if message}}
+            <div class="error-message">{{ message }}</div>
+            {{/if}}
+            <form action="/comments/post-details?post_id={{postId}}" method="post">
+                <input name="comment" id="" cols="30" rows="3"></input>
+                <button>Save</button>
+            </form>
+            {{!-- drop down button --}}
+            {{#if isCreator}}
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="#">
+                        <form action="/posts/delete-post?post_id={{postId}}" method="post">
+                            <button class="btn btn-link">Delete Post</button>
+                        </form>
+                    </a>
+                </div>
+            </div>
+            {{/if}}
+            {{!-- end drop down button --}}
+        </div>
     </div>
 </div>

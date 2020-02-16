@@ -103,7 +103,7 @@ p {
 
 .author-info {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   align-self: start;
   padding: 5px 10px;
@@ -174,18 +174,6 @@ p {
   }
   .left-div {
     display: none;
-    /* position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 50px;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 15px;
-    width: 30%;
-    background-color: bisque; */
   }
   .center-div {
     position: relative;
@@ -194,7 +182,6 @@ p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    /* padding: 0 15px; */
     width: 75vw;
     margin: 0 5px 0 0;
     background-color: rgb(206, 235, 235);
@@ -217,6 +204,7 @@ p {
 }
 /* login and signup forms */
 .form {
+  position: relative;
   padding: 30px;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
   display: flex;
@@ -243,7 +231,6 @@ form input,
 form button {
   letter-spacing: 0.1rem;
   width: 100%;
-  /* margin-bottom: 5px; */
   padding: 10px;
   border-radius: 4px;
   border: 1px solid gray;
@@ -253,7 +240,6 @@ form label {
   font-size: 1rem;
   text-align: center;
   width: 100%;
-  /* margin-bottom: 2px; */
   padding: 3px;
 }
 input:focus {
@@ -287,23 +273,38 @@ form button {
 .post-photo-form {
   padding: 20px;
 }
+
+/* post details */
+.main-post-details {
+  padding: 30px;
+}
+.goHome {
+  position: fixed;
+  left: 5px;
+  top: 80px;
+}
+.btn-group {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+#btnGroupDrop1 {
+  border-radius: 30px;
+}
+
 /* comments */
 .comments {
   width: 100vw;
-  /* height: 100vh; */
   display: flex;
   justify-content: center;
-  /* background-color: #00b7ff; */
 }
 .main-comments,
 .post-photo-form {
   margin-top: 30px;
-  width: 500px;
+  width: 450px;
   height: 500px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
   overflow: scroll;
   border-radius: 5px;
   background-color: rgb(231, 229, 229);
@@ -317,7 +318,7 @@ form button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 10px;
+  margin: 3px 10px;
   padding: 5px 10px;
   border-radius: 30px;
   background-color: rgb(248, 245, 245);
