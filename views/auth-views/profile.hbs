@@ -41,16 +41,38 @@
         {{#if users}}
         <div class="column-items">
             {{#each users}}
-            <div class="author-info">
-                <a href="/profile/user-details?user_id={{this._id}}">
-                    <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
-                </a>
-                <a class="username" href="/profile/user-details?user_id={{this._id}}"> {{this.username}}</a>
+            <div class="users-info">
+                <div>
+                    <a href="/profile/user-details?user_id={{this._id}}">
+                        <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
+                    </a>
+                    <a class="username" href="/profile/user-details?user_id={{this._id}}"> {{this.username}}</a>
+
+                </div>
+
+                <div class="btn-group2" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#">
+                            <form action="" method="post">
+                                <button class="btn btn-outline-success">Add friend</button>
+                            </form>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <form action="" method="post">
+                                <button class="btn btn-outline-primary">Remove</button>
+                            </form>
+                        </a>
+                    </div>
+                </div>
             </div>
             {{/each}}
         </div>
         {{else}}
         <h2>Add friends!</h2>
         {{/if }}
+        {{!-- footer --}}
+        {{> footer}}
     </div>
 </div>
