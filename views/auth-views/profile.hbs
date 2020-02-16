@@ -15,13 +15,13 @@
             {{#each posts}}
             {{!-- this div column-reversed from style.css --}}
             <div class="card mb-2">
-
                 <div class="author-info">
 
                     <a href="/profile/user-details?user_id={{this.userId}}">
                         <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
                     </a>
                     <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
+
                 </div>
                 <div class="profile-user-box">
                     {{!-- <span>{{this.picName}}</span> --}}

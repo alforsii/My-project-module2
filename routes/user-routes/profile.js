@@ -8,6 +8,7 @@ const Post = require('../../models/Post.model');
 const User = require('../../models/User.model');
 
 //user profile
+//=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
   Post.find()
     .populate('creatorId')
@@ -54,6 +55,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
 });
 
 //Get photo upload form
+//=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.get(
   '/user-photo-upload',
   ensureLoggedIn('/auth/login'),
@@ -61,6 +63,7 @@ router.get(
 );
 
 //POST uploaded photo
+//=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.post(
   '/user-photo-upload',
   uploadCloud.single('image'),
@@ -91,6 +94,7 @@ router.get(
   }
 );
 //POST update user profile
+//=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.post('/profile-update', (req, res, next) => {
   const { user } = req;
 

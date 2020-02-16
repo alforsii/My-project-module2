@@ -10,12 +10,13 @@
         <div class="eachComment">
 
             <div>
-                <a href="/profile/user-details?user_id={{this.authorId}}">{{this.username}}</a>>> {{this.content}}
+                <a href="/profile/user-details?user_id={{this.authorId}}">{{this.username}}</a>
+                <pre>{{this.content}}</pre>
             </div>
 
             {{#if this.currentUserId}}
             <div class="deleteDropDown">
-                <form class="dropdown-item" action="/comments/delete-comment?comment_id={{this._id}}" method="post">
+                <form action="/comments/delete-comment?comment_id={{this._id}}" method="post">
                     <button style="margin:0;padding:0;" class="btn btn-link">Delete</button>
                 </form>
             </div>
