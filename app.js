@@ -13,6 +13,7 @@ const userLocals = require('./configs/user-locals');
 
 const app = express();
 
+<<<<<<< HEAD
 require('./configs/db.config');
 require('./configs/passport.config')(app);
 app.use(userLocals);
