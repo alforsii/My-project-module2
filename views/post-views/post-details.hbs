@@ -1,25 +1,17 @@
-{{!-- <h2>Post details</h2> --}}
 <a href="/">Go back</a>
 <div class="form col-md-6 m-auto">
     <div class="form">
         <img class="image-details" src="{{picPath}}" alt="{{picName}}">
         <p>{{content}}</p>
-        <div> <span>Creator: <a href="/profile-details?user_id={{userId}}">{{username}}</a></span>
+        <div> <span>Creator: <a href="/profile/user-details?user_id={{userId}}">{{username}}</a></span>
             <img class="users-small" src="{{userImg}}" alt="username"></div>
-        <p><a href="/post-details/comments?post_id={{postId}}">Comments</a> </p>
+        <p><a href="/comments/post-details/comments?post_id={{postId}}">Comments</a> </p>
         {{#if message}}
         <div class="error-message">{{ message }}</div>
         {{/if}}
-        <form action="/post-details?post_id={{postId}}" method="post">
+        <form action="/comments/post-details?post_id={{postId}}" method="post">
             <textarea name="comment" id="" cols="30" rows="3"></textarea>
             <button>Save</button>
         </form>
     </div>
 </div>
-{{!-- 
-postId: _id,
-        content,
-        userId: creatorId._id,
-        username: creatorId.username,
-        userEmail: creatorId.email,
-        userImg: creatorId.path, --}}

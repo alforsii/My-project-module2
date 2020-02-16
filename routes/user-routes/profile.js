@@ -3,25 +3,73 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const uploadCloud = require('../configs/cloudinary.config');
-const Post = require('../models/Post.model');
-const User = require('../models/User.model');
+const uploadCloud = require('../../configs/cloudinary.config');
+const Post = require('../../models/Post.model');
+const User = require('../../models/User.model');
+
+//user profile
+router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
+  Post.find()
+    .populate('creatorId')
+    .then(posts => {
+      //Take out authors password(not to send to the front end, so no one can see)
+      const newPosts = posts.map(post => {
+        let { _id, content, picPath, picName } = post;
+        let { username, firstName, lastName, email, path } = post.creatorId;
+        let newPost = {
+          _id,
+          content,
+          picPath,
+          picName,
+          userId: post.creatorId._id,
+          username,
+          firstName,
+          lastName,
+          email,
+          path,
+        };
+        return newPost;
+      });
+
+      //Sort Users by username and Get Uniq Users to display
+      User.find({}, null, { sort: { username: 1 } })
+        .then(allUsers => {
+          // const uniqUsers = Array.from(new Set(allUsers));
+          const uniqUsers = allUsers
+            .filter(user => user._id.toString() !== req.user._id.toString())
+            .map(user => {
+              const { _id, username, path } = user;
+              return { _id, username, path };
+            });
+          // console.log('uniqUsers: ', uniqUsers);
+
+          res.render('auth-views/profile', {
+            posts: newPosts,
+            users: uniqUsers,
+          });
+        })
+        .catch(err => console.log(`Error while looping in User model ${err}`));
+    })
+    .catch(err => console.log(err));
+});
 
 //Get photo upload form
-router.get('/profile/photo-upload', ensureLoggedIn('login'), (req, res, next) =>
-  res.render('users/photo-upload-form')
+router.get(
+  '/user-photo-upload',
+  ensureLoggedIn('/auth/login'),
+  (req, res, next) => res.render('post-views/photo-upload-form')
 );
 
 //POST uploaded photo
 router.post(
-  '/profile/photo-upload',
+  '/user-photo-upload',
   uploadCloud.single('image'),
   (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, {
       path: req.file.url,
     })
       .then(() => {
-        res.redirect('/profile');
+        res.redirect('/profile/user-page');
       })
       .catch(err => next(err));
   }
@@ -29,17 +77,21 @@ router.post(
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
 //Get user profile update form
-router.get('/profile/update', ensureLoggedIn('login'), (req, res, next) => {
-  const { firstName, lastName, username, email, _id } = req.user;
-  res.render('users/user-profile-update', {
-    firstName,
-    lastName,
-    username,
-    email,
-  });
-});
+router.get(
+  '/profile-update',
+  ensureLoggedIn('/auth/login'),
+  (req, res, next) => {
+    const { firstName, lastName, username, email, _id } = req.user;
+    res.render('users/user-profile-update', {
+      firstName,
+      lastName,
+      username,
+      email,
+    });
+  }
+);
 //POST update user profile
-router.post('/profile/update', (req, res, next) => {
+router.post('/profile-update', (req, res, next) => {
   const { user } = req;
 
   const {
@@ -52,9 +104,9 @@ router.post('/profile/update', (req, res, next) => {
     password2,
   } = req.body;
 
-  if (!password) {
+  if (!password || !password1 || !password2) {
     res.render('users/user-profile-update', {
-      message: 'Please enter your password!',
+      message: 'Please enter all password inputs!',
     });
     return;
   }
@@ -97,13 +149,13 @@ router.post('/profile/update', (req, res, next) => {
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
 //user details from comments and post details pages
-router.get('/profile-details', (req, res, next) => {
+router.get('/user-details', (req, res, next) => {
   const { user_id } = req.query;
   const userInSession = req.user;
   User.findById(user_id)
     .then(foundOne => {
       if (userInSession && userInSession.email === foundOne.email) {
-        res.redirect('/profile');
+        res.redirect('/profile/user-page');
         return;
       }
 

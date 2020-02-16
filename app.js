@@ -13,7 +13,6 @@ const userLocals = require('./configs/user-locals');
 
 const app = express();
 
-<<<<<<< HEAD
 require('./configs/db.config');
 require('./configs/passport.config')(app);
 app.use(userLocals);
@@ -28,13 +27,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const index = require('./routes/index.routes');
-const authRoutes = require('./routes/auth.routes');
-app.use('/', index);
-app.use('/', authRoutes);
-app.use('/', require('./routes/user-profile-routes'));
-app.use('/', require('./routes/user-post-routes'));
-app.use('/', require('./routes/user-comments-routes'));
+// Routes
+// - Make sure when you're in routes not to include the routes end point
+// - But when you're redirecting to route or in the hbs view include the routes end point
+app.use('/', require('./routes/welcome-page'));
+app.use('/auth', require('./routes/auth-routes/auth'));
+app.use('/profile', require('./routes/user-routes/profile'));
+app.use('/posts', require('./routes/user-routes/posts'));
+app.use('/comments', require('./routes/user-routes/comments'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

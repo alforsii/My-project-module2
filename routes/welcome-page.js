@@ -7,7 +7,7 @@ const Post = require('../models/Post.model');
 router.get('/', (req, res) => {
   Post.find()
     .then(posts => {
-      res.render('index', { title: 'Posts', posts });
+      res.render('welcome-page', { title: 'Posts', posts });
     })
     .catch(err => console.log(err));
 });

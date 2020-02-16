@@ -2,16 +2,16 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const uploadCloud = require('../configs/cloudinary.config');
-const Post = require('../models/Post.model');
-const User = require('../models/User.model');
-const Comment = require('../models/Comment.model');
+const uploadCloud = require('../../configs/cloudinary.config');
+const Post = require('../../models/Post.model');
+const User = require('../../models/User.model');
+const Comment = require('../../models/Comment.model');
 
 //Post from user profile
-router.get('/profile/post', (req, res, next) => {
-  res.render('users/post-form');
+router.get('/upload-photo', (req, res, next) => {
+  res.render('post-views/post-form');
 });
-router.post('/profile/post', uploadCloud.single('photo'), (req, res, next) => {
+router.post('/upload-photo', uploadCloud.single('photo'), (req, res, next) => {
   const { content, picName } = req.body;
   //   creatorId, picPath,
   Post.create({
@@ -46,7 +46,7 @@ router.get('/post-details', (req, res, next) => {
         userEmail: creatorId.email,
         userImg: creatorId.path,
       };
-      res.render('users/post-details', newObj);
+      res.render('post-views/post-details', newObj);
     })
     .catch(err => console.log(err));
 });

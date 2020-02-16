@@ -14,20 +14,23 @@
   <nav>
     {{#if user}}
     <div>
+      <a class="hidden-user" href="">
+        <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
+      </a>
       <a href="/">Main | </a>
-      <a href="/profile">Profile | </a>
-      <a href="/profile/post">PostPhotos</a>
+      <a href="/profile/user-page">Profile | </a>
+      <a href="/posts/upload-photo">PostPhotos</a>
     </div>
-    <form action="/logout" method="POST">
-      <button style="background-color: transparent;">Logout</button>
+    <form action="/auth/logout" method="POST">
+      <button class="" style="background-color: transparent;">Logout</button>
     </form>
     {{else}}
     <div>
       <a href="/">Main | </a>
     </div>
     <div>
-      <a class="btn btn-secondary mt-1" href="/login">Login</a>
-      <a class="btn btn-secondary mt-1" href="/signup">Signup</a>
+      <a class="btn btn-secondary" href="/auth/login">Login</a>
+      <a class="btn btn-secondary" href="/auth/signup">Signup</a>
     </div>
     {{/if}}
   </nav>

@@ -3,19 +3,19 @@
 
         {{#if message}}
         <br>
-        <h2>{{message}}</h2>
+        <h2 class="text-center">{{message}}</h2>
         {{else}}
         <br>
         {{#each allComments}}
         <div class="eachComment">
 
             <div>
-                <a href="/profile-details?user_id={{this.authorId}}">{{this.username}}</a>>> {{this.content}}
+                <a href="/profile/user-details?user_id={{this.authorId}}">{{this.username}}</a>>> {{this.content}}
             </div>
 
             {{#if this.currentUserId}}
             <div class="deleteDropDown">
-                <form class="dropdown-item" action="/comments/delete?comment_id={{this._id}}" method="post">
+                <form class="dropdown-item" action="/comments/delete-comment?comment_id={{this._id}}" method="post">
                     <button style="margin:0;padding:0;" class="btn btn-link">Delete</button>
                 </form>
             </div>

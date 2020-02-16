@@ -1,13 +1,13 @@
 <div class="container">
     <h2 class="text-center">Profile update</h2>
     <div class="row">
-        {{!-- {{ message }} --}}
+
         <div class="col-md-6 m-auto">
 
             <div class="error-message">{{ message }}</div>
             <div class="success-message">{{ success }}</div>
 
-            <form action="/profile/update" method="post">
+            <form action="/profile/profile-update" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" name="username" value="{{username}}" class="form-control">

@@ -2,10 +2,10 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const uploadCloud = require('../configs/cloudinary.config');
-const Post = require('../models/Post.model');
-const User = require('../models/User.model');
-const Comment = require('../models/Comment.model');
+const uploadCloud = require('../../configs/cloudinary.config');
+const Post = require('../../models/Post.model');
+const User = require('../../models/User.model');
+const Comment = require('../../models/Comment.model');
 
 //Create comments - POST
 // -=-=-=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-
@@ -27,10 +27,9 @@ router.post('/post-details', (req, res, next) => {
         userEmail: creatorId.email,
         userImg: creatorId.path,
       };
-      // Up here, above code is the same as previous Get req
+
       if (!user) {
-        //   res.render('users/post-details', newObj);
-        res.render('users/post-details', {
+        res.render('post-views/post-details', {
           ...newObj,
           message: 'Please sign in to add comments',
         });
@@ -92,19 +91,21 @@ router.get('/post-details/comments', (req, res, next) => {
         });
 
       if (allComments.length === 0) {
-        res.render('users/post-comments', { message: "There's no comments" });
+        res.render('post-views/post-comments', {
+          message: "There's no comments",
+        });
         return;
       }
 
       console.log('filtered comments: ', allComments);
-      res.render('users/post-comments', { allComments });
+      res.render('post-views/post-comments', { allComments });
     })
     .catch(err => console.log(`Error while getting comments from DB ${err}`));
 });
 
 //Post deleted comments
 // -=-=-=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-
-router.post('/comments/delete', (req, res, next) => {
+router.post('/delete-comment', (req, res, next) => {
   const { comment_id } = req.query;
   Comment.findByIdAndDelete(comment_id)
     .then(() => res.redirect('back'))
