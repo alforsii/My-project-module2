@@ -17,8 +17,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 10px;
-  padding-bottom: 5px;
+  padding: 0px 10px 5px;
   background-color: #333;
 }
 nav div {
@@ -89,7 +88,7 @@ p {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 .profile-user-box {
   margin: 3px 3px 3px 0;
@@ -103,6 +102,7 @@ p {
 
 .author-info,
 .users-info {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -176,6 +176,18 @@ p {
   overflow: scroll;
 }
 @media (max-width: 900px) {
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: #333;
+  }
   .profile-boxes {
     /* width: 100%; */
   }
@@ -196,33 +208,47 @@ p {
     display: none;
   }
   .center-div {
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 65vw;
+    padding-top: 10px;
+    background-color: rgb(206, 235, 235);
+  }
+  .weather-div {
+    position: fixed;
+    left: 60.5%;
+    top: 55px;
+    bottom: 0;
+    border-left: 3px solid white;
+    border-right: 3px solid white;
+    width: 44.5vw;
+    background-color: #666;
+    color: #fff;
+  }
+  .right-div {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+}
+@media (max-width: 500px) {
+  .center-div {
     position: relative;
     left: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 75vw;
+    width: 100vw;
     padding-top: 10px;
-    margin: 0 5px 0 0;
     background-color: rgb(206, 235, 235);
   }
   .weather-div {
-    display: none;
-  }
-  .right-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    position: initial;
-    background-color: bisque;
-    color: #333;
-    padding: 15px;
-    width: 150px;
-    overflow: scroll;
-  }
-  .username {
     display: none;
   }
 }
@@ -311,6 +337,11 @@ form button {
   position: absolute;
   right: 0;
   bottom: 0;
+}
+.btn-group1 {
+  position: absolute;
+  right: 0;
+  top: 7px;
 }
 #btnGroupDrop1 {
   border-radius: 30px;
