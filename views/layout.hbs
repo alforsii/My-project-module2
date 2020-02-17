@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{myStyle}}">
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
@@ -14,14 +15,12 @@
   <nav>
     {{#if user}}
     <div>
-      <a class="hidden-user" href="">
-        <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
-      </a>
       <a href="/">Main | </a>
-      <a href="/profile/user-page">Profile | </a>
+      <a href="/profile/user-page">Profile </a>
       <a href="/posts/upload-photo">PostPhotos</a>
     </div>
-    <form action="/auth/logout" method="POST">
+    {{!-- it's also in profile.hbs, friends list menu sidebar --}}
+    <form id="logoutBtn" action="/auth/logout" method="POST">
       <button class="" style="background-color: transparent;">Logout</button>
     </form>
     {{else}}
@@ -50,6 +49,10 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  {{!-- local scripts --}}
+
+  <script src="/javascripts/toggle.js"></script>
   <script src="/javascripts/script.js"></script>
 </body>
 

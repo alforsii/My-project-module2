@@ -47,6 +47,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
           res.render('auth-views/profile', {
             posts: newPosts,
             users: uniqUsers,
+            myStyle: '/stylesheets/toggle.css',
           });
         })
         .catch(err => console.log(`Error while looping in User model ${err}`));

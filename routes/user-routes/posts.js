@@ -83,6 +83,15 @@ router.post('/delete-post', (req, res, next) => {
     .catch(err => next(err));
 });
 
+//add and remove friends routes
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+router.post('/profile/add-new-friend', (req, res, next) => {
+  const { friends_id } = req.query;
+});
+router.post('/profile/remove-friend', (req, res, next) => {
+  const { friends_id } = req.query;
+});
+
 module.exports = router;
 
 // //just getting uniq user which belongs to the post

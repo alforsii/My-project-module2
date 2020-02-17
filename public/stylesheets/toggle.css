@@ -1,0 +1,64 @@
+#friend-list-btn {
+  position: fixed;
+  right: 20px;
+  top: 9px;
+  z-index: 3;
+  transition: 0.5s ease-in-out;
+  display: none;
+}
+
+#side-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.side-nav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  opacity: 0.9;
+  overflow-x: scroll;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+.side-nav a {
+  padding: 10px 10px 10px 30px;
+  text-decoration: none;
+  font-size: 22px;
+  color: #ccc;
+  display: block;
+  transition: 0.3s;
+}
+
+.side-nav a:hover {
+  color: #fff;
+}
+
+.side-nav .btn-close {
+  position: absolute;
+  top: 0;
+  right: 200px;
+  font-size: 26px;
+  margin-left: 50px;
+}
+
+@media (max-width: 899px) {
+  #logoutBtn {
+    display: none;
+  }
+  #friend-list-btn {
+    position: fixed;
+    right: 20px;
+    top: 9px;
+    z-index: 3;
+    transition: 0.5s ease-in-out;
+    display: block;
+  }
+}
