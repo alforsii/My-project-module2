@@ -7,21 +7,20 @@
         <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
 
     </div>
+    {{!-- --------------------------------------------------------------- --}}
     <div class="center-div profile-boxes">
-
         {{#if posts}}
         <h2>Great Posts!</h2>
         <div class="column-items">
+
             {{#each posts}}
             {{!-- this div column-reversed from style.css --}}
             <div class="card mb-2">
                 <div class="author-info">
-
                     <a href="/profile/user-details?user_id={{this.userId}}">
                         <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
                     </a>
                     <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
-
                 </div>
                 <div class="profile-user-box">
                     {{!-- <span>{{this.picName}}</span> --}}
@@ -31,14 +30,22 @@
                 </div>
             </div>
             {{/each}}
+
         </div>
         {{else}}
         <h2>Post Something!</h2>
         {{/if }}
     </div>
+    {{!-- ---------------------------------------------- --}}
+    <div class="weather-div">
+        <h4 class="text-center">The weather app</h4>
+        {{> footer}}
+    </div>
+    {{!-- ---------------------------------------------------------------------------- --}}
     <div class="right-div profile-boxes">
         <h5 class="text-center">Other Users</h5>
         {{#if users}}
+
         <div class="column-items">
             {{#each users}}
             <div class="users-info">
@@ -47,20 +54,19 @@
                         <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
                     </a>
                     <a class="username" href="/profile/user-details?user_id={{this._id}}"> {{this.username}}</a>
-
                 </div>
-
+                {{!-- dropdown add friends or remove buttons --}}
                 <div class="btn-group2" role="group">
                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                         <a class="dropdown-item" href="#">
-                            <form action="" method="post">
+                            <form action="/profile/add-new-friend?friends_id={{this._id}}" method="post">
                                 <button class="btn btn-outline-success">Add friend</button>
                             </form>
                         </a>
                         <a class="dropdown-item" href="#">
-                            <form action="" method="post">
+                            <form action="/profile/remove-friend?friends_id={{this._id}}" method="post">
                                 <button class="btn btn-outline-primary">Remove</button>
                             </form>
                         </a>
@@ -68,9 +74,10 @@
                 </div>
             </div>
             {{/each}}
+
         </div>
         {{else}}
-        <h2>Add friends!</h2>
+        <h2>You have no friends!(</h2>
         {{/if }}
         {{!-- footer --}}
         {{> footer}}
