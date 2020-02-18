@@ -17,11 +17,9 @@
   background-color: #111;
   opacity: 0.9;
   overflow-x: scroll;
-  /* padding-top: 60px; */
   transition: 0.5s;
 }
 .side-nav2 {
-  /* display: flex; */
   height: 50px;
   width: 250px;
   position: fixed;
@@ -31,7 +29,6 @@
   background-color: white;
   opacity: 0.9;
   overflow: scroll;
-  /* padding-top: 60px; */
   transition: 0.5s;
 }
 #side-menu {
