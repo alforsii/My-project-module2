@@ -6,14 +6,6 @@
   transition: 0.5s ease-in-out;
   display: none;
 }
-#chatList-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 0px;
-  z-index: 3;
-  transition: 0.5s ease-in-out;
-  display: none;
-}
 
 #side-menu,
 #side-menu2 {
@@ -37,8 +29,9 @@
   transition: 0.5s;
 }
 .side-nav2 {
-  height: 0;
-  width: 320px;
+  display: flex;
+  height: 50px;
+  width: 250px;
   position: fixed;
   z-index: 3;
   bottom: 0;

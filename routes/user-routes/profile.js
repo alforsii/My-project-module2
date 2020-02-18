@@ -31,7 +31,6 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
         };
         return newPost;
       });
-
       //Sort Users by username and Get Uniq Users to display
       User.find({}, null, { sort: { username: 1 } })
         .then(allUsers => {
