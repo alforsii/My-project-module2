@@ -16,6 +16,7 @@ router.get('/upload-photo', (req, res, next) => {
 router.post('/upload-photo', uploadCloud.single('photo'), (req, res, next) => {
   const { content, picName } = req.body;
   //   creatorId, picPath,
+  console.log(req.file);
   Post.create({
     content,
     creatorId: req.user._id,

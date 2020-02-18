@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   password: String,
   path: { type: String, default: '/images/default-img.png' },
   imageName: String,
+  friends: { type: [{ type: Schema.Types.ObjectId, ref: 'User' }] },
 });
 
 module.exports = model('User', UserSchema);

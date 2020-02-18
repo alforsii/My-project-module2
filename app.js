@@ -14,6 +14,7 @@ const userLocals = require('./configs/user-locals');
 const app = express();
 
 require('./configs/db.config');
+require('./routes/socket/socket.io');
 require('./configs/passport.config')(app);
 app.use(userLocals);
 
