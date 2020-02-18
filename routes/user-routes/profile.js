@@ -39,8 +39,8 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
           const uniqUsers = allUsers
             .filter(user => user._id.toString() !== req.user._id.toString())
             .map(user => {
-              const { _id, username, path } = user;
-              return { _id, username, path };
+              const { _id, username, firstName, lastName, path } = user;
+              return { _id, username, firstName, lastName, path };
             });
           // console.log('uniqUsers: ', uniqUsers);
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html port="{{port}}">
 
 <head>
   <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <nav>
     {{#if user}}
     <div>
-      <a href="/">Main | </a>
+      <a href=" /">Main | </a>
       <a href="/profile/user-page">Profile </a>
       <a href="/posts/upload-photo">PostPhotos</a>
     </div>
@@ -49,9 +49,11 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  {{!-- <script src="/socket.io/socket.io.js"></script> --}}
   {{!-- local scripts --}}
 
+  <script src="/javascripts/socket.js"></script>
   <script src="/javascripts/toggle.js"></script>
   <script src="/javascripts/script.js"></script>
 </body>
