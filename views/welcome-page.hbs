@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1 class="text-center">Welcome Troubleshooters</h1>
+  <div class="row-items">
+    {{#each posts}}
+    <div class="user-box card">
+      <img class="post-image" src="{{this.picPath}}" alt="{{this.picName}}">
+      <p>{{this.picName}}</p>
+      <a href="/posts/post-details?post_id={{this._id}}">Read more</a>
+    </div>
+    {{/each}}
+  </div>
+</body>
+
+</html>

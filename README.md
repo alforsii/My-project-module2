@@ -1,6 +1,7 @@
 ### PROJECT for MODULE 2
 Collaboration steps:
 
+
 1. create a branch
    <git checkout -b branch-name>
 2. make changes to your code
@@ -15,3 +16,12 @@ Collaboration steps:
 7. conflicts resolved or no conflicts found - git push origin <your-branch-name>
 8. create pull request from your branch to the master branch
 9. If no more conflicts found then merge your pull request
+
+When you successfully merged do in the JSON file folder
+
+`npm intall, add cloudinary keys and PORT in the .env and run node bin/seeds.js to get ready users.`
+Note: if you make comments with your current user and add posts, and after that
+for some reason you delete your user and recreate, it will give your an error.
+So in that case delete first comments and posts collection before recreating
+your single user!
+
