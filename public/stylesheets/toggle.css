@@ -17,11 +17,9 @@
   background-color: #111;
   opacity: 0.9;
   overflow-x: scroll;
-  /* padding-top: 60px; */
   transition: 0.5s;
 }
 .side-nav2 {
-  display: flex;
   height: 50px;
   width: 250px;
   position: fixed;
@@ -31,15 +29,16 @@
   background-color: white;
   opacity: 0.9;
   overflow: scroll;
-  /* padding-top: 60px; */
   transition: 0.5s;
 }
-#side-menu,
-#side-menu2 {
+#side-menu {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+#side-menu2 {
+  display: none;
 }
 .side-nav a,
 .side-nav2 a {
@@ -66,20 +65,12 @@
   font-size: 26px;
   margin-left: 50px;
 }
-/* .side-nav2 .btn-close {
-  position: absolute;
-  top: 0;
-  right: 20px;
-  font-size: 26px;
-  margin-left: 50px;
-} */
-
 @media (max-width: 899px) {
   #logoutBtn {
     display: none;
   }
-  #chatList-btn {
-    display: block;
+  #side-menu2 {
+    display: flex;
   }
   #friend-list-btn {
     position: fixed;
