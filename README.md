@@ -1,6 +1,6 @@
 ### PROJECT for MODULE 2
-Collaboration steps:
 
+Collaboration steps:
 
 1. create a branch
    <git checkout -b branch-name>
@@ -25,3 +25,4 @@ for some reason you delete your user and recreate, it will give your an error.
 So in that case delete first comments and posts collection before recreating
 your single user!
 
+test line
