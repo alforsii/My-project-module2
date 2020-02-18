@@ -50,8 +50,8 @@ p {
   border-radius: 3px;
 }
 .users-small {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 .image-details {
@@ -99,16 +99,65 @@ p {
 .profile-post-image {
   max-width: 100%;
 }
-
+.curr-user {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+  background-color: #dbdddd;
+  width: 47%;
+  cursor: pointer;
+}
+.curr-user a {
+  color: #fff;
+}
+.curr-user a:hover {
+  color: #111;
+}
 .author-info,
 .users-info {
-  position: relative;
+  /* position: relative; */
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-self: start;
-  padding: 5px 10px;
+  padding: 3px 20px;
+}
+.users-info:hover {
+  background-color: rgb(17, 155, 197);
+}
+.chat-user {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 0.5px solid rgb(248, 246, 246);
+}
+.all-users {
+  margin-top: 70px;
+  width: 100%;
+}
+.chat-user:hover {
+  background-color: rgb(17, 155, 197);
+  color: #fff;
+  cursor: pointer;
+}
+.chat-user a {
+  font-size: 12px;
+}
+.chat-users-small {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
+.username {
+  font-size: 14px;
+}
+.username:hover {
+  color: #fff;
 }
 .author-info {
   justify-content: flex-start;
@@ -136,8 +185,8 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  padding: 15px;
+  align-items: center;
+  /* padding: 15px; */
   width: 15%;
   background-color: bisque;
 }
@@ -148,7 +197,7 @@ p {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 5px 0;
+  padding: 0 5px;
   width: 40vw;
   min-width: 125px;
   background-color: rgb(206, 235, 235);
@@ -156,7 +205,7 @@ p {
 .weather-div {
   position: fixed;
   left: 55.5%;
-  top: 55px;
+  top: 50px;
   bottom: 0;
   border-left: 3px solid white;
   border-right: 3px solid white;
@@ -201,15 +250,14 @@ p {
     width: 7.5rem;
     border-radius: 3px;
   }
-  .hidden-user {
-    display: block;
-  }
+
   .left-div {
     display: none;
   }
   .center-div {
     position: fixed;
     left: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -217,6 +265,7 @@ p {
     width: 65vw;
     padding-top: 10px;
     background-color: rgb(206, 235, 235);
+    overflow: scroll;
   }
   .weather-div {
     position: fixed;
@@ -340,9 +389,26 @@ form button {
 }
 .btn-group1 {
   position: absolute;
-  right: 0;
-  top: 7px;
+  right: 0px;
+  top: 9px;
+  z-index: 2;
+  opacity: 0;
 }
+.btn-group1:hover {
+  animation-name: btn;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+@keyframes btn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 #btnGroupDrop1 {
   border-radius: 30px;
 }
@@ -399,4 +465,15 @@ footer {
 }
 pre {
   color: #fff;
+}
+
+/* socket message board */
+.messageBoard {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+}
+#messages {
+  height: 300px;
 }
