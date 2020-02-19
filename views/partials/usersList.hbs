@@ -1,0 +1,35 @@
+{{#if users}}
+{{#each users}}
+<div class="chat-user">
+  <div class="user">
+    <a href="/profile/user-details?user_id={{this._id}}">
+      <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+    </a>
+    <a class="username" href="/profile/user-details?user_id={{this._id}}"> {{this.firstName}}
+      {{this.lastName}}</a>
+  </div>
+
+  {{!-- dropdown add friends or remove buttons --}}
+  <div class="btn-group1" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false"></button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item" href="#">
+        <form action="/profile/add-new-friend?friends_id={{this._id}}" method="post">
+          <button class="btn btn-outline-success">Add friend</button>
+        </form>
+      </a>
+
+      <a class="dropdown-item" href="#">
+        <form action="/profile/remove-friend?friends_id={{this._id}}" method="post">
+          <button class="btn btn-outline-primary">Remove</button>
+        </form>
+      </a>
+    </div>
+  </div>
+
+</div>
+{{/each}}
+{{else}}
+<h2>You have no friends!(</h2>
+{{/if }}
