@@ -6,8 +6,12 @@
 
 var app = require('../app');
 var debug = require('debug')('project2:server');
-var http = require('http');
-const socketIO = require('socket.io');
+var server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+//another way of creating Server
+// let server = http.createServer(app);
+// let io = require('socket.io')(server);
 
 /**
  * Get port from environment and store in Express.
@@ -17,16 +21,7 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 module.exports = port;
 
-/**
- * Create HTTP server.
- */
-
-let server = http.createServer(app);
-let io = socketIO(server);
-// io.on('connection', socket => {
-//   console.log('A new user just connected');
-// });
-
+//socket route
 require('../routes/socket/socket.io')(io);
 
 /**

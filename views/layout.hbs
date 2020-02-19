@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html port="{{port}}">
+<html port="{{port}}" userInSession={{user._id}}>
 
 <head>
   <meta charset="utf-8">
-  <title>IronTumblr</title>
+  <title> {{title}} </title>
   <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -49,8 +49,9 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-  {{!-- <script src="/socket.io/socket.io.js"></script> --}}
+  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> --}}
+  <script src="/socket.io/socket.io.js"></script>
+
   {{!-- local scripts --}}
 
   <script src="/javascripts/socket.js"></script>

@@ -462,6 +462,7 @@ pre {
   left: 0;
   bottom: 0;
   z-index: 3;
+  display: none;
 }
 #messages {
   height: 300px;
