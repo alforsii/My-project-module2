@@ -27,6 +27,7 @@ passport.use(
       User.findOne({ email })
         .then(doc => {
           user = doc;
+          user.userInSession = user._id;
           console.log('user in login: ', user);
           // here we will get either null (if username doesn't exist) or user object
 
