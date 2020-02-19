@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const User = require('../models/User.model');
 require('../configs/db.config');
-// User.collection.drop();
+User.collection.drop();
+Chat.collection.drop();
+Message.collection.drop();
+Comment.collection.drop();
 
 const users = [
   {
@@ -14,7 +17,7 @@ const users = [
   },
   {
     path: 'https://ca.slack-edge.com/T02CQ4EN4-UP3316YP2-d1d03b2fc512-512',
-    username: 'evgeniy',
+    username: 'evgeny',
     firstName: 'Evgeny',
     lastName: 'Galitskiy',
     email: 'eg@gmail.com',
@@ -121,8 +124,8 @@ const users = [
     path: 'https://ca.slack-edge.com/T02CQ4EN4-UNY9H2JPM-89211449f3b6-512',
     username: 'delio',
     firstName: 'Delio',
-    lastName: 'Delio',
-    email: 'dd@gmail.com',
+    lastName: 'Morato',
+    email: 'dm@gmail.com',
     password: '$2a$10$cqNUdZPpAsTzI0kN5hSWLOOhSSey6edZyxo6FrFmMgieyVZDDiHaq',
   },
   {
