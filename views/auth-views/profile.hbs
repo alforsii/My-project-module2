@@ -45,7 +45,8 @@
 
     {{!-- ---------------------------------------------------------------------------- --}}
     <div class="right-div profile-boxes">
-        <input class="form-control" style="position: fixed; z-index:3;" type="text" placeholder="Search...">
+        <input id="search-user" class="form-control" style="position: fixed; z-index:3;" type="text"
+            placeholder="Search...">
         <div class="all-users">
             {{> usersList}}
         </div>
@@ -108,6 +109,7 @@
         </a>
     </div>
 
+    {{!--  --}}
     <div class="all-users chat-mt">
         {{> usersList}}
     </div>

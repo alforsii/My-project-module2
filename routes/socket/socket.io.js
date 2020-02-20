@@ -59,13 +59,6 @@ module.exports = client => {
                         otherUser._id.toString()
                           ? userChatBoard
                           : []
-
-                      // return chatBoardsFromDB.filter(chatBoardFromDB =>
-                      //   chatBoardFromDB && userChatBoard
-                      //     ? userChatBoard.receiverID.toString() ===
-                      //       chatBoardFromDB.receiverID.toString()
-                      //     : []
-                      // );
                     );
                     console.log('foundChatBoard: ', foundChatBoard);
                     //check if the board already exist, it not then create new Board..
