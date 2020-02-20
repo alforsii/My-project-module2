@@ -21,6 +21,15 @@
     let _email = element('sendTo');
     let clearBtn = element('clear');
     const messageBoard = element('messageBoard');
+
+    //Connect to socket.io
+    //=-=-=-=-===-=-=-=-=-=-= Socket event listener -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    // 1.
+    let socketIO = io();
+    window.onunload = () => socket.close();
+    // 2.Another way of connecting
+    // let socketIO = io.connect(`http://127.0.0.1:${parseInt(port)}`);
+
     // console.log('Output for: port', parseInt(port));
     const users = document.querySelectorAll('.user');
     let _username;
@@ -33,6 +42,10 @@
       user.addEventListener('click', event => {
         event.preventDefault();
         messageBoard.style.display = 'block';
+        messages.innerHTML = '';
+        //before calling clean(messages.innerHTML = '') the board not to double the messages
+        socketIO.emit('start', userInSessionID);
+
         _email.value = user.getElementsByTagName('a')[1].getAttribute('_email');
         _id = user.getElementsByTagName('a')[1].getAttribute('_id');
         _username = user.getElementsByTagName('a')[1].getAttribute('_username');
@@ -54,14 +67,6 @@
         }, 3000);
       }
     };
-
-    //Connect to socket.io
-    //=-=-=-=-===-=-=-=-=-=-= Socket event listener -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    // 1.
-    let socketIO = io();
-    window.onunload = () => socket.close();
-    // 2.Another way of connecting
-    // let socketIO = io.connect(`http://127.0.0.1:${parseInt(port)}`);
 
     //------- Get status from server ---------
     //'status' that we are calling is a function that we assigned in the socket property back end)
@@ -106,22 +111,36 @@
     });
 
     //check connection if it's not undefined to avoid getting an error
+    //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socketIO !== undefined) {
       console.log('Connected to socket..');
       //Handle output from 'output' function that we assigned to the socket property in the back end
       socketIO.on('output', data => {
-        console.log('Output when socket connected: ', data);
         if (data) {
+          console.log('Output fromDB: ', data);
+          // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
-            if (data[i].from.toString() !== userInSessionID.toString()) {
+            if (data.from !== socketIO.id) {
               say(data[i].username, data[i].message);
             } else {
-              say(data[i].username, data[i].message);
+              say(data[i].receiverName, data[i].message);
             }
           }
         }
       });
     }
+
+    socketIO.on('updateOutput', data => {
+      if (data) {
+        console.log('Updated Output fromDB: ', data);
+        //for test
+        if (data.from !== socketIO.id) {
+          say(data.username, data.message);
+        } else {
+          say(data.username, data.message);
+        }
+      }
+    });
 
     function say(name, message) {
       if (message !== undefined) {

@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{myStyle}}">
+  <link rel="stylesheet" href="/stylesheets/toggle.css">
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
@@ -20,9 +20,10 @@
       <a href="/posts/upload-photo">PostPhotos</a>
     </div>
     {{!-- it's also in profile.hbs, friends list menu sidebar --}}
-    <form id="logoutBtn" action="/auth/logout" method="POST">
+    <form class="logoutBtn" action="/auth/logout" method="POST">
       <button class="" style="background-color: transparent;">Logout</button>
     </form>
+    {{!-- {{> mobilMenu}} --}}
     {{else}}
     <div>
       <a href="/">Main | </a>

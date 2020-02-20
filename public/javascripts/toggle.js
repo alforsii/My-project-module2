@@ -14,12 +14,14 @@ function closeSlideMenu() {
 
 function openChatList() {
   document.getElementById('side-menu2').style.height = '350px';
+  document.getElementById('search-user2').style.zIndex = 3;
   document.getElementById('friend-list-btn').style.zIndex = -1;
   document.getElementById('friend-list-btn').style.transition = '0.3s ease-in';
 }
 
 function closeChatList() {
   document.getElementById('side-menu2').style.height = '50px';
+  document.getElementById('search-user2').style.zIndex = '';
   document.getElementById('friend-list-btn').style.zIndex = 3;
   document.getElementById('friend-list-btn').style.transition = '0.5s ease-out';
 }

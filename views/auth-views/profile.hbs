@@ -45,7 +45,7 @@
 
     {{!-- ---------------------------------------------------------------------------- --}}
     <div class="right-div profile-boxes">
-        <input id="search-user" class="form-control" style="position: fixed; z-index:3;" type="text"
+        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
             placeholder="Search...">
         <div class="all-users">
             {{> usersList}}
@@ -53,25 +53,8 @@
     </div><!-- end right div-->
 </div>
 
-{{!-- ----------------- visible max-width: 899px--------------------------------------------- --}}
-
-<!-- menu button, positioned absolute visible when max-width 899px-->
-<a id="friend-list-btn" href="#" onclick="openSlideMenu()">
-    <svg width="30" height="30">
-        <path d="M0, 5 30, 5" stroke="#fff" stroke-width="5" />
-        <path d="M0,14 30,14" stroke="#fff" stroke-width="5" />
-        <path d="M0,23 30,23" stroke="#fff" stroke-width="5" />
-    </svg>
-</a>
-
-{{!-- Start slide menu --}}
-<div id="side-menu" class="side-nav">
-    <a class="hidden-user" href="/profile/user-page">
-        <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
-    </a>
-    <a href="#" class="btn-close" onclick="closeSlideMenu()">&times;</a>
-    <hr class="socket">
-</div><!-- end slide menu-->
+{{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
+{{> mobilMenu}}
 
 
 {{!-- ----------------------------------------------------------------------------------- --}}
@@ -111,6 +94,6 @@
 
     {{!--  --}}
     <div class="all-users chat-mt">
-        {{> usersList}}
+        {{> usersList2}}
     </div>
 </div><!-- end slide menu-->
