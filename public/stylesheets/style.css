@@ -202,6 +202,8 @@ p {
   min-width: 125px;
   background-color: rgb(206, 235, 235);
 }
+
+/* weather div */
 .weather-div {
   position: fixed;
   left: 55.5%;
@@ -213,6 +215,87 @@ p {
   background-color: #666;
   color: #fff;
 }
+
+.title {
+  text-align: center;
+  padding-top: 10px;
+  color: #FFFFFF;
+  font-size: 1.6rem;
+}
+
+.weather {
+  width: 300px;
+  height: 575px;
+  background-color: rgb(23, 104, 196, 0.8);
+  opacity: 0.8;
+  color: #FFFFFF;
+}
+
+.weather-details {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.description {
+  font-size: 16px !important;
+}
+
+.weather-details > div:first-child {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 250px;
+  height: 200px;
+}
+
+.weather-details > div {
+  width: 75px;
+  height: 75px;
+  text-align: center;
+  background-color: rgb(9, 97, 170);
+  margin: 6px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+}
+
+.weather-details > div:first-child h2 {
+  font-size: 2rem;
+}
+
+.weather-details > div:first-child p {
+  font-size: 2rem;
+}
+
+.weather-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.weather-form input {
+  width: 170px;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 2px;
+  border: none;
+}
+
+.weather-form button {
+  width: 50px;
+  height: auto;
+  margin-left: 5px;
+  border-radius: 2px;
+  background-color: blue;
+  color: #FFFFFF;
+  border: none;
+}
+
+.search-message {
+  text-align: center;
+}
+/*  */
+
 .right-div {
   position: fixed;
   right: 0;

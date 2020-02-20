@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+const axios = require('axios');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const uploadCloud = require('../../configs/cloudinary.config');
 const Post = require('../../models/Post.model');
@@ -54,6 +55,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
     })
     .catch(err => console.log(err));
 });
+
 
 //Get photo upload form
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
