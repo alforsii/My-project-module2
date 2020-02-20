@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const User = require('../models/User.model');
+const Chat = require('../models/Chat.model');
+const Message = require('../models/Message.model');
+const Comment = require('../models/Comment.model');
 require('../configs/db.config');
-User.collection.drop();
-Chat.collection.drop();
-Message.collection.drop();
-Comment.collection.drop();
+// User.collection.drop();
+// Chat.collection.drop();
+// Message.collection.drop();
+// Comment.collection.drop();
 
 const users = [
   {

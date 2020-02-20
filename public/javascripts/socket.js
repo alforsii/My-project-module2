@@ -33,8 +33,7 @@
       user.addEventListener('click', event => {
         event.preventDefault();
         messageBoard.style.display = 'block';
-        const email = user.getElementsByTagName('a')[1].getAttribute('_email');
-        _email.value = email;
+        _email.value = user.getElementsByTagName('a')[1].getAttribute('_email');
         _id = user.getElementsByTagName('a')[1].getAttribute('_id');
         _username = user.getElementsByTagName('a')[1].getAttribute('_username');
         // console.log('Output for: _id', _id);
@@ -81,7 +80,7 @@
         //Emit to server input
         socketIO.emit('input', {
           userInSessionID,
-          id: _id.toString(), //selected any other user id
+          id: _id, //selected any other user id
           username: _username,
           email: _email.value,
           message: textarea.value,
@@ -95,7 +94,7 @@
       // Send
       //Emit to server input
       socketIO.emit('input', {
-        id: _id.toString(), //selected any other user id
+        id: _id, //selected any other user id
         userInSessionID,
         username: _username,
         email: _email.value,
@@ -112,15 +111,15 @@
       //Handle output from 'output' function that we assigned to the socket property in the back end
       socketIO.on('output', data => {
         console.log('Output when socket connected: ', data);
-        // if (data) {
-        //   for (let i = 0; i < data.length; i++) {
-        //     if (data[i].from.toString() !== userInSessionID.toString()) {
-        //       say(data[i].username, data[i].message);
-        //     } else {
-        //       say(data[i].username, data[i].message);
-        //     }
-        //   }
-        // }
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].from.toString() !== userInSessionID.toString()) {
+              say(data[i].username, data[i].message);
+            } else {
+              say(data[i].username, data[i].message);
+            }
+          }
+        }
       });
     }
 
