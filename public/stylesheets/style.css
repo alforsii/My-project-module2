@@ -30,7 +30,6 @@ nav div {
 }
 
 a {
-  /* color: white; */
   color: #00b7ff;
   padding: 5px 10px;
 }
@@ -65,7 +64,6 @@ p {
   flex-wrap: wrap;
 }
 .user-box {
-  /* padding: 15px; */
   margin: 3px;
   text-align: center;
   overflow: hidden;
@@ -85,10 +83,10 @@ p {
 /* profile page or hbs */
 .column-items {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 .profile-user-box {
   margin: 3px 3px 3px 0;
@@ -101,8 +99,6 @@ p {
 }
 .curr-user {
   position: fixed;
-  display: flex;
-  justify-content: space-between;
   z-index: 3;
   background-color: #dbdddd;
   width: 47%;
@@ -116,7 +112,6 @@ p {
 }
 .author-info,
 .users-info {
-  /* position: relative; */
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -136,9 +131,16 @@ p {
   align-items: center;
   border: 0.5px solid rgb(248, 246, 246);
 }
+.user {
+  display: flex;
+  align-items: center;
+}
 .all-users {
-  margin-top: 70px;
+  margin-top: 40px;
   width: 100%;
+}
+.chat-mt {
+  margin-top: 65px;
 }
 .chat-user:hover {
   background-color: rgb(17, 155, 197);
@@ -186,7 +188,6 @@ p {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  /* padding: 15px; */
   width: 15%;
   background-color: bisque;
 }
@@ -211,7 +212,7 @@ p {
   bottom: 0;
   border-left: 3px solid white;
   border-right: 3px solid white;
-  width: 27.5vw;
+  width: 25vw;
   background-color: #666;
   color: #fff;
 }
@@ -299,12 +300,10 @@ p {
 .right-div {
   position: fixed;
   right: 0;
-  left: 83%;
+  left: 80.2%;
   top: 50px;
   bottom: 0;
-  background-color: bisque;
   color: #333;
-  padding: 15px;
   overflow: scroll;
 }
 @media (max-width: 900px) {
@@ -320,14 +319,10 @@ p {
     padding: 15px 10px;
     background-color: #333;
   }
-  .profile-boxes {
-    /* width: 100%; */
-  }
   #main-profile {
     min-width: 400px;
     display: flex;
     justify-content: space-around;
-    /* flex-wrap: wrap; */
   }
   .user-image {
     width: 7.5rem;
@@ -471,11 +466,8 @@ form button {
   bottom: 0;
 }
 .btn-group1 {
-  position: absolute;
-  right: 0px;
-  top: 9px;
   z-index: 2;
-  opacity: 0;
+  /* opacity: 0; */
 }
 .btn-group1:hover {
   animation-name: btn;
@@ -496,7 +488,7 @@ form button {
   border-radius: 30px;
 }
 
-/* comments */
+/* comments page */
 .comments {
   width: 100vw;
   display: flex;
@@ -527,10 +519,7 @@ form button {
   border-radius: 30px;
   background-color: rgb(248, 245, 245);
 }
-.deleteDropDown form button {
-  margin: 0;
-  padding: 0;
-}
+
 .comments a {
   font-size: 16px;
 }
@@ -553,9 +542,10 @@ pre {
 /* socket message board */
 .messageBoard {
   position: fixed;
-  right: 0;
+  left: 0;
   bottom: 0;
   z-index: 3;
+  display: none;
 }
 #messages {
   height: 300px;
