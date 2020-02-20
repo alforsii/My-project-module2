@@ -30,8 +30,8 @@ module.exports = client => {
       let otherUserID = data.id;
       let currentUserID = data.userInSessionID;
       let message = data.message;
-      // let email = data.email;
-      // let username = data.username;
+      let email = data.email;
+      let username = data.username;
 
       //check for email && message inputs
       if (message == '') {
@@ -39,6 +39,7 @@ module.exports = client => {
         sendStatus('Please type message...');
       } else {
         User.findById(otherUserID)
+          .populate('userChatBoards')
           .then(otherUser => {
             User.findById(currentUserID)
               .populate('userChatBoards')
@@ -50,19 +51,23 @@ module.exports = client => {
 
                 Chat.find({})
                   .populate('userChatBoards')
-                  .then(chatBoardFromDB => {
-                    // console.log('chatBoardFromDB: ', chatBoardFromDB);
-                    const foundChatBoard = user.userChatBoards.filter(
-                      userChatBoard => {
-                        if (userChatBoard) {
-                          return (
-                            userChatBoard.receiverID ==
-                            chatBoardFromDB.receiverID
-                          );
-                        }
-                        return [];
-                      }
+                  .then(chatBoardsFromDB => {
+                    // console.log('chatBoardsFromDB: ', chatBoardsFromDB);
+                    const foundChatBoard = chatBoardsFromDB.filter(
+                      chatBoardFromDB =>
+                        chatBoardFromDB.receiverID.toString() ===
+                        otherUser._id.toString()
+                          ? userChatBoard
+                          : []
+
+                      // return chatBoardsFromDB.filter(chatBoardFromDB =>
+                      //   chatBoardFromDB && userChatBoard
+                      //     ? userChatBoard.receiverID.toString() ===
+                      //       chatBoardFromDB.receiverID.toString()
+                      //     : []
+                      // );
                     );
+                    console.log('foundChatBoard: ', foundChatBoard);
                     //check if the board already exist, it not then create new Board..
                     if (foundChatBoard.length == 0) {
                       //1.Create Chat board------------------------------------
@@ -74,6 +79,8 @@ module.exports = client => {
                       })
                         .then(newlyCreatedChatBoard => {
                           //add created board to the userChatBoards list
+
+                          //1.My Chat boards update
                           User.findByIdAndUpdate(
                             user._id,
                             {
@@ -91,17 +98,39 @@ module.exports = client => {
                                 `Error while creating userBoard in Chat ${err}`
                               )
                             );
+                          //2.Other User Chat boards update
+                          User.findByIdAndUpdate(
+                            otherUser._id,
+                            {
+                              $push: {
+                                userChatBoards: newlyCreatedChatBoard._id,
+                              },
+                            },
+                            { new: true }
+                          )
+                            .then(updatedOtherUser => {
+                              console.log(
+                                'updatedOtherUser: ',
+                                updatedOtherUser
+                              );
+                            })
+                            .catch(err =>
+                              console.log(
+                                `Error while creating userBoard in Chat ${err}`
+                              )
+                            );
 
                           //2.Create message-------------------------------------
                           Message.create({
                             author: user._id, //author of message
-                            // receiver: otherUser._id,
+                            receiver: otherUser._id,
                             // username: otherUser.username,
                             // email: otherUser.email,
                             message, //the actual message
                             messageBoard: newlyCreatedChatBoard._id,
                           })
                             .then(createdMessage => {
+                              console.log('createdMessage1: ', createdMessage);
                               //Push the message id to the newly created board, where it belongs
                               //so later we can find particular message by it's created _id.
                               Chat.findByIdAndUpdate(
@@ -113,12 +142,12 @@ module.exports = client => {
                               )
                                 .then(updatedNewChatBoard => {
                                   console.log(
-                                    'updatedNewChatBoard(add message): ',
+                                    'updatedNewChatBoard(add message)1: ',
                                     updatedNewChatBoard
                                   );
 
                                   // //Now to display the messages in the board where they belongs
-                                  //<--- Here to display the message -->
+                                  // //<--- Here to display the message -->
                                 })
                                 .catch(err =>
                                   console.log(
@@ -146,25 +175,26 @@ module.exports = client => {
                       //2.Create message-------------------------------------
                       Message.create({
                         author: user._id, //author of message
-                        // receiver: otherUser._id,
+                        receiver: otherUser._id,
                         // username: otherUser.username,
                         // email: otherUser.email,
                         message, //the actual message
-                        messageBoard: foundChatBoard._id,
+                        messageBoard: foundChatBoard[0]._id,
                       })
                         .then(createdMessage => {
+                          console.log('createdMessage2: ', createdMessage);
                           //Push the message id to the existing board, where it belongs
                           //so later we can find particular message by it's created _id.
                           Chat.findByIdAndUpdate(
-                            foundChatBoard._id, //we could pass her createdMessage.messageBoard -- it should be the same since we're inside then(response from DB)
+                            foundChatBoard[0]._id, //we could pass her createdMessage.messageBoard -- it should be the same since we're inside then(response from DB)
                             {
-                              $push: { messages: createdMessage._id }, //pushing new message ref: id -> to Chat board property, which is messages
+                              $push: { messages: createdMessage._id }, //pushing new message ref: id -> to existing Chat board property - messages, which is in foundChatBoard
                             },
                             { new: true }
                           )
                             .then(updatedChatBoard => {
                               console.log(
-                                'updatedChatBoard(if exists): ',
+                                'updatedChatBoard(if exists)2: ',
                                 updatedChatBoard
                               );
 
@@ -204,33 +234,33 @@ module.exports = client => {
 
       //-Display messages------------------------------------------
       // console.log('chart created: ', createdMessage);
-      // User.findById(currentUserID)
-      User.findById(otherUserID)
+      // User.findById(otherUserID)
+      User.findById(currentUserID)
         .populate({
           path: 'userChatBoards',
           populate: [{ path: 'messages' }],
         })
-        .populate('userChatBoards')
-        .then(otherUserFromDB => {
-          console.log('otherUserFromDB: ', otherUserFromDB);
+        .then(userFromDB => {
+          console.log('userFromDB: ', userFromDB.messages);
 
-          // Before out put we need to check the current Chat Board, so we can get all messages from that board and display it(not to display to every board all the messages)
-          //???????? not checked yet ?????????
-          //output
-          // client.emit('output', [otherUserFromDB.messages]); //every message has author,message and messageBoard where it belongs
-          // // Broadcast to everyone else (except the sender)
-          // socket.broadcast.emit('output', {
-          //   from: otherUserFromDB.receiverID,
-          //   message: otherUserFromDB.receiver.message,
-          //   username: otherUserFromDB.receiver.username,
-          // });
-          // // Send back the same message to the sender
-          // socket.emit('output', {
-          //   from: otherUserFromDB.sender._id,
-          //   message: otherUserFromDB.sender.message,
-          //   username: otherUserFromDB.sender.username,
-          // });
-        });
+          //     // Before out put we need to check the current Chat Board, so we can get all messages from that board and display it(not to display to every board all the messages)
+          //     //???????? not checked yet ?????????
+          //     //output
+          client.emit('output', userFromDB.messages); //every message has author,message and messageBoard where it belongs
+          // Broadcast to everyone else (except the sender)
+          socket.broadcast.emit('output', {
+            from: userFromDB._id,
+            // message: userFromDB.receiver,
+            // username: userFromDB.receiver,
+          });
+          // Send back the same message to the sender
+          socket.emit('output', {
+            from: otherUserID,
+            // message: userFromDB.sender.message,
+            // username: userFromDB.sender.username,
+          });
+        })
+        .catch(err => console.log(`Error in display section ${err}`));
 
       //Send status obj
       sendStatus({

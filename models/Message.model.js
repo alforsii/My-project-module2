@@ -23,10 +23,10 @@ const messageSchema = new Schema(
     //   type: Schema.Types.ObjectId,
     //   ref: 'User', //the author will be the user to whom sending message
     // },
-    // receiverID: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User', //the author will be the user to whom sending message
-    // },
+    receiverID: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', //the author will be the user to whom sending message
+    },
     // the message board that this message belongs to
     messageBoard: {
       type: Schema.Types.ObjectId,
