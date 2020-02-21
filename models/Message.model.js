@@ -14,20 +14,15 @@ const messageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    username: String,
-    receiverName: String,
-    // the message to be viewed by users
-    message: {
-      type: String,
-    },
-    // // the user that generated this message
-    // senderID: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User', //the author will be the user to whom sending message
-    // },
     receiverID: {
       type: Schema.Types.ObjectId,
       ref: 'User', //the author will be the user to whom sending message
+    },
+    sender: String,
+    receiver: String,
+    // the message to be viewed by users
+    message: {
+      type: String,
     },
     // the message board that this message belongs to
     messageBoard: {
@@ -37,15 +32,6 @@ const messageSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// const autoPopulateAuthor = next => {
-//     this.populate("author");
-//     next();
-// };
-
-// messageSchema
-//     .pre("findOne", autoPopulateAuthor)
-//     .pre("find", autoPopulateAuthor);
 
 const Message = model('Message', messageSchema);
 module.exports = Message;

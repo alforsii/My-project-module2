@@ -4,19 +4,17 @@ const { Schema, model } = mongoose;
 const chatsSchema = new Schema(
   {
     // the user that created the Chat board
+    users: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    },
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
     // the user that generated this message
-    senderID: {
-      type: Schema.Types.ObjectId,
-      ref: 'User', //the author will be the user to whom sending message
-    },
-    receiverID: {
-      type: Schema.Types.ObjectId,
-      ref: 'User', //the author will be the user to whom sending message
-    },
+    sender: String,
+    receiver: String,
+
     messages: {
       type: [
         {

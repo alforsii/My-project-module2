@@ -65,8 +65,18 @@
   font-size: 26px;
   margin-left: 50px;
 }
+.logBtns {
+  display: block;
+  background-color: transparent;
+}
+.main-menu {
+  overflow: scroll;
+}
+.menu-context {
+  min-height: 50vh;
+}
 @media (max-width: 899px) {
-  .logoutBtn {
+  .logBtns {
     display: none;
   }
   #side-menu2 {
