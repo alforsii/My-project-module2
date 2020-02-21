@@ -55,6 +55,31 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
     .catch(err => console.log(err));
 });
 
+// POST route for weather details
+router.post('/weather-details', (req, res, next) => {
+  const { city } = req.body;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}`;
+
+    axios.get(apiUrl)
+    .then(weather => {
+        console.log(weather.data);
+        let temperature = Math.round(1.8 * parseInt(weather.data.main.temp - 273) + 32) + "°";
+        let highTemp = Math.round(1.8 * parseInt(weather.data.main.temp_max - 273) + 32) + "°";
+        let lowTemp = Math.round(1.8 * parseInt(weather.data.main.temp_min - 273) + 32) + "°";
+        let feelsLike = Math.round(1.8 * parseInt(weather.data.main.feels_like - 273) + 32) + "°";
+        let windSpeed = Math.round(2.23694 * parseInt(weather.data.wind.speed));
+        res.render('auth-views/profile', { 
+          weather: weather.data, 
+          temperature, 
+          highTemp, 
+          lowTemp, 
+          feelsLike, 
+          city,
+          windSpeed
+        });
+    })
+    .catch(err => next(err));
+});
 
 //Get photo upload form
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
