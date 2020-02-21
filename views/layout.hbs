@@ -20,17 +20,17 @@
       <a href="/posts/upload-photo">PostPhotos</a>
     </div>
     {{!-- it's also in profile.hbs, friends list menu sidebar --}}
-    <form class="logoutBtn" action="/auth/logout" method="POST">
+    <form class="logBtns" action="/auth/logout" method="POST">
       <button class="" style="background-color: transparent;">Logout</button>
     </form>
-    {{!-- {{> mobilMenu}} --}}
+
     {{else}}
     <div>
       <a href="/">Main | </a>
     </div>
     <div>
-      <a class="btn btn-secondary mr-2" href="/auth/login">Login</a>
-      <a class="btn btn-secondary mr-2" href="/auth/signup">Signup</a>
+      <a class="btn btn-secondary ml-2 logBtns" href="/auth/login">Login</a>
+      <a class="btn btn-secondary ml-2 logBtns" href="/auth/signup">Signup</a>
     </div>
     {{/if}}
   </nav>

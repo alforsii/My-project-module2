@@ -18,7 +18,7 @@
     let messageForm = element('messageForm');
     let messages = element('messages');
     let textarea = element('textarea');
-    let _email = element('sendTo');
+    let sendTo = element('sendTo');
     let clearBtn = element('clear');
     const messageBoard = element('messageBoard');
 
@@ -44,14 +44,12 @@
         messageBoard.style.display = 'block';
         messages.innerHTML = '';
         //before calling clean(messages.innerHTML = '') the board not to double the messages
-        socketIO.emit('start', userInSessionID);
-
-        _email.value = user.getElementsByTagName('a')[1].getAttribute('_email');
-        _id = user.getElementsByTagName('a')[1].getAttribute('_id');
+        //Send the data to socket.io(back end - server)
+        _id = user.getElementsByTagName('a')[1].getAttribute('_id'); //the selected user id
         _username = user.getElementsByTagName('a')[1].getAttribute('_username');
-        // console.log('Output for: _id', _id);
-        // console.log('Output for: _username', _username);
-        // console.log('Output for: aTag', _email);
+        sendTo.value =
+          'Send to: ' + user.getElementsByTagName('a')[1].innerHTML.trim();
+        socketIO.emit('start', [userInSessionID, _id]);
       });
     });
 
@@ -83,11 +81,11 @@
     textarea.addEventListener('keydown', event => {
       if (event.which == 13 && event.shiftKey == false) {
         //Emit to server input
+        //Send the data to socket.io(back end - server) if pressed enter key
         socketIO.emit('input', {
           userInSessionID,
           id: _id, //selected any other user id
           username: _username,
-          email: _email.value,
           message: textarea.value,
         });
         event.preventDefault();
@@ -96,13 +94,12 @@
     //2.handle input(send msg,info about sender and to whom sending) by click
     messageForm.addEventListener('submit', function(event) {
       event.preventDefault();
-      // Send
       //Emit to server input
+      //Send the data to socket.io(back end - server) if clicked
       socketIO.emit('input', {
         id: _id, //selected any other user id
         userInSessionID,
         username: _username,
-        email: _email.value,
         message: textarea.value,
       });
       event.preventDefault();
@@ -114,6 +111,7 @@
     //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socketIO !== undefined) {
       console.log('Connected to socket..');
+      //receive data from socket.io(back end - server)
       //Handle output from 'output' function that we assigned to the socket property in the back end
       socketIO.on('output', data => {
         if (data) {
@@ -121,27 +119,29 @@
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
             if (data.from !== socketIO.id) {
-              say(data[i].username, data[i].message);
+              say(data[i].sender, data[i].message);
             } else {
-              say(data[i].receiverName, data[i].message);
+              say(data[i].receiver, data[i].message);
             }
           }
         }
       });
     }
 
+    //receive data from socket.io(back end - server)
     socketIO.on('updateOutput', data => {
       if (data) {
         console.log('Updated Output fromDB: ', data);
         //for test
         if (data.from !== socketIO.id) {
-          say(data.username, data.message);
+          say(data.sender, data.message);
         } else {
-          say(data.username, data.message);
+          say(data.receiver, data.message);
         }
       }
     });
 
+    //helper function to display the message
     function say(name, message) {
       if (message !== undefined) {
         messages.innerHTML += `<div class="chat-message">

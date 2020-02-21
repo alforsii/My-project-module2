@@ -44,13 +44,18 @@
     </div>
 
     {{!-- ---------------------------------------------------------------------------- --}}
-    <div class="right-div profile-boxes">
-        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
-            placeholder="Search...">
-        <div class="all-users">
-            {{> usersList}}
-        </div>
-    </div><!-- end right div-->
+    <div class="main-right-div">
+        {{!-- socket message board --}}
+        {{> messageBoard}}
+        {{!--end socket message board --}}
+        <div class="right-div profile-boxes">
+            <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+                placeholder="Search...">
+            <div class="all-users">
+                {{> usersList}}
+            </div>
+        </div><!-- end right div-->
+    </div>
 </div>
 
 {{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
@@ -59,30 +64,6 @@
 
 {{!-- ----------------------------------------------------------------------------------- --}}
 
-{{!-- socket message board --}}
-<div id="messageBoard" class=" messageBoard">
-
-    <form action="" id="messageForm">
-        <div id="chat">
-            <input type="text" id="sendTo" class="form-control" value="" disabled placeholder="Enter name...">
-            <div class="card mt-1">
-                <button id="clear" class="btn btn-danger">Clear</button>
-                <div id="messages" class="card-block">
-                    <!-- Chat messages -->
-                    <div id="status" class="text-center" style="color:red;"></div> <!-- Status -->
-                </div>
-            </div>
-        </div>
-        <div class="input-group mb-3">
-            <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" > -->
-            {{!-- <input type="text" class="form-control" autocomplete="off" placeholder="chat..." id="messageInput"> --}}
-            <input id="textarea" class="form-control mt-1" placeholder="Send message...">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Send</button>
-            </div>
-        </div>
-    </form>
-</div> {{!--end socket message board --}}
 
 {{!-- Start Chat menu --}}
 <div id="side-menu2" class="side-nav2">
