@@ -1,0 +1,24 @@
+<div id="messageBoard" class=" messageBoard">
+
+  <div id="chat">
+    <input type="text" id="sendTo" class="form-control" value="" disabled placeholder="Enter name...">
+    <a href="#" class="chat-btn-close" style="color: black;" onclick="closeChatBoard()">&times;</a>
+    <div class="card">
+      <div id="messages" class="card-block">
+        <!-- Chat messages -->
+        <div id="status" class="text-center" style="color:red;"></div> <!-- Status -->
+      </div>
+      <button id="clear" class="btn btn-danger">Clear</button>
+    </div>
+  </div>
+  <form action="" id="messageForm">
+    <div class="input-group mb-3">
+      <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" > -->
+      {{!-- <input type="text" class="form-control" autocomplete="off" placeholder="chat..." id="messageInput"> --}}
+      <input id="textarea" class="form-control mt-1" placeholder="Send message...">
+      <div class="input-group-append">
+        <button class="btn btn-secondary sendBtn" type="submit">Send</button>
+      </div>
+    </div>
+  </form>
+</div>

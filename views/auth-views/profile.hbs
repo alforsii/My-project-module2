@@ -85,6 +85,18 @@
             {{> usersList}}
         </div>
     </div><!-- end right div-->
+    <div class="main-right-div">
+        {{!-- socket message board --}}
+        {{> messageBoard}}
+        {{!--end socket message board --}}
+        <div class="right-div profile-boxes">
+            <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+                placeholder="Search...">
+            <div class="all-users">
+                {{> usersList}}
+            </div>
+        </div><!-- end right div-->
+    </div>
 </div>
 
 {{!-- ----------------- visible max-width: 899px--------------------------------------------- --}}
@@ -98,6 +110,7 @@
     </svg>
 </a>
 
+<<<<<<< HEAD
 {{!-- Start slide menu --}}
 <div id="side-menu" class="side-nav">
     <a class="hidden-user" href="/profile/user-page">
@@ -156,6 +169,8 @@
     </svg>
 </a>
 
+=======
+>>>>>>> 7881bea0c1265f3faba5385d0cd8d28b9d0cc1c0
 
 {{!-- Start Chat menu --}}
 <div id="side-menu2" class="side-nav2">

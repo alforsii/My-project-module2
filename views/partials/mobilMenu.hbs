@@ -16,7 +16,23 @@
   </a>
   <a href="#" class="btn-close" onclick="closeSlideMenu()">&times;</a>
   <hr class="socket">
-  <form class="logoutBtn2" action="/auth/logout" method="POST">
-    <button class="" style="background-color: transparent;">Logout</button>
-  </form>
+  {{#if user}}
+  <div class="main-menu">
+    <div class="menu-context">
+    </div>
+    <form class="logoutBtn2" action="/auth/logout" method="POST">
+      <button class="">Logout</button>
+    </form>
+    {{else}}
+    <form class="logoutBtn2" action="/auth/login" method="GET">
+      <button class="">Login</button>
+    </form>
+    <form class="logoutBtn2" action="/auth/signup" method="GET">
+      <button class="">Signup</button>
+    </form>
+    {{/if}}
+    <div>
+      {{> footer}}
+    </div>
+  </div>
 </div><!-- end slide menu-->

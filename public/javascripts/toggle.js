@@ -2,14 +2,19 @@ let h = 50;
 
 function openSlideMenu() {
   document.getElementById('side-menu').style.width = '250px';
+  document.getElementById('side-menu').style.zIndex = 4;
   document.getElementById('friend-list-btn').style.zIndex = -1;
   document.getElementById('friend-list-btn').style.transition = '0.3s ease-in';
+  if (document.getElementById('side-menu2'))
+    document.getElementById('side-menu2').style.zIndex = -1;
 }
 
 function closeSlideMenu() {
   document.getElementById('side-menu').style.width = '0';
   document.getElementById('friend-list-btn').style.zIndex = 3;
   document.getElementById('friend-list-btn').style.transition = '0.5s ease-out';
+  if (document.getElementById('side-menu2'))
+    document.getElementById('side-menu2').style.zIndex = 3;
 }
 
 function openChatList() {
@@ -24,6 +29,9 @@ function closeChatList() {
   document.getElementById('search-user2').style.zIndex = '';
   document.getElementById('friend-list-btn').style.zIndex = 3;
   document.getElementById('friend-list-btn').style.transition = '0.5s ease-out';
+}
+function closeChatBoard() {
+  document.querySelector('.messageBoard').style.display = 'none';
 }
 
 if (
@@ -43,6 +51,12 @@ if (
   });
   document
     .getElementsByClassName('weather-div')[0]
+    .addEventListener('click', () => {
+      closeChatList();
+      closeSlideMenu();
+    });
+  document
+    .getElementsByClassName('messageBoard')[0]
     .addEventListener('click', () => {
       closeChatList();
       closeSlideMenu();
