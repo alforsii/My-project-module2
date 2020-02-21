@@ -141,6 +141,13 @@ p {
 }
 .chat-mt {
   margin-top: 65px;
+  position: relative;
+}
+#search-user2 {
+  position: fixed;
+  bottom: 0;
+
+  /* transition: transform 2.5s ease-in-out; */
 }
 .chat-user:hover {
   background-color: rgb(17, 155, 197);
@@ -559,5 +566,6 @@ pre {
   display: none;
 }
 #messages {
+  overflow: scroll;
   height: 300px;
 }

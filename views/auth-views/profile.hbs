@@ -79,6 +79,10 @@
             {{else}}
             <h2>You have no friends!(</h2>
             {{/if }}
+        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+            placeholder="Search...">
+        <div class="all-users">
+            {{> usersList}}
         </div>
     </div><!-- end right div-->
 </div>
@@ -138,6 +142,8 @@
     <h2>You have no friends!(</h2>
     {{/if }}
 </div><!-- end slide menu-->
+{{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
+{{> mobilMenu}}
 
 
 {{!-- ----------------------------------------------------------------------------------- --}}
@@ -204,3 +210,8 @@
             </div>
         </div>
     </div> --}}
+    {{!--  --}}
+    <div class="all-users chat-mt">
+        {{> usersList2}}
+    </div>
+</div><!-- end slide menu-->

@@ -14,6 +14,8 @@ const messageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    username: String,
+    receiverName: String,
     // the message to be viewed by users
     message: {
       type: String,

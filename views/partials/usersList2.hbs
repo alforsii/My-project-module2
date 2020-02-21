@@ -1,7 +1,7 @@
 {{#if users}}
 {{#each users}}
 <div class="chat-user">
-  <div class="user user1">
+  <div class="user user2">
     <a href="">
       <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
     </a>
@@ -35,3 +35,4 @@
 {{else}}
 <h2>You have no friends!(</h2>
 {{/if }}
+<input id="search-user2" class="form-control search-user" type="text" placeholder="Search...">
