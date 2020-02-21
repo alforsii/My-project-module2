@@ -17,7 +17,7 @@ module.exports = client => {
     //Receive the data from socket.js(client)
     socket.on('start', usersData => {
       console.log('Output for: usersData', usersData);
-      //data is userInSessionID
+      //data is userInSessionID and the other user (array of two users that belongs to the board)
       // - I actually need a single board id for two users -
       // one is the user in session and the other selected to send message
       // so i can check if that board belongs to this two users

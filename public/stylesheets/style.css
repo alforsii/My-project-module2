@@ -211,7 +211,19 @@ p {
   background-color: #999;
   color: white;
 }
+.weather-div {
+  position: fixed;
+  left: 55.5%;
+  top: 50px;
+  bottom: 0;
+  border-left: 3px solid white;
+  border-right: 3px solid white;
+  width: 25vw;
+  background-color: #666;
+  color: #fff;
+}
 
+/*  */
 /* weather div */
 .weather-div {
   position: fixed;
@@ -227,7 +239,7 @@ p {
 .title {
   text-align: center;
   padding-top: 10px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.6rem;
 }
 
@@ -236,7 +248,7 @@ p {
   height: 100vh;
   background-color: rgb(23, 104, 196, 0.8);
   opacity: 0.8;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .weather-details {
@@ -306,7 +318,7 @@ p {
   margin-left: 5px;
   border-radius: 2px;
   background-color: blue;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
   font-size: 14px;
 }

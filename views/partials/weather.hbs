@@ -1,44 +1,14 @@
-<div class="weather">
-  <h2 class="title">Weather</h2>
+<div>
+  <div id="theWeather" class="weather">
+    <h2 class="title">Weather</h2>
 
-  <form class="weather-form" action="/profile/weather-details" method="POST">
-    <input id="input-search" type="text" name="city" placeholder="Enter city name">
-    <button type="submit">Enter</button>
-  </form>
+    {{!-- <form class="weather-form" action="/profile/weather-details" method="POST"> --}}
+    <form id="weather-form" class="weather-form" action="" method="POST">
+      <input id="input-search" name="city" placeholder="Enter city name">
+      <button type="submit">Enter</button>
+    </form>
 
-  {{#if city}}
-  <div class="weather-details">
-    <div>
-      <h2 class="city-name">{{weather.name}}</h2>
-      <p>{{temperature}}</p>
-      {{!-- <p class="description">{{weather.weather.0.description}}</p> --}}
-    </div>
-    <div>
-      <h3>High</h3>
-      <p>{{highTemp}}</p>
-    </div>
-    <div>
-      <h3>Low</h3>
-      <p>{{lowTemp}}</p>
-    </div>
-    <div>
-      <h3>Feels Like</h3>
-      <p>{{feelsLike}}</p>
-    </div>
-    <div>
-      <h3>Pressure</h3>
-      <p>{{weather.main.pressure}}</p>
-    </div>
-    <div>
-      <h3>Humidity</h3>
-      <p>{{weather.main.humidity}}%</p>
-    </div>
-    <div>
-      <h3>Wind</h3>
-      <p>{{windSpeed}} mp/h</p>
-    </div>
-  </div> 
-  {{else}}
-  <h3 class="search-message">Search your city for today's forecast</h3>
-  {{/if}}
+    {{!-- the weather info goes in here --}}
+  </div>
+  {{> footer}}
 </div>

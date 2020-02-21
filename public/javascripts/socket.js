@@ -79,6 +79,7 @@
     //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //1.handle input(send msg,info about sender and to whom sending) by enter
     textarea.addEventListener('keydown', event => {
+      event.preventDefault();
       if (event.which == 13 && event.shiftKey == false) {
         //Emit to server input
         //Send the data to socket.io(back end - server) if pressed enter key
@@ -88,7 +89,6 @@
           username: _username,
           message: textarea.value,
         });
-        event.preventDefault();
       }
     });
     //2.handle input(send msg,info about sender and to whom sending) by click
@@ -102,7 +102,6 @@
         username: _username,
         message: textarea.value,
       });
-      event.preventDefault();
       textarea.value = '';
       // socketIO.emit('output', message);
     });
