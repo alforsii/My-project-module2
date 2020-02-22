@@ -2,7 +2,6 @@ module.exports = client => {
   const API_KEY = require('../../configs/keys');
   const axios = require('axios');
   let apiUrl;
-  console.log('Output for: apiUrl', apiUrl);
 
   //if user signed in (it's set to signed in - where message board)
   client.on('connection', socket => {
@@ -15,7 +14,7 @@ module.exports = client => {
       axios
         .get(apiUrl)
         .then(weather => {
-          console.log(weather.data);
+          // console.log(weather.data);
           let temperature =
             Math.round(1.8 * parseInt(weather.data.main.temp - 273) + 32) +
             '°F';

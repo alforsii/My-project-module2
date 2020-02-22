@@ -11,12 +11,14 @@ module.exports = client => {
 
     //Create function to send the status
     const sendStatus = function(s) {
-      socket.emit('status', s);
+      setTimeout(() => {
+        socket.emit('status', s);
+      }, 3000);
     };
 
-    //Receive the data from socket.js(client)
-    socket.on('start', usersData => {
-      console.log('Output for: usersData', usersData);
+    //Receive the data from socket.js(client) when user clicked
+    socket.on('display', usersData => {
+      // console.log('Output for: usersData', usersData);
       //data is userInSessionID and the other user (array of two users that belongs to the board)
       // - I actually need a single board id for two users -
       // one is the user in session and the other selected to send message
@@ -35,9 +37,11 @@ module.exports = client => {
               usersData.includes(chat.receiverID.toString())
             );
           });
+
           // console.log('filteredMessagesByChatBoard: ', filteredMessagesByChatBoard);
           if (filteredMessagesByChatBoard) {
-            socket.emit('output', filteredMessagesByChatBoard); //send
+            socket.emit('output', filteredMessagesByChatBoard); //send msg data
+            socket.emit('updateDeleteBtnStatus');
           }
         })
         .catch(err =>
@@ -58,7 +62,7 @@ module.exports = client => {
       //check for email && message inputs
       if (message == '') {
         //if no email or message send err message
-        sendStatus('Please type message...');
+        sendStatus('Please type a message...');
       } else {
         User.findById(currentUserID)
           .populate('userChatBoards')
@@ -207,26 +211,25 @@ module.exports = client => {
 
       //-Send updated message to the client------------------------------------------
       function updateChatBoard(createdMessage) {
-        Message.findById(createdMessage._id)
-          .then(data => {
-            console.log('data created', data);
-            socket.emit('updateOutput', data);
-          })
-          .catch(err =>
-            console.log(`Error while Sending updated message ${err}`)
-          );
+        socket.emit('updateOutput', data);
+        // Message.findById(createdMessage._id)
+        //   .then(data => {
+        //     console.log('data created', data);
+        //   })
+        //   .catch(err =>
+        //     console.log(`Error while Sending updated message ${err}`)
+        //   );
+        //Send status obj
+        sendStatus({
+          message: 'Message sent',
+          clear: true,
+        });
       }
 
       // //End Send updated message to the client----
-
-      //Send status obj
-      sendStatus({
-        message: 'Message sent',
-        clear: true,
-      });
     }); //end socket.on('input')
 
-    //------Handle clear-----------------------------
+    //------Handle clear all messaged in DB-----------------------------
     socket.on('clear', data => {
       //Remove all chats from DB
       Message.deleteMany()
@@ -236,10 +239,21 @@ module.exports = client => {
         .catch(err => console.log(err));
     });
 
+    //---------Handle delete single message ----------------
+    socket.on('requestDeleteMsg', data => {
+      //data - which is msgId
+      Message.findByIdAndDelete(data)
+        .then(data => {
+          sendStatus({
+            message: 'Message sent',
+          });
+        })
+        .catch(err => console.log(err));
+    });
+
     //------- Disconnected ---------------------------
     socket.on('disconnect', function() {
       console.log('disconnect: ' + socket.id);
-      // io.emit('disconnect', socket.id)
     });
   }); //end socket connection
 };
