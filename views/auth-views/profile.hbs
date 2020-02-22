@@ -5,7 +5,7 @@
         <img class="user-image" src="{{user.path}}" alt="{{user.imageName}}">
         <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
         <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
-
+        {{> footer}}
     </div>
     {{!-- --------------------------------------------------------------- --}}
     <div class="center-div profile-boxes">
@@ -38,28 +38,29 @@
     </div>
 
     {{!-- ---------------------------------------------- --}}
-    <div class="weather-div">
+    <div id="weatherMain" class="weather-div">
         {{> weather}}
         {{!-- {{> footer}} --}}
     </div>
 
     {{!-- ---------------------------------------------------------------------------- --}}
-    <div class="main-right-div">
-        {{!-- socket message board --}}
-        {{> messageBoard}}
-        {{!--end socket message board --}}
-        <div class="right-div profile-boxes">
-            <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
-                placeholder="Search...">
-            <div class="all-users">
-                {{> usersList}}
-            </div>
-        </div><!-- end right div-->
-    </div>
+
+
+    <div class="right-div profile-boxes">
+        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+            placeholder="Search...">
+        <div class="all-users">
+            {{> usersList}}
+        </div>
+    </div><!-- end right div-->
+
 </div>
 
 {{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
 {{> mobilMenu}}
+{{!-- socket message board --}}
+{{> messageBoard}}
+{{!--end socket message board --}}
 
 
 {{!-- ----------------------------------------------------------------------------------- --}}

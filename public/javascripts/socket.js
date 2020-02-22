@@ -17,7 +17,7 @@
     let status = element('status');
     let messageForm = element('messageForm');
     let messages = element('messages');
-    let textarea = element('textarea');
+    let textarea = element('textMessage'); //problem here <-----!
     let sendTo = element('sendTo');
     let clearBtn = element('clear');
     const messageBoard = element('messageBoard');
@@ -48,8 +48,8 @@
         _id = user.getElementsByTagName('a')[1].getAttribute('_id'); //the selected user id
         _username = user.getElementsByTagName('a')[1].getAttribute('_username');
         sendTo.value =
-          'Send to: ' + user.getElementsByTagName('a')[1].innerHTML.trim();
-        socketIO.emit('start', [userInSessionID, _id]);
+          'Send to: ' + user.getElementsByTagName('a')[1].innerHTML.trim(); //name of a user
+        socketIO.emit('display', [userInSessionID, _id]);
       });
     });
 
@@ -79,8 +79,8 @@
     //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //1.handle input(send msg,info about sender and to whom sending) by enter
     textarea.addEventListener('keydown', event => {
-      event.preventDefault();
       if (event.which == 13 && event.shiftKey == false) {
+        event.preventDefault();
         //Emit to server input
         //Send the data to socket.io(back end - server) if pressed enter key
         socketIO.emit('input', {
@@ -89,6 +89,7 @@
           username: _username,
           message: textarea.value,
         });
+        textarea.value = '';
       }
     });
     //2.handle input(send msg,info about sender and to whom sending) by click
@@ -103,58 +104,96 @@
         message: textarea.value,
       });
       textarea.value = '';
-      // socketIO.emit('output', message);
     });
 
     //check connection if it's not undefined to avoid getting an error
+    //Output All messages that was in DB for selected Chat board
     //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socketIO !== undefined) {
       console.log('Connected to socket..');
       //receive data from socket.io(back end - server)
       //Handle output from 'output' function that we assigned to the socket property in the back end
       socketIO.on('output', data => {
+        //it's from messages collection
         if (data) {
           console.log('Output fromDB: ', data);
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
-            if (data.from !== socketIO.id) {
-              say(data[i].sender, data[i].message);
-            } else {
-              say(data[i].receiver, data[i].message);
+            if (data[i].author.toString() === userInSessionID.toString()) {
+              say('You', data[i].message, 'green', data[i]._id); //message._id -ref for current users message(to use for delete msg)
+              // say(data[i].receiver, data[i].message);
+            }
+            if (data[i].author.toString() !== userInSessionID.toString()) {
+              say(data[i].sender, data[i].message, 'red');
             }
           }
         }
       });
     }
 
-    //receive data from socket.io(back end - server)
+    //receive data from socket.io(back end - server) live chat
     socketIO.on('updateOutput', data => {
-      if (data) {
-        console.log('Updated Output fromDB: ', data);
-        //for test
-        if (data.from !== socketIO.id) {
-          say(data.sender, data.message);
-        } else {
-          say(data.receiver, data.message);
-        }
-      }
+      messages.innerHTML = '';
+      socketIO.emit('display', [userInSessionID, _id]);
+      // if (data) {
+      //   console.log('Updated Output fromDB: ', data);
+      //   //for test
+      //   if (data.from !== socketIO.id) {
+      //     // say(data.sender, data.message);
+      //     say('You', data.message, 'green', data._id); //message._id -ref for current users message(to use for delete msg)
+      //   } else {
+      //     say(data.receiver, data.message, 'red');
+      //   }
+      // }
     });
 
     //helper function to display the message
-    function say(name, message) {
+    function say(name, message, color, messageId) {
       if (message !== undefined) {
-        messages.innerHTML += `<div class="chat-message">
-      <span style="color: red; font-weight: bold;">${name}:</span> ${message}
-  </div>`;
+        if (name === 'You') {
+          messages.innerHTML += `
+        <div class="chat-message">
+           <span>
+              <span style="color:${color};font-weight:bold;">${name}: </span>${message}
+           </span>
+              <span class="deleteMsg" style="cursor:pointer;" msg_id=${messageId}>delete</span>
+        </div>
+              
+      `;
+        } else {
+          messages.innerHTML += `
+        <div class="chat-message">
+           <span>
+           <span style="color:${color};font-weight:bold;">${name}: </span>${message}
+           </span>
+        </div>
+      `;
+        }
         // Scroll down to last message
         messages.scrollTop = messages.scrollHeight;
       }
     }
 
-    //Handle Chat clear
+    //Handle Chat clear all messages in DB
     clearBtn.addEventListener('click', () => socketIO.emit('clear'));
 
-    //Clear message
+    //each delete btn event listener
+    socketIO.on('updateDeleteBtnStatus', data => {
+      let deleteMsgBtn = document.querySelectorAll('.deleteMsg');
+      //addListener for each delete button
+      deleteMsgBtn.forEach(btn => {
+        btn.addEventListener('click', event => {
+          event.preventDefault();
+          const msgId = event.target.getAttribute('msg_id');
+          socketIO.emit('requestDeleteMsg', msgId); //remove from DB(sending req to remove)
+          event.target.parentElement.remove(); //then remove from screen
+          messages.innerHTML = '';
+          socketIO.emit('display', [userInSessionID, _id]); //I had to call back this function to redisplay the messages back, because when I click they all disappearing even if I prevent default
+        });
+      });
+    });
+
+    //Clear all messages on board
     socketIO.on('cleared', () => (messages.textContent = ''));
 
     // <-- end of function -->

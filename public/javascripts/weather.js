@@ -1,10 +1,10 @@
 (function() {
-  if (document.getElementById('messageBoard')) {
+  if (document.getElementById('theWeather')) {
     // const localHost = window.location.origin;
     // const path = window.location.pathname;
     const inputSearch = document.getElementById('input-search');
     const weatherForm = document.getElementById('weather-form');
-    const theWeather = document.getElementById('theWeather'); //this is main div
+    const weatherRes = document.getElementById('weather-response'); //this is main div
 
     //socket connection
     let socketIO = io();
@@ -39,10 +39,10 @@
       //Handle output from 'output' function that we assigned to the socket property in the back end
       socketIO.on('response', data => {
         if (data) {
-          console.log('Output fromDB: ', data);
-          const msgDiv = document.createElement('div');
+          // console.log('Output fromDB: ', data);
+          const wDetails = document.createElement('div');
+          wDetails.setAttribute('class', 'weather-details');
           let msg = `
-            <div class="weather-details">
               <div>
                 <h2 class="city-name">${data.weather.name}</h2>
                 <p>${data.temperature}</p>
@@ -71,10 +71,11 @@
                 <h3>Wind</h3>
                 <p>${data.windSpeed} mp/h</p>
               </div>
-            </div>
           `;
-          msgDiv.innerHTML = msg;
-          theWeather.appendChild(msgDiv);
+
+          wDetails.innerHTML = msg;
+          weatherRes.innerHTML = ''; //clear before inserting another req, if the msgDiv has the weather
+          weatherRes.appendChild(wDetails);
         }
       });
     }

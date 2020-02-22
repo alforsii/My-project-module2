@@ -209,30 +209,24 @@ p {
   width: 40vw;
   min-width: 125px;
   background-color: #999;
+  background-color: rgb(23, 104, 196, 0.8);
   color: white;
-}
-.weather-div {
-  position: fixed;
-  left: 55.5%;
-  top: 50px;
-  bottom: 0;
-  border-left: 3px solid white;
-  border-right: 3px solid white;
-  width: 25vw;
-  background-color: #666;
-  color: #fff;
 }
 
 /*  */
 /* weather div */
 .weather-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   position: fixed;
-  left: 55.5%;
+  left: 56%;
   top: 50px;
   bottom: 0;
   border-left: 3px solid white;
   border-right: 3px solid white;
-  width: 25vw;
+  width: 24.5vw;
   color: #fff;
 }
 
@@ -244,17 +238,20 @@ p {
 }
 
 .weather {
-  width: 100%;
+  width: 23.5vw;
   height: 100vh;
   background-color: rgb(23, 104, 196, 0.8);
-  opacity: 0.8;
   color: #ffffff;
+  overflow: scroll;
 }
 
 .weather-details {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
+  overflow: scroll;
+  padding: 0 7px;
 }
 
 .description {
@@ -265,8 +262,9 @@ p {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 250px;
-  height: 200px;
+  width: 20vw;
+  height: 15vw;
+  padding: 0 7px;
 }
 
 .weather-details > div {
@@ -299,25 +297,27 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .weather-form input {
-  width: 170px;
-  height: 30px;
-  padding: 5px;
-  font-size: 14px;
-  border-radius: 2px;
-  border: none;
+  width: 20vw;
+  outline: 0;
+  border-color: #00b7ff;
+  font-size: 0.9rem;
+}
+.weather-form input:focus {
+  border-color: #00b7ff;
 }
 
 .weather-form button {
   width: 60px;
   height: 30px;
   padding: 5px;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   border-radius: 2px;
-  background-color: blue;
+  /* background-color: blue; */
   color: #ffffff;
   border: none;
   font-size: 14px;
@@ -371,7 +371,7 @@ p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 65vw;
+    width: 60vw;
     padding-top: 10px;
     overflow: scroll;
     background-color: #999;
@@ -379,14 +379,39 @@ p {
   }
   .weather-div {
     position: fixed;
-    left: 60.5%;
+    left: 60%;
     top: 55px;
     bottom: 0;
     border-left: 3px solid white;
     border-right: 3px solid white;
-    width: 44.5vw;
-    background-color: #666;
+    background-color: rgb(23, 104, 196, 0.8);
+    width: 40vw;
+    background-color: transparent;
     color: #fff;
+    overflow: scroll;
+    /* z-index: 3; */
+  }
+
+  .weather {
+    width: 40vw;
+    height: 100vh;
+    background-color: rgb(23, 104, 196, 0.8);
+    color: #ffffff;
+    overflow: scroll;
+  }
+  .weather-form input {
+    width: 30vw;
+    outline: 0;
+    border-color: #00b7ff;
+    font-size: 0.9rem;
+  }
+  .weather-details > div:first-child {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30vw;
+    height: 25vw;
+    padding: 0 10px;
   }
   .right-div {
     display: none;
@@ -572,9 +597,7 @@ pre {
 }
 
 /* socket message board */
-/* .main-right-div {
-  position: relative;
-} */
+
 .messageBoard {
   position: fixed;
   right: 3vw;
@@ -586,6 +609,7 @@ pre {
 #messages {
   overflow: scroll;
   height: 250px;
+  padding: 5px 10px;
 }
 .sendBtn {
   width: 55px;
@@ -603,9 +627,25 @@ pre {
   right: 0;
   top: 5px;
 }
-#textarea,
+#textMessage,
 #sendTo,
 .card {
   outline: 0;
   border-color: #00b7ff;
+}
+#status {
+  z-index: 20;
+  color: red;
+}
+.chat-message {
+  display: flex;
+  justify-content: space-between;
+}
+.deleteMsg {
+  color: transparent;
+  transition: transform 0.5s ease-in-out;
+}
+.chat-message:hover .deleteMsg {
+  color: #999;
+  transition: transform 0.5s ease-in-out;
 }
