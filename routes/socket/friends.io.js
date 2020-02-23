@@ -92,7 +92,8 @@ module.exports = client => {
 
     // Add to frieds list function
     function addToFriendsList(newlyCreatedFriend, userId) {
-      User.findByIdAndUpdate(userId, { $push: { friends: newlyCreatedFriend._id }},{new: true})
+      User.findByIdAndUpdate(userId, { $push: { friends: newlyCreatedFriend._id },
+      },{new: true})
       .then(updatedUser => {
         console.log('updatedUser: ', updatedUser);
       })
