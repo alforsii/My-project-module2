@@ -609,7 +609,8 @@ pre {
 #messages {
   overflow: scroll;
   height: 250px;
-  padding: 5px 10px;
+  padding: 5px 15px 0;
+  width: 100%;
 }
 .sendBtn {
   width: 55px;
@@ -633,19 +634,49 @@ pre {
   outline: 0;
   border-color: #00b7ff;
 }
+
 #status {
   z-index: 20;
   color: red;
 }
 .chat-message {
   display: flex;
-  justify-content: space-between;
+
+  margin: 2px 0;
+  width: 100%;
 }
-.deleteMsg {
+.user-in-chat {
+}
+.msg-div {
+  width: 200px;
+  background-color: lightskyblue;
+  border-radius: 7px;
+  padding: 7px;
+}
+.parent-msg-div {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: flex-end;
+  font-family: monospace;
+  padding: 7px 7px 0 0;
+  width: 100%;
+}
+
+.deleteMsgBtn,
+.hideBtn {
   color: transparent;
   transition: transform 0.5s ease-in-out;
+  padding-bottom: 5px;
 }
-.chat-message:hover .deleteMsg {
+.chat-message:hover span.deleteMsgBtn,
+.chat-message:hover span.hideBtn {
   color: #999;
   transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+}
+.chat-message span.deleteMsgBtn:hover {
+  color: red;
+}
+.chat-message span.hideBtn:hover {
+  color: green;
 }
