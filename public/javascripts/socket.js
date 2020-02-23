@@ -69,12 +69,16 @@
     //------- Get status from server ---------
     //'status' that we are calling is a function that we assigned in the socket property back end)
     socketIO.on('status', data => {
+      // data ={ this data will be sent from server when msg is sent
+      //   message: 'Message sent',
+      //   sent: true,
+      // };
       //get message status
       // - here we're passing the status data from back end to the setStatus function that we created earlier
       //if data object then get message property else just send data itself(whatever is)
       setStatus(typeof data === 'object' ? data.message : data);
-      //if status clear === true which we assigned in the socket.io.js(back end) then clear the message board
-      if (data.clear) textarea.value = '';
+      //so if message was sent then clear the input field
+      if (data.sent) textarea.value = '';
     });
     //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //1.handle input(send msg,info about sender and to whom sending) by enter
@@ -119,12 +123,13 @@
           console.log('Output fromDB: ', data);
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
-            if (data[i].author.toString() === userInSessionID.toString()) {
-              say('You', data[i].message, 'green', data[i]._id); //message._id -ref for current users message(to use for delete msg)
-              // say(data[i].receiver, data[i].message);
+            const { sender, message, _id, author } = data[i];
+            if (author._id.toString() === userInSessionID.toString()) {
+              say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
+              // say(receiver, message);
             }
-            if (data[i].author.toString() !== userInSessionID.toString()) {
-              say(data[i].sender, data[i].message, 'red');
+            if (author._id.toString() !== userInSessionID.toString()) {
+              say(sender, message, (color = 'red'), _id, author);
             }
           }
         }
@@ -133,39 +138,61 @@
 
     //receive data from socket.io(back end - server) live chat
     socketIO.on('updateOutput', data => {
-      messages.innerHTML = '';
-      socketIO.emit('display', [userInSessionID, _id]);
-      // if (data) {
-      //   console.log('Updated Output fromDB: ', data);
-      //   //for test
-      //   if (data.from !== socketIO.id) {
-      //     // say(data.sender, data.message);
-      //     say('You', data.message, 'green', data._id); //message._id -ref for current users message(to use for delete msg)
-      //   } else {
-      //     say(data.receiver, data.message, 'red');
-      //   }
-      // }
+      // messages.innerHTML = '';
+      // socketIO.emit('display', [userInSessionID, _id]);
+      if (data) {
+        const { receiver, message, _id, author } = data;
+        console.log('Updated Output fromDB: ', data);
+        //for test
+        if (data.from !== socketIO.id) {
+          // say(data.sender, data.message);
+          say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
+        } else {
+          say(receiver, message, (color = 'red'), _id, author);
+        }
+      }
     });
 
     //helper function to display the message
-    function say(name, message, color, messageId) {
+    function say(name, message, color, messageId, user) {
       if (message !== undefined) {
         if (name === 'You') {
           messages.innerHTML += `
-        <div class="chat-message">
-           <span>
-              <span style="color:${color};font-weight:bold;">${name}: </span>${message}
-           </span>
-              <span class="deleteMsg" style="cursor:pointer;" msg_id=${messageId}>delete</span>
+        <div class="chat-message" style="">
+            <div  class="user-in-chat">
+                <div>
+                    <a href="" style="color:${color};font-weight:bold;">
+                        <img class="chat-users-small" src="${user.path}" alt="${name}">
+                    </a>
+                </div> 
+            </div>
+            <div class="parent-msg-div" style="justify-content: space-between;">
+                <div class="msg-div">
+                    <span>${message}</span>
+                </div> 
+                  <span class="deleteMsgBtn" msg_id=${messageId}>Delete</span>
+            </div>
         </div>
               
       `;
         } else {
           messages.innerHTML += `
-        <div class="chat-message">
-           <span>
-           <span style="color:${color};font-weight:bold;">${name}: </span>${message}
-           </span>
+         <div class="chat-message" >
+            <div class="parent-msg-div" style="justify-content: flex-end;">
+                <span class="hideBtn" msg_id=${messageId}>Hide</span>
+                <div class="msg-div">
+                    <span>${message}</span>
+                </div>  
+            </div>
+                <div class="user-in-chat">
+                  <div>
+                    <a href="" style="color:${color};font-weight:bold;">
+                      <img class="chat-users-small" src="${user.path}" alt="${name}">
+                    </a>
+                  </div>
+                  
+                </div>
+             
         </div>
       `;
         }
@@ -179,7 +206,7 @@
 
     //each delete btn event listener
     socketIO.on('updateDeleteBtnStatus', data => {
-      let deleteMsgBtn = document.querySelectorAll('.deleteMsg');
+      let deleteMsgBtn = document.querySelectorAll('.deleteMsgBtn');
       //addListener for each delete button
       deleteMsgBtn.forEach(btn => {
         btn.addEventListener('click', event => {
