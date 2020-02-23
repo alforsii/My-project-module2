@@ -10,7 +10,7 @@ module.exports = client => {
     // console.log('new connection: ' + socket.id);
 
     //Create function to send the status
-    const sendStatus = function(s) {
+    const sendStatus = function (s) {
       setTimeout(() => {
         socket.emit('status', s);
       }, 500);
@@ -29,7 +29,9 @@ module.exports = client => {
       // //Get chat from DB and display when selected
       Message.find()
         .limit(20)
-        .sort({ _id: 1 })
+        .sort({
+          _id: 1
+        })
         .populate('author')
         .populate('receiverID')
         .then(chatsFromDB => {
@@ -84,25 +86,25 @@ module.exports = client => {
             if (foundChatBoard.length == 0) {
               //1.Create Chat board------------------------------------
               Chat.create({
-                users: [user._id, otherUserID],
-                author: user._id,
-                sender: user.username,
-                receiver,
-                // messages,
-              })
+                  users: [user._id, otherUserID],
+                  author: user._id,
+                  sender: user.username,
+                  receiver,
+                  // messages,
+                })
                 .then(newlyCreatedChatBoard => {
                   //add created board to the userChatBoards list
 
                   //1.My Chat boards update
                   User.findByIdAndUpdate(
-                    user._id,
-                    {
-                      $push: {
-                        userChatBoards: newlyCreatedChatBoard._id,
-                      },
-                    },
-                    { new: true }
-                  )
+                      user._id, {
+                        $push: {
+                          userChatBoards: newlyCreatedChatBoard._id,
+                        },
+                      }, {
+                        new: true
+                      }
+                    )
                     .then(updatedUser => {
                       console.log('user updated: ');
                     })
@@ -113,14 +115,14 @@ module.exports = client => {
                     );
                   //2.Other User Chat boards update
                   User.findByIdAndUpdate(
-                    otherUserID,
-                    {
-                      $push: {
-                        userChatBoards: newlyCreatedChatBoard._id,
-                      },
-                    },
-                    { new: true }
-                  )
+                      otherUserID, {
+                        $push: {
+                          userChatBoards: newlyCreatedChatBoard._id,
+                        },
+                      }, {
+                        new: true
+                      }
+                    )
                     .then(updatedOtherUser => {
                       console.log('otherUser updated: ');
                     })
@@ -132,25 +134,27 @@ module.exports = client => {
 
                   //2.Create message-------------------------------------
                   Message.create({
-                    author: user._id, //author of message
-                    receiverID: otherUserID,
-                    receiver,
-                    sender: user.username,
-                    message, //the actual message
-                    messageBoard: newlyCreatedChatBoard._id,
-                  })
+                      author: user._id, //author of message
+                      receiverID: otherUserID,
+                      receiver,
+                      sender: user.username,
+                      message, //the actual message
+                      messageBoard: newlyCreatedChatBoard._id,
+                    })
                     .then(createdMessage => {
                       console.log('createdMessage1: ');
                       updateChatBoard(createdMessage);
                       //Push the message id to the newly created board, where it belongs
                       //so later we can find particular message by it's created _id.
                       Chat.findByIdAndUpdate(
-                        newlyCreatedChatBoard._id,
-                        {
-                          $push: { messages: createdMessage._id }, //pushing new message ref: id -> to Chat board property, which is messages
-                        },
-                        { new: true }
-                      )
+                          newlyCreatedChatBoard._id, {
+                            $push: {
+                              messages: createdMessage._id
+                            }, //pushing new message ref: id -> to Chat board property, which is messages
+                          }, {
+                            new: true
+                          }
+                        )
                         .then(updatedNewChatBoard => {
                           console.log('updatedNewChatBoard(add message)1: ');
                         })
@@ -173,25 +177,28 @@ module.exports = client => {
               // foundChatBoard
               //2.Create message-------------------------------------
               Message.create({
-                author: user._id, //author of message
-                receiverID: otherUserID,
-                receiver,
-                sender: user.username,
-                message, //the actual message
-                messageBoard: foundChatBoard[0]._id,
-              })
+                  author: user._id, //author of message
+                  receiverID: otherUserID,
+                  receiver,
+                  sender: user.username,
+                  message, //the actual message
+                  messageBoard: foundChatBoard[0]._id,
+                })
                 .then(createdMessage => {
                   console.log('createdMessage2: ');
                   updateChatBoard(createdMessage); //-----------------------------------------------
                   //Push the message id to the existing board, where it belongs
                   //so later we can find particular message by it's created _id.
                   Chat.findByIdAndUpdate(
-                    foundChatBoard[0]._id, //we could pass her createdMessage.messageBoard -- it should be the same since we're inside then(response from DB)
-                    {
-                      $push: { messages: createdMessage._id }, //pushing new message ref: id -> to existing Chat board property - messages, which is in foundChatBoard
-                    },
-                    { new: true }
-                  )
+                      foundChatBoard[0]._id, //we could pass her createdMessage.messageBoard -- it should be the same since we're inside then(response from DB)
+                      {
+                        $push: {
+                          messages: createdMessage._id
+                        }, //pushing new message ref: id -> to existing Chat board property - messages, which is in foundChatBoard
+                      }, {
+                        new: true
+                      }
+                    )
                     .then(updatedChatBoard => {
                       console.log('updatedChatBoard(if exists)2: ');
                     })
@@ -262,7 +269,7 @@ module.exports = client => {
     });
 
     //------- Disconnected ---------------------------
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
       console.log('disconnect: ' + socket.id);
     });
   }); //end socket connection

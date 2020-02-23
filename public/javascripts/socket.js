@@ -1,4 +1,4 @@
-(function() {
+(function () {
   if (document.getElementById('messageBoard')) {
     // Get port (we're not using it since I figure out another way without using port, but just keeping for ref: to  know that we can do with port too)
     // let port = document.getElementsByTagName('html')[0].getAttribute('port');
@@ -97,7 +97,7 @@
       }
     });
     //2.handle input(send msg,info about sender and to whom sending) by click
-    messageForm.addEventListener('submit', function(event) {
+    messageForm.addEventListener('submit', function (event) {
       event.preventDefault();
       //Emit to server input
       //Send the data to socket.io(back end - server) if clicked
@@ -123,7 +123,12 @@
           console.log('Output fromDB: ', data);
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
-            const { sender, message, _id, author } = data[i];
+            const {
+              sender,
+              message,
+              _id,
+              author
+            } = data[i];
             if (author._id.toString() === userInSessionID.toString()) {
               say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
               // say(receiver, message);
@@ -141,7 +146,12 @@
       // messages.innerHTML = '';
       // socketIO.emit('display', [userInSessionID, _id]);
       if (data) {
-        const { receiver, message, _id, author } = data;
+        const {
+          receiver,
+          message,
+          _id,
+          author
+        } = data;
         console.log('Updated Output fromDB: ', data);
         //for test
         if (data.from !== socketIO.id) {
@@ -173,7 +183,6 @@
                   <span class="deleteMsgBtn" msg_id=${messageId}>Delete</span>
             </div>
         </div>
-              
       `;
         } else {
           messages.innerHTML += `
@@ -192,7 +201,6 @@
                   </div>
                   
                 </div>
-             
         </div>
       `;
         }
