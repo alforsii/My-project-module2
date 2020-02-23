@@ -112,6 +112,10 @@ router.post('/profile-update', (req, res, next) => {
   if (!password || !password1 || !password2) {
     res.render('users/user-profile-update', {
       message: 'Please enter all password inputs!',
+      username,
+      firstName,
+      lastName,
+      email,
     });
     return;
   }
