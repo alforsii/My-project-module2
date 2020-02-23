@@ -157,8 +157,7 @@
               <span style="color:${color};font-weight:bold;">${name}: </span>${message}
            </span>
               <span class="deleteMsg" style="cursor:pointer;" msg_id=${messageId}>delete</span>
-        </div>
-              
+        </div>       
       `;
         } else {
           messages.innerHTML += `
