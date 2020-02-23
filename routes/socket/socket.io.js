@@ -13,7 +13,7 @@ module.exports = client => {
     const sendStatus = function(s) {
       setTimeout(() => {
         socket.emit('status', s);
-      }, 3000);
+      }, 500);
     };
 
     //Receive the data from socket.js(client) when user clicked
@@ -30,11 +30,13 @@ module.exports = client => {
       Message.find()
         .limit(20)
         .sort({ _id: 1 })
+        .populate('author')
+        .populate('receiverID')
         .then(chatsFromDB => {
           const filteredMessagesByChatBoard = chatsFromDB.filter(chat => {
             return (
-              usersData.includes(chat.author.toString()) &&
-              usersData.includes(chat.receiverID.toString())
+              usersData.includes(chat.author._id.toString()) &&
+              usersData.includes(chat.receiverID._id.toString())
             );
           });
 
@@ -77,7 +79,7 @@ module.exports = client => {
                 board.users.includes(otherUserID)
               );
             });
-            console.log('foundChatBoard: ', foundChatBoard);
+            // console.log('foundChatBoard: ', foundChatBoard);
             //check if the board already exist, it not then create new Board..
             if (foundChatBoard.length == 0) {
               //1.Create Chat board------------------------------------
@@ -211,18 +213,26 @@ module.exports = client => {
 
       //-Send updated message to the client------------------------------------------
       function updateChatBoard(createdMessage) {
-        socket.emit('updateOutput', data);
-        // Message.findById(createdMessage._id)
-        //   .then(data => {
-        //     console.log('data created', data);
-        //   })
-        //   .catch(err =>
-        //     console.log(`Error while Sending updated message ${err}`)
-        //   );
+        // socket.emit('updateOutput', data);
+        Message.findById(createdMessage._id)
+          .populate('author')
+          .populate('receiverID')
+          .then(data => {
+            // console.log('data created', data);
+            setTimeout(() => {
+              socket.emit('updateOutput', data);
+            }, 500);
+            setTimeout(() => {
+              socket.emit('updateDeleteBtnStatus');
+            }, 550);
+          })
+          .catch(err =>
+            console.log(`Error while Sending updated message ${err}`)
+          );
         //Send status obj
         sendStatus({
           message: 'Message sent',
-          clear: true,
+          sent: true,
         });
       }
 
@@ -245,7 +255,7 @@ module.exports = client => {
       Message.findByIdAndDelete(data)
         .then(data => {
           sendStatus({
-            message: 'Message sent',
+            message: 'Message deleted',
           });
         })
         .catch(err => console.log(err));
