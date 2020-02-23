@@ -24,6 +24,7 @@ module.exports = port;
 //socket route
 require('../routes/socket/weather.io')(io);
 require('../routes/socket/socket.io')(io);
+require('../routes/socket/friends.io')(io);
 
 /**
  * Listen on provided port, on all network interfaces.

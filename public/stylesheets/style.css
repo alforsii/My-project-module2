@@ -198,6 +198,19 @@ p {
   width: 15%;
   background-color: bisque;
 }
+
+#user-profile {
+  display: flex;
+  flex-direction: column;
+}
+
+#friends-list {
+  background-color: gray;
+  width: 80%;
+  height: 100%;
+  overflow: scroll;
+}
+
 .center-div {
   position: relative;
   min-height: 100vh;
@@ -255,7 +268,7 @@ p {
 }
 
 .description {
-  font-size: 16px !important;
+  font-size: 12px !important;
 }
 
 .weather-details > div:first-child {

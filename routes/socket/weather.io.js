@@ -17,10 +17,10 @@ module.exports = client => {
           // console.log(weather.data);
           let temperature =
             Math.round(1.8 * parseInt(weather.data.main.temp - 273) + 32) +
-            '°F';
+            '°';
           let highTemp =
             Math.round(1.8 * parseInt(weather.data.main.temp_max - 273) + 32) +
-            '°F';
+            '°';
           let lowTemp =
             Math.round(1.8 * parseInt(weather.data.main.temp_min - 273) + 32) +
             '°';
