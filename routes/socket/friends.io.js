@@ -3,7 +3,6 @@ module.exports = client => {
   const Message = require('../../models/Message.model');
   const User = require('../../models/User.model');
   const Friend = require('../../models/Friend.model');
-
   //if user signed in (it's set to signed in - where message board)
   client.on('connection', socketIO => {
     // console.log('Output for: socketIO', socketIO);
@@ -25,19 +24,19 @@ module.exports = client => {
             friends,
           } = userInSessionFromDB;
 
-          //Create current user (ourselves) as a new Friend in other User's friends list
+          // Create current user (ourself) as new friend to other User friends list
           Friend.create({
-              username,
-              firstName,
-              lastName,
-              email,
-              path,
-              imageName,
-              friends,
-            })
+            username,
+            firstName,
+            lastName,
+            email,
+            path,
+            imageName,
+            friends,
+          })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
-              addToFriendsList(newlyCreatedFriend, _id) //
+              addToFriendsList(newlyCreatedFriend, _id);
             })
             .catch(err =>
               console.log(`Error while creating a new friend ${err}`)
@@ -67,17 +66,17 @@ module.exports = client => {
 
           //Create a new Friend
           Friend.create({
-              username,
-              firstName,
-              lastName,
-              email,
-              path,
-              imageName,
-              friends,
-            })
+            username,
+            firstName,
+            lastName,
+            email,
+            path,
+            imageName,
+            friends,
+          })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
-              addToFriendsList(newlyCreatedFriend, _id) //
+              addToFriendsList(newlyCreatedFriend, _id);
             })
             .catch(err =>
               console.log(`Error while creating a new friend ${err}`)
@@ -91,22 +90,17 @@ module.exports = client => {
         );
     });
 
-    //Add to friends list function
+    // Add to frieds list function
     function addToFriendsList(newlyCreatedFriend, userId) {
-      User.findByIdAndUpdate(userId, {
-          $push: {
-            friends: newlyCreatedFriend._id
-          }
-        }, { new: true })
-        .then(ipdateUser => {
-          console.log('updateUser', updateUser);
-        })
-        .catch(err => console.log(`Error while trying to update friends list ${err}`))
-      //end of User.findByIdAndUpdate(userId)
-    };
+      User.findByIdAndUpdate(userId, { $push: { friends: newlyCreatedFriend._id }},{new: true})
+      .then(updatedUser => {
+        console.log('updatedUser: ', updatedUser);
+      })
+      .catch(err => console.log(`Error while trying to update friends list ${err}`));
+    }
 
     //------- Disconnected ---------------------------
-    socketIO.on('disconnect', function () {
+    socketIO.on('disconnect', function() {
       console.log('disconnect: ' + socketIO.id);
     });
   }); //end socketIO connection
