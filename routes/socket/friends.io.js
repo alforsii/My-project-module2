@@ -8,6 +8,27 @@ module.exports = client => {
     // console.log('Output for: socketIO', socketIO);
     console.log('A friends.io.js connected');
     // console.log('new connection: ' + socketIO.id);
+    
+    socketIO.on('redisplay-friends-list', data => {
+      // //Get chat from DB and display when selected
+      User.find(data.userId)
+        .sort({_id: 1})
+        .populate('friends')
+        .then(userFromDB => {
+          const {friends} = userFromDB;
+
+          // console.log('friendsFromUserDB: ', friendsFromUserDB);
+          if (userFromDB.friends.length !=0) {
+            socketIO.emit('output-friends', friends);
+          }
+        })
+        .catch(err =>
+          console.log(
+            `Error while getting the messages fromDB to send to client: ${err}`
+          )
+        );
+    });
+    
     //Display newly added friend
     socketIO.on('display-user', usersData => {
       //1.Current user in session
@@ -36,7 +57,7 @@ module.exports = client => {
           })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
-              addToFriendsList(newlyCreatedFriend, _id);
+              addToFriendsList(newlyCreatedFriend, usersData[1]);
             })
             .catch(err =>
               console.log(`Error while creating a new friend ${err}`)
@@ -77,6 +98,7 @@ module.exports = client => {
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
               addToFriendsList(newlyCreatedFriend, _id);
+              socketIO.emit('display-added-friend', newlyCreatedFriend);
             })
             .catch(err =>
               console.log(`Error while creating a new friend ${err}`)
