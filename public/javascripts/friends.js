@@ -15,7 +15,6 @@
 
     // Get message board elements that we need
     let friendsList = element('friends-list');
-    let eachFriend = document.querySelector('.each-friend');
 
     //Connect to socket.io
     //=-=-=-=-===-=-=-=-=-=-= Socket event listener -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -71,148 +70,53 @@
       //so if message was sent then clear the input field
       if (data.sent) textarea.value = '';
     });
-    //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    //1.handle input(send msg,info about sender and to whom sending) by enter
-    textarea.addEventListener('keydown', event => {
-      if (event.which == 13 && event.shiftKey == false) {
-        event.preventDefault();
-        //Emit to server input
-        //Send the data to socket.io(back end - server) if pressed enter key
-        socket.emit('input', {
-          userInSessionID,
-          id: _id, //selected any other user id
-          username: _username,
-          message: textarea.value,
-        });
-        textarea.value = '';
-      }
+
+    // Send current user id to get current user's friends list from DB 
+    socket.emit('redisplay-friends-list', {
+      userId: userInSessionID
     });
-    //2.handle input(send msg,info about sender and to whom sending) by click
-    messageForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-      //Emit to server input
-      //Send the data to socket.io(back end - server) if clicked
-      socket.emit('input', {
-        id: _id, //selected any other user id
-        userInSessionID,
-        username: _username,
-        message: textarea.value,
-      });
-      textarea.value = '';
+
+    // Receive back current user's friends list and display
+    socket.on('output-friends', friendsFromDB => {
+      for(let i = 0; i < friendsFromDB.length; i++) {
+        createFriend(friendsFromDB[i]);
+      }
     });
 
     //check connection if it's not undefined to avoid getting an error
     //Output All messages that was in DB for selected Chat board
-    //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    //=-=-=-=-===-=-=-=-=-=-= Receive back newlyCreatedFriend -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socket !== undefined) {
       console.log('Connected to socket..');
-      //receive data from socket.io(back end - server)
-      //Handle output from 'output' function that we assigned to the socket property in the back end
-      socket.on('output', data => {
-        //it's from messages collection
-        if (data) {
-          console.log('Output fromDB: ', data);
-          // let arr = data[0].msg;
-          for (let i = 0; i < data.length; i++) {
-            const { sender, message, _id, author } = data[i];
-            if (author._id.toString() === userInSessionID.toString()) {
-              say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
-              // say(receiver, message);
-            }
-            if (author._id.toString() !== userInSessionID.toString()) {
-              say(sender, message, (color = 'red'), _id, author);
-            }
-          }
-        }
+      socket.on('display-added-friend', newlyCreatedFriend => {
+        createFriend(newlyCreatedFriend);
       });
     }
 
-    //receive data from socket.io(back end - server) live chat
-    socket.on('updateOutput', data => {
-      // messages.innerHTML = '';
-      // socket.emit('display', [userInSessionID, _id]);
-      if (data) {
-        const { receiver, message, _id, author } = data;
-        console.log('Updated Output fromDB: ', data);
-        //for test
-        if (data.from !== socket.id) {
-          // say(data.sender, data.message);
-          say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
-        } else {
-          say(receiver, message, (color = 'red'), _id, author);
-        }
-      }
-    });
-
-    //helper function to display the message
-    function say(name, message, color, messageId, user) {
-      if (message !== undefined) {
-        if (name === 'You') {
-          messages.innerHTML += `
-        <div class="chat-message" style="">
-            <div  class="user-in-chat">
-                <div>
-                    <a href="" style="color:${color};font-weight:bold;">
-                        <img class="chat-users-small" src="${user.path}" alt="${name}">
-                    </a>
-                </div> 
-            </div>
-            <div class="parent-msg-div" style="justify-content: space-between;">
-                <div class="msg-div">
-                    <span>${message}</span>
-                </div> 
-                  <span class="deleteMsgBtn" msg_id=${messageId}>Delete</span>
-            </div>
-        </div>
-              
-      `;
-        } else {
-          messages.innerHTML += `
-         <div class="chat-message" >
-            <div class="parent-msg-div" style="justify-content: flex-end;">
-                <span class="hideBtn" msg_id=${messageId}>Hide</span>
-                <div class="msg-div">
-                    <span>${message}</span>
-                </div>  
-            </div>
-                <div class="user-in-chat">
-                  <div>
-                    <a href="" style="color:${color};font-weight:bold;">
-                      <img class="chat-users-small" src="${user.path}" alt="${name}">
-                    </a>
-                  </div>
-                  
-                </div>
-             
-        </div>
-      `;
-        }
-        // Scroll down to last message
-        messages.scrollTop = messages.scrollHeight;
-      }
+    // Create new friend
+    function createFriend(newlyCreatedFriend) {
+      const { 
+        _id,
+        username,
+        firstName,
+        lastName,
+        email,
+        path,
+        imageName,
+        friends, 
+      } = newlyCreatedFriend;
+      const newFriend = document.createElement('div');
+      newFriend.setAttribute('class', 'each-friend');
+        newFriend.innerHTML = `
+          <a href="">
+            <img class="chat-users-small" src="${path}" alt="${username}">
+          </a>
+          <a class="username" href="" _id="${_id}" _username="${username}">
+            ${firstName} ${lastName}
+          </a>
+        `;
+        friendsList.appendChild(newFriend);
     }
-
-    //Handle Chat clear all messages in DB
-    clearBtn.addEventListener('click', () => socket.emit('clear'));
-
-    //each delete btn event listener
-    socket.on('updateDeleteBtnStatus', data => {
-      let deleteMsgBtn = document.querySelectorAll('.deleteMsgBtn');
-      //addListener for each delete button
-      deleteMsgBtn.forEach(btn => {
-        btn.addEventListener('click', event => {
-          event.preventDefault();
-          const msgId = event.target.getAttribute('msg_id');
-          socket.emit('requestDeleteMsg', msgId); //remove from DB(sending req to remove)
-          event.target.parentElement.remove(); //then remove from screen
-          messages.innerHTML = '';
-          socket.emit('display', [userInSessionID, _id]); //I had to call back this function to redisplay the messages back, because when I click they all disappearing even if I prevent default
-        });
-      });
-    });
-
-    //Clear all messages on board
-    socket.on('cleared', () => (messages.textContent = ''));
 
     // <-- end of function -->
   }
