@@ -1,16 +1,11 @@
 (function() {
   if (document.getElementById('messageBoard')) {
-    // Get port (we're not using it since I figure out another way without using port, but just keeping for ref: to  know that we can do with port too)
-    // let port = document.getElementsByTagName('html')[0].getAttribute('port');
-
-    // Here is the current user from back end I passed to layout html as attribute to use in front end
+    // Here is the current user from back end I passed to layout inside html tag as attribute to use in front end
     let userInSessionID = document
       .getElementsByTagName('html')[0]
       .getAttribute('userInSession');
-    // console.log('Output for: userInSessionID', userInSessionID);
-    // console.log('Output for: port', port);
 
-    // Gets elem by id helper function
+    // Gets elem by id with helper function
     let element = id => document.getElementById(id);
 
     // Get message board elements that we need
@@ -27,20 +22,16 @@
     // console.log('Output for: port', parseInt(port));
     const users = document.querySelectorAll('.user');
     const addBtns = document.querySelectorAll('.add-friend');
-    let _username;
-    let _id;
     //=-=-=-=-===-=-=-=-=-=-= Loop through users list -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // If any user selected by click then display message board
 
     addBtns.forEach(btn => {
       btn.addEventListener('click', event => {
         event.preventDefault();
-        // console.log('Clicked', btn.getAttribute('user_id'));
-        const user_id =  btn.getAttribute('user_id');
+        // console.log(btn.getAttribute('user_id'));
+        const user_id = btn.getAttribute('user_id');
         socket.emit('display-user', [userInSessionID, user_id]);
-      })
-    })
-    users.forEach(user => {
+      });
     });
 
     //Set default status
@@ -71,31 +62,31 @@
       if (data.sent) textarea.value = '';
     });
 
-    // Send current user id to get current user's friends list from DB 
-    socket.emit('redisplay-friends-list', {
-      userId: userInSessionID
-    });
-
-    // Receive back current user's friends list and display
+    //Send current user id to get current user friends list from DB
+    window.onload = () => {
+      socket.emit('redisplay-friends-list', {
+        userId: userInSessionID,
+      });
+    };
+    //Receive back current users friends list and display
     socket.on('output-friends', friendsFromDB => {
-      for(let i = 0; i < friendsFromDB.length; i++) {
+      for (let i = 0; i < friendsFromDB.length; i++) {
         createFriend(friendsFromDB[i]);
       }
     });
 
     //check connection if it's not undefined to avoid getting an error
-    //Output All messages that was in DB for selected Chat board
     //=-=-=-=-===-=-=-=-=-=-= Receive back newlyCreatedFriend -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socket !== undefined) {
-      console.log('Connected to socket..');
+      console.log('Connected to socket to friend.js..');
       socket.on('display-added-friend', newlyCreatedFriend => {
         createFriend(newlyCreatedFriend);
       });
     }
 
-    // Create new friend
+    //Create newFriend helper function
     function createFriend(newlyCreatedFriend) {
-      const { 
+      const {
         _id,
         username,
         firstName,
@@ -103,19 +94,19 @@
         email,
         path,
         imageName,
-        friends, 
+        friends,
       } = newlyCreatedFriend;
       const newFriend = document.createElement('div');
       newFriend.setAttribute('class', 'each-friend');
-        newFriend.innerHTML = `
+      newFriend.innerHTML = `
           <a href="">
-            <img class="chat-users-small" src="${path}" alt="${username}">
+             <img class="chat-users-small" src="${path}" alt="${username}">
           </a>
           <a class="username" href="" _id="${_id}" _username="${username}">
             ${firstName} ${lastName}
           </a>
         `;
-        friendsList.appendChild(newFriend);
+      friendsList.appendChild(newFriend);
     }
 
     // <-- end of function -->

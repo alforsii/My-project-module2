@@ -8,26 +8,26 @@ module.exports = client => {
     // console.log('Output for: socketIO', socketIO);
     console.log('A friends.io.js connected');
     // console.log('new connection: ' + socketIO.id);
-    //Display newly added friend
 
     socketIO.on('redisplay-friends-list', data => {
+      // console.log('data', data);
+      //Get current user in session id and check in User.friends if he has any friends
+      //if current user has friend or friends then send them to the client(front end to display)
       User.findById(data.userId)
         .populate('friends')
         .then(userFromDB => {
           const { friends } = userFromDB;
+          // console.log('userFromDB: ', friends);
           if (friends.length !== 0) {
-            socketIO.emit('output-friends', friends);
+            socketIO.emit('output-friends', friends); //
           }
         })
         .catch(err =>
-          console.log(
-            `Error while getting friends list from DB: ${err}`
-          )
+          console.log(`Error while getting friends list from DB: ${err}`)
         );
     });
 
-    // });
-
+    //Display newly added friend
     socketIO.on('display-user', usersData => {
       //1.Current user in session
       User.findById(usersData[0])
@@ -43,7 +43,7 @@ module.exports = client => {
             friends,
           } = userInSessionFromDB;
 
-          // Create current user (ourself) as new friend to other User friends list
+          //Create current user(ourself) as a new friend to other User friends list
           Friend.create({
             username,
             firstName,
@@ -54,14 +54,15 @@ module.exports = client => {
             friends,
           })
             .then(newlyCreatedFriend => {
-              console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
-              addToFriendsList(newlyCreatedFriend, usersData[1]);
+              console.log('Output for: newlyCreatedFriend');
+              //call addToFriendsList and pass  newlyCreatedFriend for current user
+              // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
+              addToFriendsList(newlyCreatedFriend, usersData[1]); //
             })
             .catch(err =>
               console.log(`Error while creating a new friend ${err}`)
             );
           //end Friend.creat()
-
         })
         .catch(err =>
           console.log(
@@ -94,8 +95,11 @@ module.exports = client => {
             friends,
           })
             .then(newlyCreatedFriend => {
-              console.log('Output for: newlyCreatedFriend', newlyCreatedFriend);
-              addToFriendsList(newlyCreatedFriend, usersData[0]);
+              console.log('Output for: newlyCreatedFriend');
+              //call addToFriendsList and pass  newlyCreatedFriend for current user
+              // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
+              addToFriendsList(newlyCreatedFriend, usersData[0]); //
+              //and here also we're sending other user as a newlyCreatedFriend to display in our friends list
               socketIO.emit('display-added-friend', newlyCreatedFriend);
             })
             .catch(err =>
@@ -110,14 +114,22 @@ module.exports = client => {
         );
     });
 
-    // Add to frieds list function
+    //Add to friends list function
     function addToFriendsList(newlyCreatedFriend, userId) {
-      User.findByIdAndUpdate(userId, { $push: { friends: newlyCreatedFriend._id },
-      },{new: true})
-      .then(updatedUser => {
-        console.log('updatedUser: ', updatedUser);
-      })
-      .catch(err => console.log(`Error while trying to update friends list ${err}`));
+      User.findByIdAndUpdate(
+        userId,
+        {
+          $push: { friends: newlyCreatedFriend._id },
+        },
+        { new: true }
+      )
+        .then(updatedUser => {
+          console.log('updatedUser: ');
+        })
+        .catch(err =>
+          console.log(`Error while trying to update friends list ${err}`)
+        );
+      //end of User.findByIdAndUpdate(userId)
     }
 
     //------- Disconnected ---------------------------

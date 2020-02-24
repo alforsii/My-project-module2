@@ -198,31 +198,48 @@ p {
   width: 15%;
   background-color: bisque;
 }
-
 #user-profile {
   display: flex;
   flex-direction: column;
 }
-
 #friends-list {
-  width: 100%;
-  height: 100%;
+  margin-top: 5px;
+  /* padding-top: 250px; */
+  width: 90%;
+  height: 55%;
   overflow: scroll;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  background-color: #fff;
+  border-radius: 5px;
 }
-
+#friends-header {
+  position: sticky;
+  top: -250px;
+  left: 0;
+  z-index: 4;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 0;
+}
+#friends-list h5,
+#friends-list hr {
+  margin: 0;
+}
 .each-friend {
+  margin: 1px 0;
   padding: 5px;
-  margin: 5px 0;
+  width: 100%;
+  background-color: lightblue;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
-
 .each-friend a {
   font-size: 12px;
 }
-
 .center-div {
   position: relative;
   min-height: 100vh;
