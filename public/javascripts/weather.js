@@ -46,6 +46,7 @@
               <div>
                 <h2 class="city-name">${data.weather.name}</h2>
                 <p>${data.temperature}</p>
+                <p class="description">${data.weather.weather[0].description}</p>
               </div>
               <div>
                 <h3>High</h3>
