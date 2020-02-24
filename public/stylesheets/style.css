@@ -17,8 +17,9 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 10px 5px;
+  padding: 5px 10px 5px;
   background-color: #333;
+  border-bottom: 3px solid rgb(245, 100, 100);
 }
 nav div {
   display: flex;
@@ -189,40 +190,58 @@ p {
   position: fixed;
   z-index: 1;
   left: 0;
-  top: 50px;
+  top: 60px;
   bottom: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   width: 15%;
-  background-color: bisque;
+  background-color: #aaaaaa;
 }
 #user-profile {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  padding: 10px 0 10px;
+  height: 270px;
+  margin-top: 5px;
+  background-color: #dddddd;
 }
 #friends-list {
   margin-top: 5px;
   /* padding-top: 250px; */
   width: 90%;
-  height: 55%;
+  height: 60px;
   overflow: scroll;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-content: flex-start;
-  background-color: #fff;
+  border: 1px solid rgb(190, 189, 189);
   border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: 0.5s ease-in-out;
+  background-color: #dddddd;
+  position: relative;
 }
 #friends-header {
-  position: sticky;
-  top: -250px;
-  left: 0;
+  position: fixed;
+  width: 13.5vw;
+  height: 5vw;
   z-index: 4;
-  background-color: #333;
-  color: #fff;
+  background-color: rgb(0, 0, 0, 0.1);
+  color: #333;
+  font-family: monospace;
   padding: 15px 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+#friends-header:hover {
+  background-color: rgb(0, 0, 0, 0.3);
 }
 #friends-list h5,
 #friends-list hr {
@@ -232,26 +251,33 @@ p {
   margin: 1px 0;
   padding: 5px;
   width: 100%;
-  background-color: lightblue;
+  border-bottom: 1px solid rgb(190, 189, 189);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.each-friend img {
+  width: 3.5vw;
+  height: 3.5vw;
 }
 .each-friend a {
-  font-size: 12px;
+  font-size: 1vw;
+  color: #333;
 }
 .center-div {
   position: relative;
   min-height: 100vh;
-  left: 15%;
+  left: 14.5%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 40vw;
+  width: 41.3vw;
   min-width: 125px;
-  background-color: #999;
-  background-color: rgb(23, 104, 196, 0.8);
+  background-color: #dddddd;
+  background: url('/images/bg-gif.gif') no-repeat;
+  background-size: cover;
   color: white;
 }
 
@@ -264,10 +290,8 @@ p {
   align-items: center;
   position: fixed;
   left: 56%;
-  top: 50px;
+  top: 60px;
   bottom: 0;
-  border-left: 3px solid white;
-  border-right: 3px solid white;
   width: 24.5vw;
   color: #fff;
 }
@@ -374,7 +398,7 @@ p {
   position: fixed;
   right: 0;
   left: 80.2%;
-  top: 50px;
+  top: 60px;
   bottom: 0;
   color: #333;
   overflow: scroll;
