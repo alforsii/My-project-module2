@@ -15,22 +15,11 @@ module.exports = client => {
         .get(apiUrl)
         .then(weather => {
           // console.log(weather.data);
-          let temperature =
-            Math.round(1.8 * parseInt(weather.data.main.temp - 273) + 32) +
-            '°';
-          let highTemp =
-            Math.round(1.8 * parseInt(weather.data.main.temp_max - 273) + 32) +
-            '°';
-          let lowTemp =
-            Math.round(1.8 * parseInt(weather.data.main.temp_min - 273) + 32) +
-            '°';
-          let feelsLike =
-            Math.round(
-              1.8 * parseInt(weather.data.main.feels_like - 273) + 32
-            ) + '°';
-          let windSpeed = Math.round(
-            2.23694 * parseInt(weather.data.wind.speed)
-          );
+          let temperature = Math.round(1.8 * parseInt(weather.data.main.temp - 273) + 32) + '°';
+          let highTemp = Math.round(1.8 * parseInt(weather.data.main.temp_max - 273) + 32) + '°';
+          let lowTemp = Math.round(1.8 * parseInt(weather.data.main.temp_min - 273) + 32) + '°';
+          let feelsLike = Math.round(1.8 * parseInt(weather.data.main.feels_like - 273) + 32) + '°';
+          let windSpeed = Math.round(2.23694 * parseInt(weather.data.wind.speed));
 
           socket.emit('response', {
             weather: weather.data,
