@@ -1,4 +1,4 @@
-(function() {
+(function () {
   if (document.getElementById('messageBoard')) {
     // Here is the current user from back end I passed to layout inside html tag as attribute to use in front end
     let userInSessionID = document
