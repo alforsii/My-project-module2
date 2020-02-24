@@ -22,7 +22,6 @@
     // console.log('Output for: port', parseInt(port));
     const users = document.querySelectorAll('.user');
     const addBtns = document.querySelectorAll('.add-friend');
-
     //=-=-=-=-===-=-=-=-=-=-= Loop through users list -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // If any user selected by click then display message board
 

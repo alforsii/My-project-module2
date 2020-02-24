@@ -3,7 +3,6 @@ module.exports = client => {
   const Message = require('../../models/Message.model');
   const User = require('../../models/User.model');
   const Friend = require('../../models/Friend.model');
-
   //if user signed in (it's set to signed in - where message board)
   client.on('connection', socketIO => {
     // console.log('Output for: socketIO', socketIO);
@@ -71,7 +70,6 @@ module.exports = client => {
           )
         );
       //end of current user
-
       //2.Other user
       User.findById(usersData[1])
         .then(otherUserFromDB => {
