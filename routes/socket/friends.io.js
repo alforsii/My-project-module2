@@ -16,7 +16,9 @@ module.exports = client => {
       User.findById(data.userId)
         .populate('friends')
         .then(userFromDB => {
-          const { friends } = userFromDB;
+          const {
+            friends
+          } = userFromDB;
           // console.log('userFromDB: ', friends);
           if (friends.length !== 0) {
             socketIO.emit('output-friends', friends); //
@@ -45,14 +47,14 @@ module.exports = client => {
 
           //Create current user(ourself) as a new friend to other User friends list
           Friend.create({
-            username,
-            firstName,
-            lastName,
-            email,
-            path,
-            imageName,
-            friends,
-          })
+              username,
+              firstName,
+              lastName,
+              email,
+              path,
+              imageName,
+              friends,
+            })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend');
               //call addToFriendsList and pass  newlyCreatedFriend for current user
@@ -86,14 +88,14 @@ module.exports = client => {
 
           //Create a new Friend
           Friend.create({
-            username,
-            firstName,
-            lastName,
-            email,
-            path,
-            imageName,
-            friends,
-          })
+              username,
+              firstName,
+              lastName,
+              email,
+              path,
+              imageName,
+              friends,
+            })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend');
               //call addToFriendsList and pass  newlyCreatedFriend for current user
@@ -117,12 +119,14 @@ module.exports = client => {
     //Add to friends list function
     function addToFriendsList(newlyCreatedFriend, userId) {
       User.findByIdAndUpdate(
-        userId,
-        {
-          $push: { friends: newlyCreatedFriend._id },
-        },
-        { new: true }
-      )
+          userId, {
+            $push: {
+              friends: newlyCreatedFriend._id
+            },
+          }, {
+            new: true
+          }
+        )
         .then(updatedUser => {
           console.log('updatedUser: ');
         })
@@ -132,8 +136,46 @@ module.exports = client => {
       //end of User.findByIdAndUpdate(userId)
     }
 
+
+    // Delete friend from DB
+    socketIO.on('req-delete-friend', usersData => {
+      Friend.findById(usersData[1])
+        .then(friendFromDB => {
+          const currentUser = friendFromDB.friends.filter((friend,i) => friend._id.toString() === usersData[0].toString());
+          deleteUser(currentUser, friendFromDB._id,usersData);
+
+
+        })
+        .then(res => {
+
+        })
+        .catch(err => console.log(`Error occured while getting friend ${err}`))
+    });
+
+
+    // Delete from DB function 
+    function deleteUser(userID, otherUserID) {
+      //delete current user
+      Friend.findByIdAndDelete(userID)
+        .then((user) => {
+          console.log(user, 'curr user was deleted')
+
+          socketIO.emit('removed-user', userID);
+          //delete other user
+          Friend.findByIdAndDelete(otherUserID)
+            .then(otherUser => {
+              console.log(otherUser, 'other user was deleted')
+              socketIO.emit('removed-user', otherUserID);
+            }).catch(err => console.log(`Error while deleting other user ${err}`))
+        })
+        .catch(err => {
+          console.log(`Error occured while deleting current user ${err}`)
+
+        })
+    };
+
     //------- Disconnected ---------------------------
-    socketIO.on('disconnect', function() {
+    socketIO.on('disconnect', function () {
       console.log('disconnect: ' + socketIO.id);
     });
   }); //end socketIO connection
