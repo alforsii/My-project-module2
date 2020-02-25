@@ -22,9 +22,12 @@
     // console.log('Output for: port', parseInt(port));
     const users = document.querySelectorAll('.user');
     const addBtns = document.querySelectorAll('.add-friend');
+
+
     //=-=-=-=-===-=-=-=-=-=-= Loop through users list -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // If any user selected by click then display message board
 
+    // =================== Add friends
     addBtns.forEach(btn => {
       btn.addEventListener('click', event => {
         event.preventDefault();
@@ -33,6 +36,36 @@
         socket.emit('display-user', [userInSessionID, user_id]);
       });
     });
+
+
+    // =================== Request friends deletion
+    function updateDeleteBtn() {
+      const deleteEachFriend = document.querySelectorAll('.delete-friend');
+      deleteEachFriend.forEach(btn => {
+        btn.addEventListener('click', event => {
+          event.preventDefault();
+          // console.log(btn.parentElement);
+          const eachFriend = btn.parentElement;
+          console.log(eachFriend.children[1].getAttribute('_id'));
+          const friendsID = eachFriend.children[1].getAttribute('_id');
+
+          //1. Send data (_id) to delete the friend from DB
+          socket.emit('req-delete-friend', [userInSessionID, friendsID]);
+        });
+      });
+    }
+
+    // Friends deleted from DB
+    socket.on('removed-user', deletedUser => {
+      document.querySelectorAll('.each-friend').forEach(friend => {
+        const idOfUser = friend.children[1].getAttribute('_id');
+        if (idOfUser.toString() === deletedUser.toString()) {
+          friend.remove();
+        };
+      });
+    });
+
+
 
     //Set default status
     let statusDefault = status.textContent;
@@ -73,6 +106,7 @@
       for (let i = 0; i < friendsFromDB.length; i++) {
         createFriend(friendsFromDB[i]);
       }
+      updateDeleteBtn();
     });
 
     //check connection if it's not undefined to avoid getting an error
@@ -81,6 +115,7 @@
       console.log('Connected to socket to friend.js..');
       socket.on('display-added-friend', newlyCreatedFriend => {
         createFriend(newlyCreatedFriend);
+        updateDeleteBtn()
       });
     }
 
@@ -105,9 +140,14 @@
           <a class="username" href="" _id="${_id}" _username="${username}">
             ${firstName} ${lastName}
           </a>
+
+             <span class="delete-friend">Delete</span>
+
         `;
       friendsList.appendChild(newFriend);
     }
+
+
 
     // <-- end of function -->
   }
