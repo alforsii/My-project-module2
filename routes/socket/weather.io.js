@@ -20,6 +20,7 @@ module.exports = client => {
           let lowTemp = Math.round(1.8 * parseInt(weather.data.main.temp_min - 273) + 32) + '°';
           let feelsLike = Math.round(1.8 * parseInt(weather.data.main.feels_like - 273) + 32) + '°';
           let windSpeed = Math.round(2.23694 * parseInt(weather.data.wind.speed));
+          let pressure = Math.round(6895 / parseInt(weather.data.main.pressure));
 
           socket.emit('response', {
             weather: weather.data,
@@ -29,6 +30,7 @@ module.exports = client => {
             feelsLike,
             city: data.city,
             windSpeed,
+            pressure
           });
         })
         .catch(err => console.log(err));

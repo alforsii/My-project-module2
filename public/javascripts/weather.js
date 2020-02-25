@@ -62,7 +62,7 @@
               </div>
               <div>
                 <h3>Pressure</h3>
-                <p>${data.weather.main.pressure}</p>
+                <p>${data.pressure} psi</p>
               </div>
               <div>
                 <h3>Humidity</h3>
