@@ -30,7 +30,7 @@
         event.preventDefault();
         // console.log(btn.getAttribute('user_id'));
         const user_id = btn.getAttribute('user_id');
-        socket.emit('display-user', [userInSessionID, user_id]);
+        socket.emit('create-friend', [userInSessionID, user_id]);
         btn.disabled = true;
         btn.innerHTML = 'Already friends';
       });
@@ -46,9 +46,9 @@
           // console.log(btn.parentElement);
           const eachFriend =
             btn.parentElement.parentElement.previousElementSibling;
-          // console.log('eachFriend: ', eachFriend);
+          console.log('eachFriend: ', eachFriend);
           const friendsID = eachFriend.children[1].getAttribute('friendId');
-          // console.log('friendsID: ', friendsID);
+          console.log('friendsID: ', friendsID);
 
           //1. Send data (_id) to delete the friend from DB
           socket.emit('req-delete-friend', [userInSessionID, friendsID]);
@@ -56,18 +56,18 @@
       });
 
       //Get clicked user id to Send message
-      const sendBtns = document.querySelectorAll('.send-message');
-      sendBtns.forEach(sendBtn => {
-        sendBtn.addEventListener('click', event => {
-          event.preventDefault();
-          const userDiv =
-            sendBtn.parentElement.parentElement.previousElementSibling;
-          const otherUserId = userDiv.children[1].getAttribute('_id');
-          console.log('otherUserId: ', otherUserId);
+      // const sendBtns = document.querySelectorAll('.send-message');
+      // sendBtns.forEach(sendBtn => {
+      //   sendBtn.addEventListener('click', event => {
+      //     event.preventDefault();
+      //     const userDiv =
+      //       sendBtn.parentElement.parentElement.previousElementSibling;
+      //     const otherUserId = userDiv.children[1].getAttribute('_id');
+      //     console.log('otherUserId: ', otherUserId);
 
-          socket.io.emit('display', [userInSessionID, otherUserId]);
-        });
-      });
+      //     socket.io.emit('display', [userInSessionID, otherUserId]);
+      //   });
+      // });
     }
 
     // 2.Friends deleted from DB
@@ -76,8 +76,9 @@
         const idOfUser = friend.children[0].children[1].getAttribute(
           'friendId'
         );
+        //if deleted user found - which has index (is not -1) of >= 0
         if (deletedUsers.indexOf(idOfUser.toString()) !== -1) {
-          friend.remove();
+          friend.remove(); //if found then remove if from browser, because it removed from DB already.
         }
       });
     });
@@ -111,15 +112,15 @@
     });
 
     //Send current user id to get current user friends list from DB
-    window.onload = () => {
-      socket.emit('redisplay-friends-list', {
-        userId: userInSessionID,
-      });
-    };
+
+    socket.emit('redisplay-friends-list', {
+      userId: userInSessionID,
+    });
+
     //Receive back current users friends list and display
     socket.on('output-friends', friendsFromDB => {
       for (let i = 0; i < friendsFromDB.length; i++) {
-        createFriend(friendsFromDB[i]);
+        displayFriend(friendsFromDB[i]);
       }
       updateDeleteBtn();
     });
@@ -129,13 +130,13 @@
     if (socket !== undefined) {
       console.log('Connected to socket to friend.js..');
       socket.on('display-added-friend', newlyCreatedFriend => {
-        createFriend(newlyCreatedFriend);
+        displayFriend(newlyCreatedFriend);
         updateDeleteBtn();
       });
     }
 
     //Create newFriend helper function
-    function createFriend(newlyCreatedFriend) {
+    function displayFriend(newlyCreatedFriend) {
       const {
         _id,
         userId,

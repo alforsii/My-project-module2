@@ -9,7 +9,6 @@ const UserSchema = new Schema(
     email: String,
     city: String,
     location: String,
-    userInSession: { type: Schema.Types.ObjectId, ref: 'User' },
     password: String,
     path: { type: String, default: '/images/default-img.png' },
     imageName: String,
