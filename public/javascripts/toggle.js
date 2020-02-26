@@ -87,7 +87,7 @@ if (
   function closeFriendsList() {
     document.getElementById('friends-list').style.height = '60px';
   }
-  document.getElementById('friends-list').style.height = '250px';
+  // document.getElementById('friends-list').style.height = '250px';
   // document.getElementById('friends-list').addEventListener('click', () => {
   //   if (height === 60) {
   //     openFriendsList();

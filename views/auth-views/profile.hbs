@@ -2,18 +2,18 @@
     <div class="left-div profile-boxes">
         <div id="user-profile">
             <h5>Welcome, {{user.firstName}}! </h5>
-            <img class="user-image" src="{{user.path}}" alt="{{user.username}}">
+            <img class="user-image profile-image" src="{{user.path}}" alt="{{user.username}}">
             <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
             <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
         </div>
-        <div id="friends-list">
+        <div id="friends-list" class="friends-list">
             <div id="friends-header">
             </div>
             {{!-- current user --}}
-            <div class="user">
-                <a href="">
+            <div class="friends-header-title">
+                {{!-- <a href="">
                     <img class="chat-users-small" src="{{user.path}}" alt="{{user.username}}">
-                </a>
+                </a> --}}
                 <a class="username">
                     My Friends List
                 </a>
