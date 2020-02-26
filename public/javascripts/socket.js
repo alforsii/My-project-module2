@@ -1,4 +1,4 @@
-(function () {
+(function() {
   if (document.getElementById('messageBoard')) {
     // Get port (we're not using it since I figure out another way without using port, but just keeping for ref: to  know that we can do with port too)
     // let port = document.getElementsByTagName('html')[0].getAttribute('port');
@@ -9,17 +9,15 @@
       .getAttribute('userInSession');
     // console.log('Output for: userInSessionID', userInSessionID);
     // console.log('Output for: port', port);
-
     // Gets elem by id helper function
     let element = id => document.getElementById(id);
 
     // Get message board elements that we need
-    let status = element('status');
     let messageForm = element('messageForm');
     let messages = element('messages');
     let textarea = element('textMessage'); //problem here <-----!
     let sendTo = element('sendTo');
-    let clearBtn = element('clear');
+    // let clearBtn = element('clear');
     const messageBoard = element('messageBoard');
 
     //Connect to socket.io
@@ -54,14 +52,15 @@
     });
 
     //Set default status
-    let statusDefault = status.textContent;
     //=-=-=-=-===-=-=-=-=-=-= Send Status to the current User -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //Reusable Send status function
-    let setStatus = s => {
-      status.textContent = s;
-      if (s !== statusDefault) {
+    let setStatus = (s, stop) => {
+      let name = sendTo.value;
+      sendTo.value = s;
+      if (s !== name && stop == undefined) {
         let delay = setTimeout(() => {
-          setStatus(statusDefault);
+          setStatus(name, 'stop');
+          sendTo.style.color = '';
         }, 3000);
       }
     };
@@ -79,6 +78,8 @@
       setStatus(typeof data === 'object' ? data.message : data);
       //so if message was sent then clear the input field
       if (data.sent) textarea.value = '';
+      if (data.color === 'red') sendTo.style.color = 'red';
+      if (data.color === 'green') sendTo.style.color = 'green';
     });
     //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //1.handle input(send msg,info about sender and to whom sending) by enter
@@ -97,7 +98,7 @@
       }
     });
     //2.handle input(send msg,info about sender and to whom sending) by click
-    messageForm.addEventListener('submit', function (event) {
+    messageForm.addEventListener('submit', function(event) {
       event.preventDefault();
       //Emit to server input
       //Send the data to socket.io(back end - server) if clicked
@@ -123,12 +124,7 @@
           console.log('Output fromDB: ', data);
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
-            const {
-              sender,
-              message,
-              _id,
-              author
-            } = data[i];
+            const { sender, message, _id, author } = data[i];
             if (author._id.toString() === userInSessionID.toString()) {
               say('You', message, (color = 'green'), _id, author); //message._id -ref for current users message(to use for delete msg)
               // say(receiver, message);
@@ -146,12 +142,7 @@
       // messages.innerHTML = '';
       // socketIO.emit('display', [userInSessionID, _id]);
       if (data) {
-        const {
-          receiver,
-          message,
-          _id,
-          author
-        } = data;
+        const { receiver, message, _id, author } = data;
         console.log('Updated Output fromDB: ', data);
         //for test
         if (data.from !== socketIO.id) {
@@ -210,7 +201,7 @@
     }
 
     //Handle Chat clear all messages in DB
-    clearBtn.addEventListener('click', () => socketIO.emit('clear'));
+    // clearBtn.addEventListener('click', () => socketIO.emit('clear'));
 
     //each delete btn event listener
     socketIO.on('updateDeleteBtnStatus', data => {

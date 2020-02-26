@@ -1,4 +1,4 @@
-(function () {
+(function() {
   if (document.getElementById('messageBoard')) {
     // Here is the current user from back end I passed to layout inside html tag as attribute to use in front end
     let userInSessionID = document
@@ -23,10 +23,7 @@
     const users = document.querySelectorAll('.user');
     const addBtns = document.querySelectorAll('.add-friend');
 
-
-    //=-=-=-=-===-=-=-=-=-=-= Loop through users list -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    // If any user selected by click then display message board
-
+    //=-=-=-=-===-=-=-=-=-=-= Add and remove new friends -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // =================== Add friends
     addBtns.forEach(btn => {
       btn.addEventListener('click', event => {
@@ -34,38 +31,56 @@
         // console.log(btn.getAttribute('user_id'));
         const user_id = btn.getAttribute('user_id');
         socket.emit('display-user', [userInSessionID, user_id]);
+        btn.disabled = true;
+        btn.innerHTML = 'Already friends';
       });
     });
 
-
     // =================== Request friends deletion
     function updateDeleteBtn() {
+      //1.update delete button
       const deleteEachFriend = document.querySelectorAll('.delete-friend');
       deleteEachFriend.forEach(btn => {
         btn.addEventListener('click', event => {
           event.preventDefault();
           // console.log(btn.parentElement);
-          const eachFriend = btn.parentElement;
-          console.log(eachFriend.children[1].getAttribute('_id'));
-          const friendsID = eachFriend.children[1].getAttribute('_id');
+          const eachFriend =
+            btn.parentElement.parentElement.previousElementSibling;
+          // console.log('eachFriend: ', eachFriend);
+          const friendsID = eachFriend.children[1].getAttribute('friendId');
+          // console.log('friendsID: ', friendsID);
 
           //1. Send data (_id) to delete the friend from DB
           socket.emit('req-delete-friend', [userInSessionID, friendsID]);
         });
       });
+
+      //Get clicked user id to Send message
+      const sendBtns = document.querySelectorAll('.send-message');
+      sendBtns.forEach(sendBtn => {
+        sendBtn.addEventListener('click', event => {
+          event.preventDefault();
+          const userDiv =
+            sendBtn.parentElement.parentElement.previousElementSibling;
+          const otherUserId = userDiv.children[1].getAttribute('_id');
+          console.log('otherUserId: ', otherUserId);
+
+          socket.io.emit('display', [userInSessionID, otherUserId]);
+        });
+      });
     }
 
-    // Friends deleted from DB
-    socket.on('removed-user', deletedUser => {
+    // 2.Friends deleted from DB
+    socket.on('removed-user', deletedUsers => {
       document.querySelectorAll('.each-friend').forEach(friend => {
-        const idOfUser = friend.children[1].getAttribute('_id');
-        if (idOfUser.toString() === deletedUser.toString()) {
+        const idOfUser = friend.children[0].children[1].getAttribute(
+          'friendId'
+        );
+        if (deletedUsers.indexOf(idOfUser.toString()) !== -1) {
           friend.remove();
-        };
+        }
       });
     });
-
-
 
     //Set default status
     let statusDefault = status.textContent;
@@ -115,7 +130,7 @@
       console.log('Connected to socket to friend.js..');
       socket.on('display-added-friend', newlyCreatedFriend => {
         createFriend(newlyCreatedFriend);
-        updateDeleteBtn()
+        updateDeleteBtn();
       });
     }
 
@@ -123,31 +138,36 @@
     function createFriend(newlyCreatedFriend) {
       const {
         _id,
+        userId,
         username,
         firstName,
         lastName,
-        email,
         path,
-        imageName,
-        friends,
       } = newlyCreatedFriend;
       const newFriend = document.createElement('div');
       newFriend.setAttribute('class', 'each-friend');
       newFriend.innerHTML = `
-          <a href="">
-             <img class="chat-users-small" src="${path}" alt="${username}">
-          </a>
-          <a class="username" href="" _id="${_id}" _username="${username}">
-            ${firstName} ${lastName}
-          </a>
+          <div class="user">
+              <a href="">
+                <img class="chat-users-small" src="${path}" alt="${username}">
+              </a>
+              <a class="username" href="" _id="${userId}" friendId="${_id}" _username="${username}">
+                ${firstName} ${lastName}
+              </a>
+          </div>
 
-             <span class="delete-friend">Delete</span>
-
+          <div class="btn-group1" role="group">
+              <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false"></button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  <a href="" class="dropdown-item send-message text-center"> Send Message </a>
+                  <hr>
+                  <a href="" class="dropdown-item delete-friend text-center"> Delete </a>
+              </div>
+           </div>
         `;
       friendsList.appendChild(newFriend);
     }
-
-
 
     // <-- end of function -->
   }

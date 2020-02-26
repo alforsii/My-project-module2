@@ -5,7 +5,10 @@
     const inputSearch = document.getElementById('input-search');
     const weatherForm = document.getElementById('weather-form');
     const weatherRes = document.getElementById('weather-response'); //this is main div
-
+    // Here is the current user from back end I passed to layout html as attribute to use in front end
+    let userInSessionID = document
+      .getElementsByTagName('html')[0]
+      .getAttribute('userInSession');
     //socket connection
     let socketIO = io();
     window.onunload = () => socket.close();
@@ -17,8 +20,10 @@
         //Emit to server input
         //Send the data to weather.io(back end - server) if pressed enter key
         socketIO.emit('url', {
+          userId: userInSessionID,
           city: inputSearch.value,
         });
+        inputSearch.value = '';
         event.preventDefault();
       }
     });
@@ -26,11 +31,17 @@
     weatherForm.addEventListener('submit', function(event) {
       event.preventDefault();
       //Emit to server input
-
+      inputSearch.value = '';
       socketIO.emit('url', {
+        userId: userInSessionID,
         city: inputSearch.value,
       });
     });
+
+    //3.
+    window.onload = () => {
+      socketIO.emit('display-saved-city', { userId: userInSessionID });
+    };
 
     //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socketIO !== undefined) {
@@ -42,35 +53,44 @@
           // console.log('Output fromDB: ', data);
           const wDetails = document.createElement('div');
           wDetails.setAttribute('class', 'weather-details');
+          const {
+            weather,
+            temperature,
+            highTemp,
+            lowTemp,
+            feelsLike,
+            windSpeed,
+            pressure,
+          } = data;
           let msg = `
               <div>
-                <h2 class="city-name">${data.weather.name}</h2>
-                <p>${data.temperature}</p>
-                <p class="description">${data.weather.weather[0].description}</p>
+                <h2 class="city-name">${weather.name}</h2>
+                <p>${temperature}</p>
+                <p class="description">${weather.weather[0].description}</p>
               </div>
               <div>
                 <h3>High</h3>
-                <p>${data.highTemp}</p>
+                <p>${highTemp}</p>
               </div>
               <div>
                 <h3>Low</h3>
-                <p>${data.lowTemp}</p>
+                <p>${lowTemp}</p>
               </div>
               <div>
                 <h3>Feels Like</h3>
-                <p>${data.feelsLike}</p>
+                <p>${feelsLike}</p>
               </div>
               <div>
                 <h3>Pressure</h3>
-                <p>${data.pressure} psi</p>
+                <p>${pressure} psi</p>
               </div>
               <div>
                 <h3>Humidity</h3>
-                <p>${data.weather.main.humidity}%</p>
+                <p>${weather.main.humidity}%</p>
               </div>
               <div>
                 <h3>Wind</h3>
-                <p>${data.windSpeed} mp/h</p>
+                <p>${windSpeed} mp/h</p>
               </div>
           `;
 
