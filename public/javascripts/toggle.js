@@ -1,6 +1,7 @@
 let h = 50;
 let height = 60;
 
+// ----------------- side menu on small screen --------------------
 function openSlideMenu() {
   document.getElementById('side-menu').style.width = '250px';
   document.getElementById('side-menu').style.zIndex = 4;
@@ -18,6 +19,7 @@ function closeSlideMenu() {
     document.getElementById('side-menu2').style.zIndex = 3;
 }
 
+// ----------- small screen chat list ----------------------
 function openChatList() {
   document.getElementById('side-menu2').style.height = '350px';
   document.getElementById('search-user2').style.zIndex = 3;
@@ -31,6 +33,7 @@ function closeChatList() {
   document.getElementById('friend-list-btn').style.zIndex = 3;
   document.getElementById('friend-list-btn').style.transition = '0.5s ease-out';
 }
+//--------------- close chat board -----------------------
 function closeChatBoard() {
   document.querySelector('.messageBoard').style.display = 'none';
 }
@@ -62,7 +65,8 @@ if (
       closeChatList();
       closeSlideMenu();
     });
-  //open and close chat list
+
+  //--------------open and close chat list -----------------
   document
     .getElementsByClassName('curr-user')[0]
     .addEventListener('click', () => {
@@ -76,22 +80,22 @@ if (
       }
     });
 
-  //open/close friends list
+  //------------open/close friends list-----------------
   function openFriendsList() {
     document.getElementById('friends-list').style.height = '250px';
   }
   function closeFriendsList() {
     document.getElementById('friends-list').style.height = '60px';
   }
-
-  document.getElementById('friends-list').addEventListener('click', () => {
-    if (height === 60) {
-      openFriendsList();
-      height = parseInt(document.getElementById('friends-list').style.height);
-      // h = 350;
-    } else if (height === 250) {
-      closeFriendsList();
-      height = parseInt(document.getElementById('friends-list').style.height);
-    }
-  });
+  document.getElementById('friends-list').style.height = '250px';
+  // document.getElementById('friends-list').addEventListener('click', () => {
+  //   if (height === 60) {
+  //     openFriendsList();
+  //     height = parseInt(document.getElementById('friends-list').style.height);
+  //     // h = 350;
+  //   } else if (height === 250) {
+  //     closeFriendsList();
+  //     height = parseInt(document.getElementById('friends-list').style.height);
+  //   }
+  // });
 }

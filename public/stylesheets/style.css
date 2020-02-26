@@ -224,7 +224,7 @@ p {
   border: 1px solid rgb(190, 189, 189);
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: 0.5s ease-in-out;
+  transition: transform 0.5s ease;
   background-color: #dddddd;
   position: relative;
 }
@@ -232,7 +232,7 @@ p {
   position: fixed;
   width: 13.5vw;
   height: 5vw;
-  z-index: 4;
+  z-index: 2;
   background-color: rgb(0, 0, 0, 0.1);
   color: #333;
   font-family: monospace;
@@ -256,13 +256,15 @@ p {
   justify-content: space-between;
   align-items: center;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
+
 .each-friend img {
   width: 3.5vw;
   height: 3.5vw;
 }
 .each-friend a {
-  font-size: 1vw;
+  font-size: 1.1vw;
   color: #333;
 }
 .center-div {
@@ -276,8 +278,6 @@ p {
   width: 41.3vw;
   min-width: 125px;
   background-color: #dddddd;
-  background: url('/images/bg-gif.gif') no-repeat;
-  background-size: cover;
   color: white;
 }
 
@@ -662,8 +662,10 @@ pre {
   color: #fff;
 }
 
-/* socket message board */
-
+/*------------------ socket message board ---------------------------*/
+#status {
+  position: fixed;
+}
 .messageBoard {
   position: fixed;
   right: 3vw;
@@ -746,3 +748,55 @@ pre {
 .chat-message span.hideBtn:hover {
   color: green;
 }
+/*------------------ end socket message board ---------------------------*/
+
+/* ---------------Btn Drop down styles ---------------------------*/
+.dropbtn {
+  border: none;
+  background: transparent;
+}
+.dropdown-menu {
+  max-height: 200px;
+  overflow: scroll;
+  padding: 5px;
+  background-color: #dddddd;
+  margin: 5px;
+}
+.dropdown-toggle:focus {
+  outline: 0;
+}
+.dropdown-toggle {
+  border: none;
+}
+.dropdown-menu a,
+.dropdown-menu button {
+  color: #333;
+  padding: 12px 16px;
+  width: 100%;
+  text-decoration: none;
+  display: block;
+  margin: 3px 0;
+  /* background-color: #333; */
+}
+
+.dropdown-menu a:hover {
+  background-color: green;
+  color: #dbdddd;
+  width: 100%;
+  border-radius: 5px;
+}
+.dropdown-menu button {
+}
+.dropdown-menu button:hover {
+  background-color: green;
+  padding: 12px 16px;
+  color: #dbdddd;
+  width: 100%;
+  border-radius: 5px;
+}
+a.delete-friend:hover {
+  background-color: red;
+  color: #dbdddd;
+  width: 100%;
+}
+/*---------------end Btn Drop down styles ---------------------*/
