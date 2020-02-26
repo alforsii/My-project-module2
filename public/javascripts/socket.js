@@ -57,7 +57,7 @@
     let setStatus = (s, stop) => {
       let name = sendTo.value;
       sendTo.value = s;
-      if (s !== name && stop == undefined) {
+      if (s !== '' && stop == undefined) {
         let delay = setTimeout(() => {
           setStatus(name, 'stop');
           sendTo.style.color = '';

@@ -14,9 +14,9 @@ module.exports = client => {
     socket.on('display-saved-city', data => {
       User.findById(data.userId)
         .then(userFromDb => {
-          console.log('userFromDb', userFromDb);
+          // console.log('userFromDb', userFromDb);
           apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${userFromDb.city}&appid=${API_KEY}`;
-          console.log('Output for: apiUrl', apiUrl);
+          // console.log('Output for: apiUrl', apiUrl);
           axios
             .get(apiUrl)
             .then(weather => {
@@ -55,7 +55,7 @@ module.exports = client => {
       const { userId, city } = data;
       User.findByIdAndUpdate({ _id: userId }, { city: city }, { new: true })
         .then(updatedUser => {
-          console.log('updatedUser: ', updatedUser);
+          // console.log('updatedUser: ', updatedUser);
 
           apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${updatedUser.city}&appid=${API_KEY}`;
           axios
