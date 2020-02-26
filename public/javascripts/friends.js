@@ -1,5 +1,5 @@
 (function() {
-  if (document.getElementById('messageBoard')) {
+  if (document.getElementById('friends-list')) {
     // Here is the current user from back end I passed to layout inside html tag as attribute to use in front end
     let userInSessionID = document
       .getElementsByTagName('html')[0]
@@ -145,14 +145,16 @@
         lastName,
         path,
       } = newlyCreatedFriend;
+      console.log('other userId: ', userId);
       const newFriend = document.createElement('div');
       newFriend.setAttribute('class', 'each-friend');
+      //<a href="/profile/user-details?user_id={{userId}}">{{username}}</a> this is user profile details page
       newFriend.innerHTML = `
           <div class="user">
               <a href="">
                 <img class="chat-users-small" src="${path}" alt="${username}">
               </a>
-              <a class="username" href="" _id="${userId}" friendId="${_id}" _username="${username}">
+              <a href="/profile/user-details?user_id=${userId}" class="username" _id="${userId}" friendId="${_id}" _username="${username}">
                 ${firstName} ${lastName}
               </a>
           </div>

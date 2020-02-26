@@ -38,10 +38,10 @@
       });
     });
 
-    //3.
-    window.onload = () => {
-      socketIO.emit('display-saved-city', { userId: userInSessionID });
-    };
+    // //3.
+    // window.onload = () => {
+    //   socketIO.emit('display-saved-city', { userId: userInSessionID });
+    // };
 
     //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (socketIO !== undefined) {
