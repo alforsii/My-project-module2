@@ -3,7 +3,6 @@ module.exports = client => {
   const Message = require('../../models/Message.model');
   const User = require('../../models/User.model');
   const Friend = require('../../models/Friend.model');
-
   //if user signed in (it's set to signed in - where message board)
   client.on('connection', socketIO => {
     // console.log('Output for: socketIO', socketIO);
@@ -17,7 +16,9 @@ module.exports = client => {
       User.findById(data.userId)
         .populate('friends')
         .then(userFromDB => {
-          const { friends } = userFromDB;
+          const {
+            friends
+          } = userFromDB;
           // console.log('userFromDB: ', friends);
           if (friends.length !== 0) {
             socketIO.emit('output-friends', friends); //
@@ -41,18 +42,19 @@ module.exports = client => {
             email,
             path,
             imageName,
+            friends,
           } = userInSessionFromDB;
 
           //Create current user(ourself) as a new friend to other User friends list
           Friend.create({
-            userId: _id,
-            username,
-            firstName,
-            lastName,
-            email,
-            path,
-            imageName,
-          })
+              username,
+              firstName,
+              lastName,
+              email,
+              path,
+              imageName,
+              friends,
+            })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend');
               //call addToFriendsList and pass  newlyCreatedFriend for current user
@@ -81,18 +83,19 @@ module.exports = client => {
             email,
             path,
             imageName,
+            friends,
           } = otherUserFromDB;
 
           //Create a new Friend
           Friend.create({
-            userId: _id,
-            username,
-            firstName,
-            lastName,
-            email,
-            path,
-            imageName,
-          })
+              username,
+              firstName,
+              lastName,
+              email,
+              path,
+              imageName,
+              friends,
+            })
             .then(newlyCreatedFriend => {
               console.log('Output for: newlyCreatedFriend');
               //call addToFriendsList and pass  newlyCreatedFriend for current user
@@ -116,16 +119,14 @@ module.exports = client => {
     //Add to friends list function
     function addToFriendsList(newlyCreatedFriend, userId) {
       User.findByIdAndUpdate(
-        userId,
-        {
-          $push: {
-            friends: newlyCreatedFriend._id,
-          },
-        },
-        {
-          new: true,
-        }
-      )
+          userId, {
+            $push: {
+              friends: newlyCreatedFriend._id
+            },
+          }, {
+            new: true
+          }
+        )
         .then(updatedUser => {
           console.log('updatedUser: ');
         })
@@ -135,70 +136,46 @@ module.exports = client => {
       //end of User.findByIdAndUpdate(userId)
     }
 
+
     // Delete friend from DB
     socketIO.on('req-delete-friend', usersData => {
-      const currentUserId = usersData[0]; //current user actual(User) id
-      Friend.findById(usersData[1]) // other user's friend(Friend) id for this/current user
-        .populate({
-          path: 'userId',
-          populate: [{ path: 'friends' }],
-        }) //populating other users actual id to get access to his friends list, so we can remove current user(ourself) from other users friends list/array.
+      Friend.findById(usersData[1])
         .then(friendFromDB => {
-          //get other user's actual id
-          const otherUserId = friendFromDB.userId;
-          //find current user(myself) from otherUser friends array
-          const currentUser = otherUserId.friends.filter(
-            friend => friend.userId.toString() === currentUserId.toString()
-          ); //
-          // const  {_id, userId} = currentUser[0];
+          const currentUser = friendFromDB.friends.filter((friend,i) => friend._id.toString() === usersData[0].toString());
+          deleteUser(currentUser, friendFromDB._id,usersData);
 
-          deleteUser(
-            [currentUser[0]._id, friendFromDB._id], //Sending this array of Friend ids for deletion from DB
-            [currentUserId, otherUserId] //Sending this array of User ids for removing deleted Friend ids from their User.friends list
-          );
+
         })
-        .catch(err =>
-          console.log(`Error occurred while getting friends list ${err}`)
-        );
+        .then(res => {
+
+        })
+        .catch(err => console.log(`Error occured while getting friend ${err}`))
     });
 
-    // Delete from DB function
-    function deleteUser(arrFriendsId, arrUsersId) {
-      //1.Friend.remove({_id: {$in:arrayOfIds} }) - for multiple deletion
-      Friend.remove({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
-        .then(res => {
-          console.log('deleted users res: ', res);
-          //2. User.find({_id: {$in:arrayOfIds}}) - for multiple search
-          User.find({ _id: { $in: arrUsersId } })
-            .then(foundUsers => {
-              //returns 2 users array, first current user and second other user as it was passed in the array for search
-              const reversedFriends = arrFriendsId.reverse();
-              //reverse arrFriendsId list so in first iteration (foundUsers[0]==currentUser) of the loop I can pass the other users Friend id(reversedFriends[0]==otherUserFriendId) to current user to delete him from current users friends list
-              // and when I am in second iteration(foundUsers[1]===otherUser) I get currentUserFriendId(reversedFriends[1]== currentUserFriendId)
-              foundUsers.forEach((user, i) => {
-                //passing second argument to get for each iteration same index elem from other array(from reversedFriends)
-                User.updateOne(
-                  { _id: user._id }, //searching by id of the user to update
-                  { $pull: { friends: reversedFriends[i] } } // friends property(currently to remove (id of) deleted friend from each User friends list)
-                )
-                  .then(res => {
-                    console.log(res);
-                  })
-                  .catch(err =>
-                    console.log(`Error while updating friends list ${err}`)
-                  );
-              });
-            })
-            .catch(err =>
-              console.log(`Error in searching multiple users ${err}`)
-            );
-          socketIO.emit('removed-user', arrFriendsId);
+
+    // Delete from DB function 
+    function deleteUser(userID, otherUserID) {
+      //delete current user
+      Friend.findByIdAndDelete(userID)
+        .then((user) => {
+          console.log(user, 'curr user was deleted')
+
+          socketIO.emit('removed-user', userID);
+          //delete other user
+          Friend.findByIdAndDelete(otherUserID)
+            .then(otherUser => {
+              console.log(otherUser, 'other user was deleted')
+              socketIO.emit('removed-user', otherUserID);
+            }).catch(err => console.log(`Error while deleting other user ${err}`))
         })
-        .catch(err => console.log(`Error while removing users from DB ${err}`));
-    }
+        .catch(err => {
+          console.log(`Error occured while deleting current user ${err}`)
+
+        })
+    };
 
     //------- Disconnected ---------------------------
-    socketIO.on('disconnect', function() {
+    socketIO.on('disconnect', function () {
       console.log('disconnect: ' + socketIO.id);
     });
   }); //end socketIO connection
