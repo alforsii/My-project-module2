@@ -175,7 +175,7 @@ router.get('/user-details', (req, res, next) => {
   const userInSession = req.user;
   User.findById(user_id)
     .then(foundOne => {
-      if (userInSession && userInSession.email === foundOne.email) {
+      if (userInSession && userInSession._id.toString() === foundOne._id.toString()) {
         res.redirect('/profile/user-page');
         return;
       }
