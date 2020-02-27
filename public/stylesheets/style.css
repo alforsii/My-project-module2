@@ -132,7 +132,8 @@ p {
   align-items: center;
   border: 0.5px solid rgb(248, 246, 246);
 }
-.user {
+.user,
+.user-friend {
   display: flex;
   align-items: center;
 }
@@ -271,7 +272,8 @@ p {
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-.each-friend .user a:hover {
+.each-friend .user a:hover,
+.each-friend .user-friend a:hover {
   color: #00b7ff;
 }
 

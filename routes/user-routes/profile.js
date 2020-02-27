@@ -168,14 +168,21 @@ router.post('/profile-update', (req, res, next) => {
 });
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
-//user details from comments and post details pages
+//user details - other user page
 router.get('/user-details', (req, res, next) => {
   const { user_id } = req.query;
   console.log('Output for: user_id', user_id);
   const userInSession = req.user;
   User.findById(user_id)
+    .populate({
+      path: 'friends',
+      populate: [{ path: 'userId' }],
+    })
     .then(foundOne => {
-      if (userInSession && userInSession._id.toString() === foundOne._id.toString()) {
+      if (
+        userInSession &&
+        userInSession._id.toString() === foundOne._id.toString()
+      ) {
         res.redirect('/profile/user-page');
         return;
       }
@@ -187,7 +194,31 @@ router.get('/user-details', (req, res, next) => {
         email,
         path,
         imageName,
+        friends,
       } = foundOne;
+
+      const userFriends = friends.map(eachFriend => {
+        const {
+          _id,
+          firstName,
+          lastName,
+          username,
+          email,
+          path,
+          imageName,
+        } = eachFriend.userId;
+        return {
+          _id: eachFriend._id,
+          userId: _id,
+          firstName,
+          lastName,
+          username,
+          email,
+          path,
+          imageName,
+        };
+      });
+      console.log('userFriends: ', userFriends);
 
       res.render('users/user-details', {
         firstName,
@@ -196,6 +227,7 @@ router.get('/user-details', (req, res, next) => {
         email,
         path,
         imageName,
+        userFriends,
       });
     })
     .catch(err =>
