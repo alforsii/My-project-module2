@@ -113,11 +113,9 @@
 
     //Send current user id to get current user friends list from DB
 
-
     socket.emit('redisplay-friends-list', {
       userId: userInSessionID,
     });
-
 
     //Receive back current users friends list and display
     socket.on('output-friends', friendsFromDB => {
