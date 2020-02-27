@@ -12,13 +12,27 @@
 
       <div class="friends-header-title">
         <a class="username">
-          User Friends
+          {{firstName}}'s Friends
         </a>
         <div class="dropdown">
           <button class="dropbtn">...</button>
         </div>
       </div>
-
+      {{!-- user friends list - each friend --}}
+      {{#each userFriends}}
+      <div class="each-friend">
+        <div class="user-friend">
+          <a href="">
+            <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+          </a>
+          <a href="/profile/user-details?user_id={{this.userId}}" class="username" _id="{{this.userId}}"
+            friendId="{{this._id}}" _username="{{this.username}}">
+            {{this.firstName}} {{this.lastName}}
+          </a>
+        </div>
+      </div>
+      {{/each}}
+      {{!-- end user friends list --}}
     </div>
   </div>
   {{!-- --------------------------------------------------------------- --}}

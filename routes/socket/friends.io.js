@@ -179,14 +179,12 @@ module.exports = client => {
     // Delete friend from DB
     socketIO.on('req-delete-friend', usersData => {
       Friend.findById(usersData[1])
+      .populate('userId')
         .then(friendFromDB => {
-          const currentUser = friendFromDB.friends.filter((friend,i) => friend._id.toString() === usersData[0].toString());
+          console.log('Friend from DB: ', friendFromDB);
+          const currentUser = friendFromDB.userId.friends.filter((friend,i) => friend._id.toString() === usersData[0].toString());
+          console.log('Current user: ', currentUser);
           deleteUser(currentUser, friendFromDB._id,usersData);
-
-
-        })
-        .then(res => {
-
         })
         .catch(err => console.log(`Error occured while getting friend ${err}`))
     });

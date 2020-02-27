@@ -168,16 +168,26 @@ router.post('/profile-update', (req, res, next) => {
 });
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
-//user details from comments and post details pages
+//user details - other user page
 router.get('/user-details', (req, res, next) => {
   const { user_id } = req.query;
   console.log('Output for: user_id', user_id);
   const userInSession = req.user;
   User.findById(user_id)
+    .populate({
+      path: 'friends',
+      populate: [{ path: 'userId' }],
+    })
     .then(foundOne => {
-      if (userInSession && userInSession._id.toString() === foundOne._id.toString()) {
+      if (
+        userInSession &&
+        userInSession._id.toString() === foundOne._id.toString()
+      ) {
         res.redirect('/profile/user-page');
         return;
+      }
+      if (!userInSession) {
+        res.redirect('/auth/login');
       }
 
       const {
@@ -187,16 +197,55 @@ router.get('/user-details', (req, res, next) => {
         email,
         path,
         imageName,
+        friends,
       } = foundOne;
 
-      res.render('users/user-details', {
-        firstName,
-        lastName,
-        username,
-        email,
-        path,
-        imageName,
+      // Retrieve friends from user Schema
+      const userFriends = friends.map(eachFriend => {
+        const {
+          _id,
+          firstName,
+          lastName,
+          username,
+          email,
+          path,
+          imageName,
+        } = eachFriend.userId;
+        return {
+          _id: eachFriend._id,
+          userId: _id,
+          firstName,
+          lastName,
+          username,
+          email,
+          path,
+          imageName,
+        };
       });
+      console.log('userFriends: ', userFriends);
+
+      // Get user posts
+      Post.find({creatorId: user_id})
+      .then(foundUserPosts => {
+        // Get all the users besides yourself from DB
+        User.find()
+        .then(users => {
+          res.render('users/user-details', {
+            firstName,
+            lastName,
+            username,
+            email,
+            path,
+            imageName,
+            userFriends,
+            posts: foundUserPosts,
+            users
+          });
+          
+        })
+        .catch(err => console.log(`Error while getting all the users from DB in user-details: ${err}`));
+      })
+      .catch(err => console.log(`Error while getting all of the user's post: ${err}`))
     })
     .catch(err =>
       console.log(`Error while looking to get user details from DB`)
