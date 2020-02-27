@@ -186,6 +186,9 @@ router.get('/user-details', (req, res, next) => {
         res.redirect('/profile/user-page');
         return;
       }
+      if (!userInSession) {
+        res.redirect('/auth/login');
+      }
 
       const {
         firstName,
@@ -197,6 +200,7 @@ router.get('/user-details', (req, res, next) => {
         friends,
       } = foundOne;
 
+      // Retrieve friends from user Schema
       const userFriends = friends.map(eachFriend => {
         const {
           _id,
@@ -220,15 +224,28 @@ router.get('/user-details', (req, res, next) => {
       });
       console.log('userFriends: ', userFriends);
 
-      res.render('users/user-details', {
-        firstName,
-        lastName,
-        username,
-        email,
-        path,
-        imageName,
-        userFriends,
-      });
+      // Get user posts
+      Post.find({creatorId: user_id})
+      .then(foundUserPosts => {
+        // Get all the users besides yourself from DB
+        User.find()
+        .then(users => {
+          res.render('users/user-details', {
+            firstName,
+            lastName,
+            username,
+            email,
+            path,
+            imageName,
+            userFriends,
+            posts: foundUserPosts,
+            users
+          });
+          
+        })
+        .catch(err => console.log(`Error while getting all the users from DB in user-details: ${err}`));
+      })
+      .catch(err => console.log(`Error while getting all of the user's post: ${err}`))
     })
     .catch(err =>
       console.log(`Error while looking to get user details from DB`)
