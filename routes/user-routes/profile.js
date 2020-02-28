@@ -232,6 +232,7 @@ router.get('/user-details', (req, res, next) => {
       }
 
       const {
+        _id,
         firstName,
         lastName,
         username,
@@ -272,6 +273,7 @@ router.get('/user-details', (req, res, next) => {
           User.find()
             .then(users => {
               res.render('users/user-details', {
+                _id: user_id,
                 firstName,
                 lastName,
                 username,

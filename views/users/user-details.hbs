@@ -3,8 +3,13 @@
     <div id="user-profile">
       <h5>{{firstName}} {{lastName}} </h5>
       <img class="user-image profile-image" src="{{path}}" alt="{{username}}">
-      <a class="btn btn-secondary mb-0 mt-2" href="">Send message</a>
-      <a class="btn btn-secondary mb-0 mt-2" href="">Add to friends</a>
+      <a class="btn btn-secondary send-message mb-0 mt-2" href="" user_id={{_id}} _username={{username}}
+        _name="{{firstName}} {{lastName}}">Send
+        message</a>
+
+      <button class="btn btn-secondary add-friend mb-0 mt-2" user_id={{this._id}} _username={{this.username}}>Add to
+        friends</button>
+
     </div>
     <div id="user-friends-list" class="friends-list">
       <div id="friends-header">
