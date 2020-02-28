@@ -1,19 +1,19 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const uploadCloud = require('../../configs/cloudinary.config');
-const Post = require('../../models/Post.model');
-const User = require('../../models/User.model');
-const Comment = require('../../models/Comment.model');
+const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
+const uploadCloud = require("../../configs/cloudinary.config");
+const Post = require("../../models/Post.model");
+const User = require("../../models/User.model");
+const Comment = require("../../models/Comment.model");
 
 //Post from user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
-router.get('/upload-photo', (req, res, next) => {
-  res.render('post-views/post-form');
+router.get("/upload-photo", (req, res, next) => {
+  res.render("post-views/post-form");
 });
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
-router.post('/upload-photo', uploadCloud.single('photo'), (req, res, next) => {
+router.post("/upload-photo", uploadCloud.single("photo"), (req, res, next) => {
   const { content, picName } = req.body;
   //   creatorId, picPath,
   console.log(req.file);
@@ -21,22 +21,22 @@ router.post('/upload-photo', uploadCloud.single('photo'), (req, res, next) => {
     content,
     creatorId: req.user._id,
     picPath: req.file.url,
-    picName,
+    picName
   })
     .then(savedPost => {
       //   console.log('savedPost: ', savedPost);
-      res.redirect('/profile/user-page'); //goes to index.hbs
+      res.redirect("/profile/user-page"); //goes to index.hbs
     })
     .catch(err => console.log(err));
 });
 
 //Get post details
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
-router.get('/post-details', (req, res, next) => {
+router.get("/post-details", (req, res, next) => {
   //post_id coming from index.hbs, from each each post detail (a tag)
   const { post_id } = req.query;
   Post.findById(post_id)
-    .populate('creatorId')
+    .populate("creatorId")
     .then(foundOne => {
       //   console.log('foundOne: ', foundOne);
       const { _id, content, creatorId, picPath, picName } = foundOne;
@@ -49,7 +49,7 @@ router.get('/post-details', (req, res, next) => {
         username: creatorId.username,
         userEmail: creatorId.email,
         userImg: creatorId.path,
-        isCreator: true,
+        isCreator: true
       };
 
       if (req.user && req.user._id.toString() === creatorId._id.toString()) {
@@ -58,30 +58,30 @@ router.get('/post-details', (req, res, next) => {
         newObj.isCreator = false;
       }
 
-      res.render('post-views/post-details', newObj);
+      res.render("post-views/post-details", newObj);
     })
     .catch(err => console.log(err));
 });
 
 //Delete post
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-router.post('/delete-post', (req, res, next) => {
+router.post("/delete-post", (req, res, next) => {
   const { url } = req;
-  console.log('Output for: url', url);
+  console.log("Output for: url", url);
   Post.findByIdAndDelete(req.query.post_id)
     .then(post => {
       console.log(`Post with ${post._id} is deleted`);
-      res.redirect('/profile/user-page');
+      res.redirect("/profile/user-page");
     })
     .catch(err => next(err));
 });
 
 //add and remove friends routes
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-router.post('/profile/add-new-friend', (req, res, next) => {
+router.post("/profile/add-new-friend", (req, res, next) => {
   const { friends_id } = req.query;
 });
-router.post('/profile/remove-friend', (req, res, next) => {
+router.post("/profile/remove-friend", (req, res, next) => {
   const { friends_id } = req.query;
 });
 
