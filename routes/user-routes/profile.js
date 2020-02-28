@@ -55,43 +55,6 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
           },
         })
         .then(allUsers => {
-<<<<<<< HEAD
-          //3.Get current user (in session)'s friends for to remove this friends from other users list(from right-div)
-          User.findById(req.user._id)
-            .populate('friends')
-            .then(currentUser => {
-              //response from DB ({_id, userId} = currentUser) have two properties, we just need userId's of friends
-              const userFriendsId = currentUser.friends.map(
-                friend => friend.userId
-              ); //getting friends User id
-              console.log('userFriends: ', userFriendsId);
-              // const uniqUsers = Array.from(new Set(allUsers));
-              const uniqUsers = allUsers
-                .filter(
-                  user =>
-                    user._id.toString() !== req.user._id.toString() &&
-                    userFriendsId.indexOf(user._id.toString()) == -1
-                )
-                .map(user => {
-                  const {
-                    _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                  } = user;
-                  return {
-                    _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                  };
-                });
-              // console.log('uniqUsers: ', uniqUsers);
-=======
           // const uniqUsers = Array.from(new Set(allUsers));
           const uniqUsers = allUsers
             .filter(user => user._id.toString() !== req.user._id.toString())
@@ -114,7 +77,6 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
               };
             });
           // console.log('uniqUsers: ', uniqUsers);
->>>>>>> 2e688293f37a5ec25870f61f07fb07f99e1f8c21
 
               res.render('auth-views/profile', {
                 posts: newPosts,
@@ -313,34 +275,6 @@ router.get('/user-details', (req, res, next) => {
       console.log('userFriends: ', userFriends);
 
       // Get user posts
-<<<<<<< HEAD
-      Post.find({ creatorId: user_id })
-        .then(foundUserPosts => {
-          // Get all the users besides yourself from DB
-          User.find()
-            .then(users => {
-              res.render('users/user-details', {
-                firstName,
-                lastName,
-                username,
-                email,
-                path,
-                imageName,
-                userFriends,
-                posts: foundUserPosts,
-                users,
-              });
-            })
-            .catch(err =>
-              console.log(
-                `Error while getting all the users from DB in user-details: ${err}`
-              )
-            );
-        })
-        .catch(err =>
-          console.log(`Error while getting all of the user's post: ${err}`)
-        );
-=======
       Post.find({
           creatorId: user_id
         })
@@ -364,7 +298,6 @@ router.get('/user-details', (req, res, next) => {
             .catch(err => console.log(`Error while getting all the users from DB in user-details: ${err}`));
         })
         .catch(err => console.log(`Error while getting all of the user's post: ${err}`))
->>>>>>> 2e688293f37a5ec25870f61f07fb07f99e1f8c21
     })
     .catch(err =>
       console.log(`Error while looking to get user details from DB`)
