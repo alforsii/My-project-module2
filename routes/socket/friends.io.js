@@ -202,7 +202,7 @@ module.exports = client => {
     // Delete from DB function
     function deleteUser(arrFriendsId, arrUsersId) {
       //1.Friend.remove({_id: {$in:arrayOfIds} }) - for multiple deletion
-      Friend.remove({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
+      Friend.deleteMany({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
         .then(res => {
           console.log('deleted users res: ', res);
           //2. User.find({_id: {$in:arrayOfIds}}) - for multiple search
