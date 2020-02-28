@@ -2,10 +2,10 @@
 {{#each users}}
 <div class="chat-user">
   <div class="user user1">
-    <a href="">
+    <a href="/profile/user-details?user_id={{this._id}}">
       <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
     </a>
-    <a class="username" href="" _id={{this._id}} _username={{this.username}}>
+    <a class="username" href="/profile/user-details?user_id={{this._id}}">
       {{this.firstName}} {{this.lastName}}
     </a>
   </div>
@@ -15,7 +15,12 @@
     <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
       aria-expanded="false"></button>
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <button class="dropdown-item add-friend text-center" href="#" user_id={{this._id}}>Add to friends</button>
+      <a class="text-center" href="/profile/user-details?user_id={{this._id}}">
+        {{this.firstName}}'s profile
+      </a>
+      <a href="" class="send-message text-center" user_id={{this._id}} _username={{this.username}}>Send message</a>
+      <button class="dropdown-item add-friend text-center" href="#" user_id={{this._id}} _username={{this.username}}>Add
+        to friends</button>
     </div>
   </div>
 

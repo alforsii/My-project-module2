@@ -39,19 +39,20 @@
     // =================== Request friends deletion
     function updateDeleteBtn() {
       //1.update delete button
-      const deleteEachFriend = document.querySelectorAll('.delete-friend');
+      let deleteEachFriend = document.querySelectorAll('.delete-friend');
       deleteEachFriend.forEach(btn => {
         btn.addEventListener('click', event => {
           event.preventDefault();
           // console.log(btn.parentElement);
           const eachFriend =
             btn.parentElement.parentElement.previousElementSibling;
-          console.log('eachFriend: ', eachFriend);
+          // console.log('eachFriend: ', eachFriend);
           const friendsID = eachFriend.children[1].getAttribute('friendId');
-          console.log('friendsID: ', friendsID);
+          // console.log('friendsID: ', friendsID);
 
           //1. Send data (_id) to delete the friend from DB
           socket.emit('req-delete-friend', [userInSessionID, friendsID]);
+          // eachFriend.parentElement.remove();
         });
       });
 
@@ -77,8 +78,8 @@
           'friendId'
         );
         //if deleted user found - which has index (is not -1) of >= 0
-        if (deletedUsers.indexOf(idOfUser.toString()) !== -1) {
-          friend.remove(); //if found then remove if from browser, because it removed from DB already.
+        if (deletedUsers.indexOf(idOfUser.toString()) > -1) {
+          friend.remove(); //if found then remove it from browser, because it removed from DB already.
         }
       });
     });
@@ -130,6 +131,9 @@
     if (socket !== undefined) {
       console.log('Connected to socket to friend.js..');
       socket.on('display-added-friend', newlyCreatedFriend => {
+        // socket.emit('redisplay-friends-list', {
+        //   userId: userInSessionID,
+        // });
         displayFriend(newlyCreatedFriend);
         updateDeleteBtn();
       });

@@ -39,31 +39,23 @@ router.get('/post-details', (req, res, next) => {
     .populate('creatorId')
     .then(foundOne => {
       //   console.log('foundOne: ', foundOne);
-      let newObj;
       const { _id, content, creatorId, picPath, picName } = foundOne;
+      const newObj = {
+        postId: _id,
+        picPath,
+        picName,
+        content,
+        userId: creatorId._id,
+        username: creatorId.username,
+        userEmail: creatorId.email,
+        userImg: creatorId.path,
+        isCreator: true,
+      };
+
       if (req.user && req.user._id.toString() === creatorId._id.toString()) {
-        newObj = {
-          postId: _id,
-          picPath,
-          picName,
-          content,
-          userId: creatorId._id,
-          username: creatorId.username,
-          userEmail: creatorId.email,
-          userImg: creatorId.path,
-          isCreator: true,
-        };
+        newObj.isCreator = true;
       } else {
-        newObj = {
-          postId: _id,
-          picPath,
-          picName,
-          content,
-          userId: creatorId._id,
-          username: creatorId.username,
-          userEmail: creatorId.email,
-          userImg: creatorId.path,
-        };
+        newObj.isCreator = false;
       }
 
       res.render('post-views/post-details', newObj);
@@ -79,7 +71,7 @@ router.post('/delete-post', (req, res, next) => {
   Post.findByIdAndDelete(req.query.post_id)
     .then(post => {
       console.log(`Post with ${post._id} is deleted`);
-      res.redirect('/');
+      res.redirect('/profile/user-page');
     })
     .catch(err => next(err));
 });

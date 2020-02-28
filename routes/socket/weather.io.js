@@ -93,9 +93,9 @@ module.exports = client => {
     }); //end socket.on('url',data)
 
     //------- Disconnected ---------------------------
-    socket.on('disconnect', function() {
-      console.log('disconnect: ' + socket.id);
-      // io.emit('disconnect', socket.id)
-    });
+    // socket.on('disconnect', function() {
+    //   console.log('disconnect: ' + socket.id);
+    //   // io.emit('disconnect', socket.id)
+    // });
   }); //end socket connection
 };
