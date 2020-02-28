@@ -122,6 +122,7 @@ module.exports = client => {
                     imageName,
                   } = populatedFriends.userId;
 
+                  // socketIO.emit('display-added-friend');
                   //and here also we're sending other user as a newlyCreatedFriend to display in our friends list
                   socketIO.emit('display-added-friend', {
                     _id: populatedFriends._id,
@@ -174,6 +175,7 @@ module.exports = client => {
 
     // Delete friend from DB
     socketIO.on('req-delete-friend', usersData => {
+      console.log('usersData: ', usersData);
       const currentUserId = usersData[0]; //current user actual(User) id
       Friend.findById(usersData[1]) // other user's friend(Friend) id for this/current user
         .populate({
@@ -181,10 +183,11 @@ module.exports = client => {
           populate: [{ path: 'friends' }],
         }) //populating other users actual id to get access to his friends list, so we can remove current user(ourself) from other users friends list/array.
         .then(friendFromDB => {
+          console.log('friendFromDB: ');
           //get other user's actual id
-          const otherUserId = friendFromDB.userId;
+          const otherUserId = friendFromDB.userId._id;
           //find current user(myself) from otherUser friends array
-          const currentUser = otherUserId.friends.filter(
+          const currentUser = friendFromDB.userId.friends.filter(
             friend => friend.userId.toString() === currentUserId.toString()
           ); //
           // const  {_id, userId} = currentUser[0];
@@ -201,8 +204,10 @@ module.exports = client => {
 
     // Delete from DB function
     function deleteUser(arrFriendsId, arrUsersId) {
+      console.log('arrFriendsId: ', arrFriendsId);
+      console.log('arrUsersId: ', arrUsersId);
       //1.Friend.remove({_id: {$in:arrayOfIds} }) - for multiple deletion
-      Friend.remove({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
+      Friend.deleteMany({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
         .then(res => {
           console.log('deleted users res: ', res);
           //2. User.find({_id: {$in:arrayOfIds}}) - for multiple search
@@ -220,6 +225,7 @@ module.exports = client => {
                 )
                   .then(res => {
                     console.log(res);
+                    socketIO.emit('removed-user', [reversedFriends[i]]);
                   })
                   .catch(err =>
                     console.log(`Error while updating friends list ${err}`)
@@ -229,14 +235,13 @@ module.exports = client => {
             .catch(err =>
               console.log(`Error in searching multiple users ${err}`)
             );
-          socketIO.emit('removed-user', arrFriendsId);
         })
         .catch(err => console.log(`Error while removing users from DB ${err}`));
     }
 
     //------- Disconnected ---------------------------
-    socketIO.on('disconnect', function() {
-      console.log('disconnect: ' + socketIO.id);
-    });
+    // socketIO.on('disconnect', function() {
+    //   console.log('disconnect: ' + socketIO.id);
+    // });
   }); //end socketIO connection
 };

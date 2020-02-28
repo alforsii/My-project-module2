@@ -30,23 +30,40 @@
 
     // console.log('Output for: port', parseInt(port));
     const users = document.querySelectorAll('.user');
+    const sendBtns = document.querySelectorAll('.send-message');
     let _username;
     let _id;
     //=-=-=-=-===-=-=-=-=-=-= Loop through users list -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // If any user selected by click then display message board
 
-    users.forEach(user => {
-      // console.log('Output for: users', user);
-      user.addEventListener('click', event => {
+    //1. One way
+    // users.forEach(user => {
+    //   // console.log('Output for: users', user);
+    //   user.addEventListener('click', event => {
+    //     event.preventDefault();
+    //     messageBoard.style.display = 'block';
+    //     messages.innerHTML = '';
+    //     //before calling clean(messages.innerHTML = '') the board not to double the messages
+    //     //Send the data to socket.io(back end - server)
+    //     _id = user.getElementsByTagName('a')[1].getAttribute('_id'); //the selected user id
+    //     _username = user.getElementsByTagName('a')[1].getAttribute('_username');
+    //     sendTo.value =
+    //       'Send to: ' + user.getElementsByTagName('a')[1].innerHTML.trim(); //name of a user
+    //     socketIO.emit('display', [userInSessionID, _id]);
+    //   });
+    // });
+
+    //2. Another way
+    sendBtns.forEach(sendBtn => {
+      sendBtn.addEventListener('click', event => {
         event.preventDefault();
         messageBoard.style.display = 'block';
         messages.innerHTML = '';
-        //before calling clean(messages.innerHTML = '') the board not to double the messages
-        //Send the data to socket.io(back end - server)
-        _id = user.getElementsByTagName('a')[1].getAttribute('_id'); //the selected user id
-        _username = user.getElementsByTagName('a')[1].getAttribute('_username');
+        _id = sendBtn.getAttribute('user_id');
+        _username = sendBtn.getAttribute('_username');
         sendTo.value =
-          'Send to: ' + user.getElementsByTagName('a')[1].innerHTML.trim(); //name of a user
+          'Send to: ' +
+          sendBtn.parentElement.parentElement.previousElementSibling.children[1].innerHTML.trim(); //name of a user
         socketIO.emit('display', [userInSessionID, _id]);
       });
     });

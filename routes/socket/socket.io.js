@@ -282,8 +282,8 @@ module.exports = client => {
     });
 
     //------- Disconnected ---------------------------
-    socket.on('disconnect', function() {
-      console.log('disconnect: ' + socket.id);
-    });
+    // socket.on('disconnect', function() {
+    //   console.log('disconnect: ' + socket.id);
+    // });
   }); //end socket connection
 };

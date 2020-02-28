@@ -803,6 +803,7 @@ pre {
   border-radius: 5px;
 }
 .dropdown-menu button {
+  font-size: 12px;
 }
 .dropdown-menu button:hover {
   background-color: green;
