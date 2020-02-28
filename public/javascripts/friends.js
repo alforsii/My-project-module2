@@ -28,15 +28,9 @@
     addBtns.forEach(btn => {
       btn.addEventListener("click", event => {
         event.preventDefault();
-<<<<<<< HEAD
-        // console.log(btn.getAttribute('user_id'));
-        const user_id = btn.getAttribute("user_id");
-        socket.emit("create-friend", [userInSessionID, user_id]);
-=======
         console.log(btn.getAttribute('user_id'));
         const user_id = btn.getAttribute('user_id');
         socket.emit('create-friend', [userInSessionID, user_id]);
->>>>>>> 48d734376bfdb5f60fbd573e0859fc7512b660aa
         btn.disabled = true;
         btn.innerHTML = "Already friends";
       });
