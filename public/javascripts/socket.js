@@ -61,9 +61,10 @@
         messages.innerHTML = '';
         _id = sendBtn.getAttribute('user_id');
         _username = sendBtn.getAttribute('_username');
-        sendTo.value =
-          'Send to: ' +
-          sendBtn.parentElement.parentElement.previousElementSibling.children[1].innerHTML.trim(); //name of a user
+        let fullName = sendBtn.getAttribute('_name');
+        console.log('fullName: ', fullName);
+        sendTo.value = 'Send to: ' + fullName.trim();
+        // sendBtn.parentElement.parentElement.previousElementSibling.children[1].innerHTML.trim(); //name of a user
         socketIO.emit('display', [userInSessionID, _id]);
       });
     });
