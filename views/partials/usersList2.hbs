@@ -14,7 +14,12 @@
     <button id="btnGroupDrop1" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
       aria-expanded="false"></button>
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <button class="dropdown-item add-friend" href="#" user_id={{this._id}}>Add to friends</button>
+      <a class="text-center" href="/profile/user-details?user_id={{this._id}}">
+        {{this.firstName}}'s profile
+      </a>
+      <a href="" class="send-message text-center" user_id={{this._id}} _username={{this.username}}
+        _name="{{this.firstName}} {{this.lastName}}">Send message</a>
+      <button class="dropdown-item add-friend text-center" user_id={{this._id}}>Add to friends</button>
     </div>
   </div>
 

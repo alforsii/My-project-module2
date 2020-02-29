@@ -155,7 +155,7 @@
       //<a href="/profile/user-details?user_id={{userId}}">{{username}}</a> this is user profile details page
       newFriend.innerHTML = `
           <div class="user">
-              <a href="">
+              <a href="/profile/user-details?user_id=${userId}">
                 <img class="chat-users-small" src="${path}" alt="${username}">
               </a>
               <a href="/profile/user-details?user_id=${userId}" class="username" _id="${userId}" friendId="${_id}" _username="${username}">
@@ -167,9 +167,9 @@
               <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false"></button>
               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  <a href="" class="dropdown-item send-message text-center"> Send Message </a>
-                  <hr>
-                  <a href="" class="dropdown-item delete-friend text-center"> Delete </a>
+                  <a href="" class="send-message text-center" user_id=${userId} _username=${username}
+                  _name="${firstName} ${lastName}">Send message</a>
+                  <a href="" class="delete-friend text-center"> Delete </a>
               </div>
            </div>
         `;
