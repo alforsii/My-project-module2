@@ -3,10 +3,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 
-const {
-  ensureLoggedIn,
-  ensureLoggedOut
-} = require('connect-ensure-login');
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const uploadCloud = require('../../configs/cloudinary.config');
 const Post = require('../../models/Post.model');
 const User = require('../../models/User.model');
@@ -20,19 +17,8 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
     .then(posts => {
       //Take out authors password(not to send to the front end, so no one can see)
       const newPosts = posts.map(post => {
-        let {
-          _id,
-          content,
-          picPath,
-          picName
-        } = post;
-        let {
-          username,
-          firstName,
-          lastName,
-          email,
-          path
-        } = post.creatorId;
+        let { _id, content, picPath, picName } = post;
+        let { username, firstName, lastName, email, path } = post.creatorId;
         let newPost = {
           _id,
           content,
@@ -50,33 +36,46 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
 
       //2.Sort Users by username and Get Uniq Users to display on right-div as all other users
       User.find({}, null, {
-          sort: {
-            username: 1,
-          },
-        })
+        sort: {
+          username: 1,
+        },
+      })
         .then(allUsers => {
-          // const uniqUsers = Array.from(new Set(allUsers));
-          const uniqUsers = allUsers
-            .filter(user => user._id.toString() !== req.user._id.toString())
-            .map(user => {
-              const {
-                _id,
-                username,
-                firstName,
-                lastName,
-                email,
-                path
-              } = user;
-              return {
-                _id,
-                username,
-                firstName,
-                lastName,
-                email,
-                path,
-              };
-            });
-          // console.log('uniqUsers: ', uniqUsers);
+          //3.Get current user (in session)'s friends for to remove this friends from other users list(from right-div)
+          User.findById(req.user._id)
+            .populate('friends')
+            .then(currentUser => {
+              //response from DB ({_id, userId} = currentUser) have two properties, we just need userId's of friends
+              const userFriendsId = currentUser.friends.map(
+                friend => friend.userId
+              ); //getting friends User id
+              console.log('userFriends: ', userFriendsId);
+              // const uniqUsers = Array.from(new Set(allUsers));
+              const uniqUsers = allUsers
+                .filter(
+                  user =>
+                    user._id.toString() !== req.user._id.toString() &&
+                    userFriendsId.indexOf(user._id.toString()) == -1
+                )
+                .map(user => {
+                  const {
+                    _id,
+                    username,
+                    firstName,
+                    lastName,
+                    email,
+                    path,
+                  } = user;
+                  return {
+                    _id,
+                    username,
+                    firstName,
+                    lastName,
+                    email,
+                    path,
+                  };
+                });
+              // console.log('uniqUsers: ', uniqUsers);
 
               res.render('auth-views/profile', {
                 posts: newPosts,
@@ -119,8 +118,8 @@ router.post(
   uploadCloud.single('image'),
   (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, {
-        path: req.file.url,
-      })
+      path: req.file.url,
+    })
       .then(() => {
         res.redirect('/profile/user-page');
       })
@@ -134,13 +133,7 @@ router.get(
   '/profile-update',
   ensureLoggedIn('/auth/login'),
   (req, res, next) => {
-    const {
-      firstName,
-      lastName,
-      username,
-      email,
-      _id
-    } = req.user;
+    const { firstName, lastName, username, email, _id } = req.user;
     res.render('users/user-profile-update', {
       firstName,
       lastName,
@@ -152,9 +145,7 @@ router.get(
 //POST update user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.post('/profile-update', (req, res, next) => {
-  const {
-    user
-  } = req;
+  const { user } = req;
 
   const {
     username,
@@ -195,13 +186,13 @@ router.post('/profile-update', (req, res, next) => {
 
       bcrypt.hash(password1, 10).then(hashPassword => {
         User.findByIdAndUpdate(user._id, {
-            username: username !== '' ? username : user.username,
-            firstName: firstName !== '' ? firstName : user.firstName,
-            lastName: lastName !== '' ? lastName : user.lastName,
-            email: email !== '' ? email : user.email,
-            password: hashPassword,
-            path: user.path,
-          })
+          username: username !== '' ? username : user.username,
+          firstName: firstName !== '' ? firstName : user.firstName,
+          lastName: lastName !== '' ? lastName : user.lastName,
+          email: email !== '' ? email : user.email,
+          password: hashPassword,
+          path: user.path,
+        })
           .then(() => {
             res.render('users/user-profile-update', {
               success: 'Thanks!Successfully updated!',
@@ -216,17 +207,17 @@ router.post('/profile-update', (req, res, next) => {
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
 //user details - other user page
 router.get('/user-details', (req, res, next) => {
-  const {
-    user_id
-  } = req.query;
+  const { user_id } = req.query;
   console.log('Output for: user_id', user_id);
   const userInSession = req.user;
   User.findById(user_id)
     .populate({
       path: 'friends',
-      populate: [{
-        path: 'userId'
-      }],
+      populate: [
+        {
+          path: 'userId',
+        },
+      ],
     })
     .then(foundOne => {
       if (
@@ -275,9 +266,7 @@ router.get('/user-details', (req, res, next) => {
       console.log('userFriends: ', userFriends);
 
       // Get user posts
-      Post.find({
-          creatorId: user_id
-        })
+      Post.find({ creatorId: user_id })
         .then(foundUserPosts => {
           // Get all the users besides yourself from DB
           User.find()
@@ -291,13 +280,18 @@ router.get('/user-details', (req, res, next) => {
                 imageName,
                 userFriends,
                 posts: foundUserPosts,
-                users
+                users,
               });
-
             })
-            .catch(err => console.log(`Error while getting all the users from DB in user-details: ${err}`));
+            .catch(err =>
+              console.log(
+                `Error while getting all the users from DB in user-details: ${err}`
+              )
+            );
         })
-        .catch(err => console.log(`Error while getting all of the user's post: ${err}`));
+        .catch(err =>
+          console.log(`Error while getting all of the user's post: ${err}`)
+        );
     })
     .catch(err =>
       console.log(`Error while looking to get user details from DB`)
