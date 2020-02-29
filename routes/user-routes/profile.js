@@ -1,19 +1,19 @@
-const express = require('express');
-const passport = require('passport');
-const bcrypt = require('bcryptjs');
+const express = require("express");
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
 const router = express.Router();
 
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
-const uploadCloud = require('../../configs/cloudinary.config');
-const Post = require('../../models/Post.model');
-const User = require('../../models/User.model');
+const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
+const uploadCloud = require("../../configs/cloudinary.config");
+const Post = require("../../models/Post.model");
+const User = require("../../models/User.model");
 
 //user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
-router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
+router.get("/user-page", ensureLoggedIn("/auth/login"), (req, res) => {
   //1.Get all the post to display on profile/user-page for current user in session
   Post.find()
-    .populate('creatorId')
+    .populate("creatorId")
     .then(posts => {
       //Take out authors password(not to send to the front end, so no one can see)
       const newPosts = posts.map(post => {
@@ -29,7 +29,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
           firstName,
           lastName,
           email,
-          path,
+          path
         };
         return newPost;
       });
@@ -37,19 +37,19 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
       //2.Sort Users by username and Get Uniq Users to display on right-div as all other users
       User.find({}, null, {
         sort: {
-          username: 1,
-        },
+          username: 1
+        }
       })
         .then(allUsers => {
           //3.Get current user (in session)'s friends for to remove this friends from other users list(from right-div)
           User.findById(req.user._id)
-            .populate('friends')
+            .populate("friends")
             .then(currentUser => {
               //response from DB ({_id, userId} = currentUser) have two properties, we just need userId's of friends
               const userFriendsId = currentUser.friends.map(
                 friend => friend.userId
               ); //getting friends User id
-              console.log('userFriends: ', userFriendsId);
+              console.log("userFriends: ", userFriendsId);
               // const uniqUsers = Array.from(new Set(allUsers));
               const uniqUsers = allUsers
                 .filter(
@@ -64,7 +64,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
                     firstName,
                     lastName,
                     email,
-                    path,
+                    path
                   } = user;
                   return {
                     _id,
@@ -72,15 +72,15 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
                     firstName,
                     lastName,
                     email,
-                    path,
+                    path
                   };
                 });
               // console.log('uniqUsers: ', uniqUsers);
 
-              res.render('auth-views/profile', {
+              res.render("auth-views/profile", {
                 posts: newPosts,
                 users: uniqUsers,
-                myStyle: '/stylesheets/toggle.css',
+                myStyle: "/stylesheets/toggle.css"
               });
             })
             .catch(err =>
@@ -106,22 +106,22 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
 //Get photo upload form
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.get(
-  '/user-photo-upload',
-  ensureLoggedIn('/auth/login'),
-  (req, res, next) => res.render('post-views/photo-upload-form')
+  "/user-photo-upload",
+  ensureLoggedIn("/auth/login"),
+  (req, res, next) => res.render("post-views/photo-upload-form")
 );
 
 //POST uploaded photo
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.post(
-  '/user-photo-upload',
-  uploadCloud.single('image'),
+  "/user-photo-upload",
+  uploadCloud.single("image"),
   (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, {
-      path: req.file.url,
+      path: req.file.url
     })
       .then(() => {
-        res.redirect('/profile/user-page');
+        res.redirect("/profile/user-page");
       })
       .catch(err => next(err));
   }
@@ -130,21 +130,21 @@ router.post(
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
 //Get user profile update form
 router.get(
-  '/profile-update',
-  ensureLoggedIn('/auth/login'),
+  "/profile-update",
+  ensureLoggedIn("/auth/login"),
   (req, res, next) => {
     const { firstName, lastName, username, email, _id } = req.user;
-    res.render('users/user-profile-update', {
+    res.render("users/user-profile-update", {
       firstName,
       lastName,
       username,
-      email,
+      email
     });
   }
 );
 //POST update user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
-router.post('/profile-update', (req, res, next) => {
+router.post("/profile-update", (req, res, next) => {
   const { user } = req;
 
   const {
@@ -154,16 +154,16 @@ router.post('/profile-update', (req, res, next) => {
     email,
     password,
     password1,
-    password2,
+    password2
   } = req.body;
 
   if (!password || !password1 || !password2) {
-    res.render('users/user-profile-update', {
-      message: 'Please enter all password inputs!',
+    res.render("users/user-profile-update", {
+      message: "Please enter all password inputs!",
       username,
       firstName,
       lastName,
-      email,
+      email
     });
     return;
   }
@@ -172,30 +172,30 @@ router.post('/profile-update', (req, res, next) => {
     .compare(password, user.password)
     .then(isMatch => {
       if (!isMatch) {
-        res.render('users/user-profile-update', {
-          message: 'Incorrect password!',
+        res.render("users/user-profile-update", {
+          message: "Incorrect password!"
         });
         return;
       }
       if (password1 !== password2) {
-        res.render('users/user-profile-update', {
-          message: 'Passwords not match!',
+        res.render("users/user-profile-update", {
+          message: "Passwords not match!"
         });
         return;
       }
 
       bcrypt.hash(password1, 10).then(hashPassword => {
         User.findByIdAndUpdate(user._id, {
-          username: username !== '' ? username : user.username,
-          firstName: firstName !== '' ? firstName : user.firstName,
-          lastName: lastName !== '' ? lastName : user.lastName,
-          email: email !== '' ? email : user.email,
+          username: username !== "" ? username : user.username,
+          firstName: firstName !== "" ? firstName : user.firstName,
+          lastName: lastName !== "" ? lastName : user.lastName,
+          email: email !== "" ? email : user.email,
           password: hashPassword,
-          path: user.path,
+          path: user.path
         })
           .then(() => {
-            res.render('users/user-profile-update', {
-              success: 'Thanks!Successfully updated!',
+            res.render("users/user-profile-update", {
+              success: "Thanks!Successfully updated!"
             });
           })
           .catch(err => next(err));
@@ -206,29 +206,29 @@ router.post('/profile-update', (req, res, next) => {
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
 //user details - other user page
-router.get('/user-details', (req, res, next) => {
+router.get("/user-details", (req, res, next) => {
   const { user_id } = req.query;
-  console.log('Output for: user_id', user_id);
+  console.log("Output for: user_id", user_id);
   const userInSession = req.user;
   User.findById(user_id)
     .populate({
-      path: 'friends',
+      path: "friends",
       populate: [
         {
-          path: 'userId',
-        },
-      ],
+          path: "userId"
+        }
+      ]
     })
     .then(foundOne => {
       if (
         userInSession &&
         userInSession._id.toString() === foundOne._id.toString()
       ) {
-        res.redirect('/profile/user-page');
+        res.redirect("/profile/user-page");
         return;
       }
       if (!userInSession) {
-        res.redirect('/auth/login');
+        res.redirect("/auth/login");
       }
 
       const {
@@ -239,7 +239,7 @@ router.get('/user-details', (req, res, next) => {
         email,
         path,
         imageName,
-        friends,
+        friends
       } = foundOne;
 
       // Retrieve friends from user Schema
@@ -251,7 +251,7 @@ router.get('/user-details', (req, res, next) => {
           username,
           email,
           path,
-          imageName,
+          imageName
         } = eachFriend.userId;
         return {
           _id: eachFriend._id,
@@ -261,10 +261,10 @@ router.get('/user-details', (req, res, next) => {
           username,
           email,
           path,
-          imageName,
+          imageName
         };
       });
-      console.log('userFriends: ', userFriends);
+      console.log("userFriends: ", userFriends);
 
       // Get user posts
       Post.find({ creatorId: user_id })
@@ -282,7 +282,7 @@ router.get('/user-details', (req, res, next) => {
                 imageName,
                 userFriends,
                 posts: foundUserPosts,
-                users,
+                users
               });
             })
             .catch(err =>
