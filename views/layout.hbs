@@ -15,9 +15,8 @@
   <nav>
     {{#if user}}
     <div>
-      <a href=" /">Main | </a>
       <a href="/profile/user-page">Profile </a>
-      <a href="/posts/upload-photo">PostPhotos</a>
+      <a href="/posts/upload-photo">Post</a>
     </div>
     {{!-- it's also in profile.hbs, friends list menu sidebar --}}
     <form class="logBtns" action="/auth/logout" method="POST">
@@ -26,11 +25,7 @@
 
     {{else}}
     <div>
-      <a href="/">Main | </a>
-    </div>
-    <div>
-      <a class="btn btn-secondary ml-2 logBtns" href="/auth/login">Login</a>
-      <a class="btn btn-secondary ml-2 logBtns" href="/auth/signup">Signup</a>
+      <a class="btn btn-secondary logBtns" href="/auth/login">Login</a>
     </div>
     {{/if}}
   </nav>
