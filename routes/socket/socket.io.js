@@ -4,21 +4,28 @@ module.exports = client => {
   const User = require('../../models/User.model');
 
   //if user signed in (it's set to signed in - where message board)
-  client.on('connection', socket => {
-    // console.log('Output for: socket', socket);
-    console.log('A new user just connected');
-    // console.log('new connection: ' + socket.id);
+  client.on('connection', socketIO => {
+    // console.log('new connection: ' + socketIO.id);
 
     //Create function to send the status
     const sendStatus = function(s) {
       setTimeout(() => {
-        socket.emit('status', s);
+        socketIO.emit('status', s);
       }, 500);
     };
 
-    //Receive the data from socket.js(client) when user clicked
-    socket.on('display', usersData => {
-      // console.log('Output for: usersData', usersData);
+    socketIO.on('call-socket-io', data => {
+      console.log("('call-socket-io')'", data);
+      passToSocket(data);
+    });
+
+    function passToSocket(data) {
+      socketIO.emit('call-socket', data);
+    }
+
+    //Receive the data from socketIO.js(client) when user clicked
+    socketIO.on('display', usersData => {
+      console.log('Output for: usersData', usersData);
       //data is userInSessionID and the other user (array of two users that belongs to the board)
       // - I actually need a single board id for two users -
       // one is the user in session and the other selected to send message
@@ -44,8 +51,8 @@ module.exports = client => {
 
           // console.log('filteredMessagesByChatBoard: ', filteredMessagesByChatBoard);
           if (filteredMessagesByChatBoard) {
-            socket.emit('output', filteredMessagesByChatBoard); //send msg data
-            socket.emit('updateDeleteBtnStatus');
+            socketIO.emit('output', filteredMessagesByChatBoard); //send msg data
+            socketIO.emit('updateDeleteBtnStatus');
           }
         })
         .catch(err =>
@@ -55,8 +62,8 @@ module.exports = client => {
         );
     });
     //Handle input events
-    //-receive the date, which was sent from socket.js (front end - client)
-    socket.on('input', data => {
+    //-receive the date, which was sent from socketIO.js (front end - client)
+    socketIO.on('input', data => {
       //data is from front end
       let otherUserID = data.id;
       let currentUserID = data.userInSessionID;
@@ -227,17 +234,17 @@ module.exports = client => {
 
       //-Send updated message to the client------------------------------------------
       function updateChatBoard(createdMessage) {
-        // socket.emit('updateOutput', data);
+        // socketIO.emit('updateOutput', data);
         Message.findById(createdMessage._id)
           .populate('author')
           .populate('receiverID')
           .then(data => {
             // console.log('data created', data);
             setTimeout(() => {
-              socket.emit('updateOutput', data);
+              socketIO.emit('updateOutput', data);
             }, 500);
             setTimeout(() => {
-              socket.emit('updateDeleteBtnStatus');
+              socketIO.emit('updateDeleteBtnStatus');
             }, 550);
           })
           .catch(err =>
@@ -252,14 +259,14 @@ module.exports = client => {
       }
 
       // //End Send updated message to the client----
-    }); //end socket.on('input')
+    }); //end socketIO.on('input')
 
     //------Handle clear all messaged in DB-----------------------------
-    // socket.on('clear', data => {
+    // socketIO.on('clear', data => {
     //   //Remove all chats from DB
     //   Message.deleteMany()
     //     .then(() => {
-    //       socket.emit('cleared');
+    //       socketIO.emit('cleared');
     //       sendStatus({
     //         message: 'Messages deleted',
     //         color: 'red',
@@ -269,7 +276,7 @@ module.exports = client => {
     // });
 
     //---------Handle delete single message ----------------
-    socket.on('requestDeleteMsg', data => {
+    socketIO.on('requestDeleteMsg', data => {
       //data - which is msgId
       Message.findByIdAndDelete(data)
         .then(data => {
@@ -282,8 +289,8 @@ module.exports = client => {
     });
 
     //------- Disconnected ---------------------------
-    // socket.on('disconnect', function() {
-    //   console.log('disconnect: ' + socket.id);
+    // socketIO.on('disconnect', function() {
+    //   console.log('disconnect: ' + socketIO.id);
     // });
-  }); //end socket connection
+  }); //end socketIO connection
 };
