@@ -10,7 +10,7 @@
       .getElementsByTagName('html')[0]
       .getAttribute('userInSession');
     //socket connection
-    let socketIO = io();
+    let socket = io();
     window.onunload = () => socket.close();
 
     //=-=-=-=-===-=-=-=-=-=-= Send message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -19,7 +19,7 @@
       if (event.which == 13 && event.shiftKey == false) {
         //Emit to server input
         //Send the data to weather.io(back end - server) if pressed enter key
-        socketIO.emit('url', {
+        socket.emit('url', {
           userId: userInSessionID,
           city: inputSearch.value,
         });
@@ -32,7 +32,7 @@
       event.preventDefault();
       //Emit to server input
       inputSearch.value = '';
-      socketIO.emit('url', {
+      socket.emit('url', {
         userId: userInSessionID,
         city: inputSearch.value,
       });
@@ -40,15 +40,15 @@
 
     // //3.
     // window.onload = () => {
-    //   socketIO.emit('display-saved-city', { userId: userInSessionID });
+    //   socket.emit('display-saved-city', { userId: userInSessionID });
     // };
 
     //=-=-=-=-===-=-=-=-=-=-= Receive back message -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    if (socketIO !== undefined) {
+    if (socket !== undefined) {
       console.log('Connected to weather socket..');
       //receive data from socket.io(back end - server)
       //Handle output from 'output' function that we assigned to the socket property in the back end
-      socketIO.on('response', data => {
+      socket.on('response', data => {
         if (data) {
           // console.log('Output fromDB: ', data);
           const wDetails = document.createElement('div');

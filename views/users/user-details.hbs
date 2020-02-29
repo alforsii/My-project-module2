@@ -25,60 +25,20 @@
       </div>
       {{!-- user friends list - each friend --}}
       {{#each userFriends}}
-      <div class="each-friend">
-        <div class="user-friend">
-          <a href="">
-            <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
-          </a>
-          <a href="/profile/user-details?user_id={{this.userId}}" class="username" _id="{{this.userId}}"
-            friendId="{{this._id}}" _username="{{this.username}}">
-            {{this.firstName}} {{this.lastName}}
-          </a>
-        </div>
-      </div>
+      {{> friendsList}}
       {{/each}}
       {{!-- end user friends list --}}
     </div>
   </div>
   {{!-- --------------------------------------------------------------- --}}
   <div class="center-div profile-boxes">
-    {{#if posts}}
-    <h2>User Posts!</h2>
-    <div class="column-items">
-
-      {{#each posts}}
-      {{!-- this div column-reversed from style.css --}}
-      <div class="card mb-2">
-        <div class="author-info">
-          <a href="/profile/user-details?user_id={{this.userId}}">
-            <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
-          </a>
-          <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
-        </div>
-        <div class="profile-user-box">
-          {{!-- <span>{{this.picName}}</span> --}}
-          <a href="/posts/post-details?post_id={{this._id}}">
-            <img class="profile-post-image" src="{{this.picPath}}" alt="{{this.picName}}">
-          </a>
-        </div>
-      </div>
-      {{/each}}
-
-    </div>
-    {{else}}
-    <h2>User has no Posts</h2>
-    {{/if }}
+    {{> newsFeed}}
   </div>
-
   {{!-- ---------------------------------------------- --}}
   <div id="weatherMain" class="weather-div">
     {{> weather}}
-    {{!-- {{> footer}} --}}
   </div>
-
   {{!-- ---------------------------------------------------------------------------- --}}
-
-
   <div class="right-div profile-boxes">
     <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
       placeholder="Search...">
@@ -86,17 +46,14 @@
       {{> usersList}}
     </div>
   </div><!-- end right div-->
-
 </div>
 
 {{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
 {{> mobilMenu}}
+{{!-- ----------------------------------------------------------------------------------- --}}
 {{!-- socket message board --}}
 {{> messageBoard}}
 {{!--end socket message board --}}
-
-
-{{!-- ----------------------------------------------------------------------------------- --}}
 
 
 {{!-- Start Chat menu --}}

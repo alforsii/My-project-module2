@@ -1,6 +1,5 @@
 <div class="comments">
     <div class="main-comments">
-
         {{#if message}}
         <br>
         <h2 class="text-center">{{message}}</h2>
@@ -14,14 +13,13 @@
                 <p>{{this.content}}</p>
             </div>
 
-            {{#if this.currentUserId}}
+            {{!-- {{#if this.currentUserId}} --}}
+            {{#if this.isAuthor}}
             <div class="deleteDropDown">
                 <form action="/comments/delete-comment?comment_id={{this._id}}" method="post">
                     <button style="margin:0;padding:0;" class="btn btn-link">Delete</button>
                 </form>
             </div>
-
-
             {{/if}}
         </div>
         {{/each}}
