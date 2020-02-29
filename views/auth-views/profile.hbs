@@ -1,56 +1,69 @@
 <div id="main-profile">
     <div class="left-div profile-boxes">
-        <h5>Welcome, {{user.firstName}}! </h5>
-
-        <img class="user-image" src="{{user.path}}" alt="{{user.imageName}}">
-        <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
-        <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
-
-    </div>
-    <div class="center-div profile-boxes">
-
-        {{#if posts}}
-        <h2>Great Posts!</h2>
-        <div class="column-items">
-            {{#each posts}}
-            {{!-- this div column-reversed from style.css --}}
-            <div class="card mb-2">
-
-                <div class="author-info">
-
-                    <a href="/profile/user-details?user_id={{this.userId}}">
-                        <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
-                    </a>
-                    <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
-                </div>
-                <div class="profile-user-box">
-                    {{!-- <span>{{this.picName}}</span> --}}
-                    <a href="/posts/post-details?post_id={{this._id}}">
-                        <img class="profile-post-image" src="{{this.picPath}}" alt="{{this.picName}}">
-                    </a>
-                </div>
-            </div>
-            {{/each}}
+        <div id="user-profile">
+            <h5 class="text-center">Welcome, {{user.firstName}}! </h5>
+            <img class="user-image profile-image" src="{{user.path}}" alt="{{user.username}}">
+            <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
+            <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
         </div>
-        {{else}}
-        <h2>Post Something!</h2>
-        {{/if }}
-    </div>
-    <div class="right-div profile-boxes">
-        <h5 class="text-center">Other Users</h5>
-        {{#if users}}
-        <div class="column-items">
-            {{#each users}}
-            <div class="author-info">
-                <a href="/profile/user-details?user_id={{this._id}}">
-                    <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
+        <div id="friends-list" class="friends-list">
+            <div id="friends-header">
+            </div>
+            {{!-- current user --}}
+            <div class="friends-header-title">
+                <a class="username">
+                    My Friends
                 </a>
-                <a class="username" href="/profile/user-details?user_id={{this._id}}"> {{this.username}}</a>
+                <div class="dropdown">
+                    <button class="dropbtn">...</button>
+                </div>
             </div>
+
+            {{!-- each friend --}}
+            {{#each userFriends}}
+            {{> friendsList friends='true'}}
             {{/each}}
+            {{!-- end each friend --}}
+
         </div>
-        {{else}}
-        <h2>Add friends!</h2>
-        {{/if }}
     </div>
+    {{!-- --------------------------------------------------------------- --}}
+    <div class="center-div profile-boxes">
+        {{> newsFeed}}
+    </div>
+    {{!-- ---------------------------------------------- --}}
+    <div id="weatherMain" class="weather-div">
+        {{> weather}}
+    </div>
+    {{!-- ---------------------------------------------------------------------------- --}}
+    <div class="right-div profile-boxes">
+        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+            placeholder="Search...">
+        <div class="all-users">
+            {{> usersList}}
+        </div>
+    </div><!-- end right div-->
+
 </div>
+
+{{!-- -- ------------- Sidebar visible max-width: 899px--------------------------------------------- --}}
+{{> mobilMenu}}
+{{!-- ----------------------------------------------------------------------------------- --}}
+{{!-- socket message board --}}
+{{> messageBoard}}
+{{!--end socket message board --}}
+
+
+{{!-- Start Chat menu --}}
+<div id="side-menu2" class="side-nav2">
+    <div class="curr-user">
+        <a>
+            <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
+        </a>
+    </div>
+
+    {{!--  --}}
+    <div class="all-users chat-mt">
+        {{> usersList2}}
+    </div>
+</div><!-- end slide menu-->

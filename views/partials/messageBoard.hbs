@@ -1,0 +1,24 @@
+
+{{#if user}}
+<div id="messageBoard" class=" messageBoard">
+
+  <form action="" id="messageForm">
+    <div id="chat">
+      <input type="text" id="sendTo" class="form-control" value="" disabled placeholder="Enter name...">
+      <a href="#" class="chat-btn-close" style="color: black;" onclick="closeChatBoard()">&times;</a>
+      <div class="card">
+        <div id="messages" class="card-block">
+          <!-- Chat messages -->
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <input id="textMessage" type="text" class="form-control mt-1" placeholder="Send message..." role="table">
+      <div class="input-group-append">
+        <button class="btn btn-secondary sendBtn" type="submit">Send</button>
+      </div>
+    </div>
+  </form>
+</div>
+{{/if}}

@@ -1,0 +1,30 @@
+{{#each users}}
+<div class="chat-user">
+  <div class="user user1">
+    <a href="/profile/user-details?user_id={{this._id}}">
+      <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+    </a>
+    <a class="username" href="/profile/user-details?user_id={{this._id}}">
+      {{this.firstName}} {{this.lastName}}
+    </a>
+  </div>
+
+  {{!-- dropdown add friends or remove buttons --}}
+  <div class="btn-group1" role="group">
+    <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false"></button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="text-center" href="/profile/user-details?user_id={{this._id}}">
+        {{this.firstName}}'s profile
+      </a>
+      <a href="" class="send-message text-center" user_id={{this._id}} _username={{this.username}}
+        _name="{{this.firstName}} {{this.lastName}}">Send message</a>
+      <button class="dropdown-item add-friend text-center" user_id={{this._id}} _username={{this.username}}>Add
+        to friends</button>
+    </div>
+  </div>
+
+</div>
+{{else}}
+<h2 class="text-center mt-2">Search for friends</h2>
+{{/each}}

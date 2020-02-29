@@ -1,0 +1,93 @@
+#friend-list-btn {
+  position: fixed;
+  right: 20px;
+  top: 9px;
+  z-index: 3;
+  transition: 0.5s ease-in-out;
+  display: none;
+}
+
+.side-nav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  opacity: 0.9;
+  overflow-x: scroll;
+  transition: 0.5s;
+}
+.side-nav2 {
+  height: 50px;
+  width: 250px;
+  position: fixed;
+  z-index: 3;
+  bottom: 0;
+  right: 0px;
+  background-color: white;
+  opacity: 0.9;
+  overflow: scroll;
+  transition: 0.5s;
+}
+#side-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+#side-menu2 {
+  display: none;
+}
+.side-nav a,
+.side-nav2 a {
+  padding: 10px 10px 10px 30px;
+  text-decoration: none;
+  font-size: 22px;
+  color: #ccc;
+  display: block;
+  transition: 0.3s;
+}
+
+.side-nav2 a {
+  color: #111;
+}
+
+.side-nav a:hover {
+  color: #fff;
+}
+
+.side-nav .btn-close {
+  position: absolute;
+  top: 0;
+  right: 200px;
+  font-size: 26px;
+  margin-left: 50px;
+}
+.logBtns {
+  display: block;
+  background-color: transparent;
+}
+.main-menu {
+  overflow: scroll;
+}
+.menu-context {
+  min-height: 50vh;
+}
+@media (max-width: 899px) {
+  .logBtns {
+    display: none;
+  }
+  #side-menu2 {
+    display: flex;
+  }
+  #friend-list-btn {
+    position: fixed;
+    right: 20px;
+    top: 9px;
+    z-index: 3;
+    transition: 0.5s ease-in-out;
+    display: block;
+  }
+}
