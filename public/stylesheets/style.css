@@ -1,3 +1,9 @@
+/* Colors
+Dark blue: #25274D
+Light blue: #2E9CCA
+Grey: #AAABB8
+*/
+
 body {
   margin: 0;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
@@ -18,8 +24,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px 5px;
-  background-color: #333;
-  border-bottom: 3px solid rgb(245, 100, 100);
+  background-color: #25274D;
+  border-bottom: 5px solid #2E9CCA;
 }
 nav div {
   display: flex;
@@ -30,10 +36,28 @@ nav div {
   display: none;
 }
 
+nav a {
+  color: #FFFFFF;
+}
+
 a {
-  color: #00b7ff;
+  color: #2E9CCA;
   padding: 5px 10px;
 }
+
+nav a:hover {
+  text-decoration: none;
+  color: #2E9CCA;
+}
+
+.logout-button {
+  border-color: #2E9CCA;
+}
+
+.logout-button:hover {
+  background-color: #2E9CCA;
+}
+
 p {
   margin: 0;
 }
@@ -101,7 +125,7 @@ p {
 .curr-user {
   position: fixed;
   z-index: 3;
-  background-color: #dbdddd;
+  background-color: #AAABB8;
   width: 48%;
   cursor: pointer;
 }
@@ -120,8 +144,11 @@ p {
   align-self: start;
   padding: 3px 20px;
 }
+.author-info a:hover {
+  text-decoration: none;
+}
 .users-info:hover {
-  background-color: rgb(17, 155, 197);
+  background-color: #2E9CCA;
 }
 .chat-user {
   position: relative;
@@ -152,7 +179,7 @@ p {
   /* transition: transform 2.5s ease-in-out; */
 }
 .chat-user:hover {
-  background-color: rgb(17, 155, 197);
+  background-color: #2E9CCA;
   color: #fff;
   cursor: pointer;
 }
@@ -169,6 +196,7 @@ p {
 }
 .username:hover {
   color: #fff;
+  text-decoration: none;
 }
 .author-info {
   justify-content: flex-start;
@@ -183,9 +211,9 @@ p {
   display: flex;
   /* flex-wrap: wrap; */
 }
-.profile-boxes {
-  /* width: 30%; */
-}
+/* .profile-boxes {
+  width: 30%;
+} */
 
 .left-div {
   position: fixed;
@@ -198,7 +226,7 @@ p {
   justify-content: flex-start;
   align-items: center;
   width: 15%;
-  background-color: #aaaaaa;
+  background-color: #AAABB8;
 }
 .profile-image {
   width: 7rem;
@@ -210,12 +238,25 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   width: 93%;
   padding: 10px 0 10px;
   height: 270px;
   margin-top: 5px;
-  background-color: #dddddd;
+  background-color: lightgray;
+}
+#user-profile a {
+  background-color: #25274D;
+}
+#user-profile a:hover {
+  color: #2E9CCA;
+}
+#user-profile h5 {
+  color: #25274D;
+}
+#user-profile button {
+  background-color: #25274D;
 }
 .friends-list {
   margin-top: 5px;
@@ -231,7 +272,7 @@ p {
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.5s ease;
-  background-color: #fff;
+  background-color: lightgray;
   position: relative;
 }
 #friends-header {
@@ -240,7 +281,7 @@ p {
   height: 60px;
   z-index: 2;
   background-color: rgb(0, 0, 0, 0.07);
-  color: #333;
+  color: #25274D;
   font-family: monospace;
   padding: 15px 0;
   cursor: pointer;
@@ -274,7 +315,7 @@ p {
 }
 .each-friend .user a:hover,
 .each-friend .user-friend a:hover {
-  color: #00b7ff;
+  color: #25274D;
 }
 
 .each-friend img {
@@ -295,11 +336,14 @@ p {
   align-items: center;
   width: 41.3vw;
   min-width: 125px;
-  background-color: #dddddd;
+  background-color: #AAABB8;
   color: white;
 }
 
-/*  */
+.center-div h2 {
+  color: #25274D;
+}
+
 /* weather div */
 .weather-div {
   display: flex;
@@ -324,7 +368,7 @@ p {
 .weather {
   width: 23.5vw;
   height: 100vh;
-  background-color: rgb(23, 104, 196, 0.8);
+  background-color: #25274D;
   color: #ffffff;
   overflow: scroll;
 }
@@ -358,7 +402,7 @@ p {
   flex-direction: column;
   width: 75px;
   height: 75px;
-  background-color: rgb(9, 97, 170);
+  background-color: #2E9CCA;
   margin: 6px;
   font-size: 14px;
   text-transform: uppercase;
@@ -388,20 +432,18 @@ p {
 .weather-form input {
   width: 20vw;
   outline: 0;
-  border-color: #00b7ff;
+  border-color: #25274D;
   font-size: 0.9rem;
 }
 .weather-form input:focus {
-  border-color: #00b7ff;
+  border-color: #25274D;
 }
 
 .weather-form button {
   width: 60px;
   height: 30px;
   padding: 5px;
-  /* margin-left: 5px; */
   border-radius: 2px;
-  /* background-color: blue; */
   color: #ffffff;
   border: none;
   font-size: 14px;
@@ -418,7 +460,6 @@ p {
   left: 80%;
   top: 60px;
   bottom: 0;
-  color: #333;
   overflow: scroll;
 }
 @media (max-width: 900px) {
@@ -461,20 +502,6 @@ p {
     background-color: #999;
     color: white;
   }
-  .weather-div {
-    position: fixed;
-    left: 60%;
-    top: 55px;
-    bottom: 0;
-    border-left: 3px solid white;
-    border-right: 3px solid white;
-    background-color: rgb(23, 104, 196, 0.8);
-    width: 40vw;
-    background-color: transparent;
-    color: #fff;
-    overflow: scroll;
-    /* z-index: 3; */
-  }
 
   .weather {
     width: 40vw;
@@ -486,7 +513,7 @@ p {
   .weather-form input {
     width: 30vw;
     outline: 0;
-    border-color: #00b7ff;
+    border-color: #25274D;
     font-size: 0.9rem;
   }
   .weather-details > div:first-child {
@@ -562,14 +589,14 @@ form label {
 }
 input:focus {
   outline: 0;
-  border-color: #00b7ff;
+  border-color: #25274D;
 }
 form button {
   font-size: 16px;
   width: 150px;
   cursor: pointer;
-  background-color: #00b7ff;
-  border-color: #00b7ff;
+  background-color: #25274D;
+  border-color: #25274D;
   color: #fff;
   margin-top: 5px;
 }
@@ -704,7 +731,7 @@ pre {
   border-radius: 50px;
   text-align: center;
   outline: 0;
-  border-color: #00b7ff;
+  border-color: #25274D;
 }
 #chat {
   position: relative;
@@ -718,7 +745,7 @@ pre {
 #sendTo,
 .card {
   outline: 0;
-  border-color: #00b7ff;
+  border-color: #25274D;
 }
 
 #status {
@@ -776,7 +803,7 @@ pre {
 .dropdown-menu {
   max-height: 200px;
   padding: 5px;
-  background-color: #dddddd;
+  background-color: #AAABB8;
   margin: 5px;
 }
 .dropdown-toggle:focus {
