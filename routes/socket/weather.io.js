@@ -5,13 +5,11 @@ module.exports = client => {
   let apiUrl;
 
   //if user signed in (it's set to signed in - where message board)
-  client.on('connection', socket => {
-    // console.log('Output for: socket', socket);
-    console.log('The weather socket just connected');
-    // console.log('new connection: ' + socket.id);
+  client.on('connection', socketIO => {
+    // console.log('new connection: ' + socketIO.id);
     //=-=-=--==-=-=-=-=-=-=-=-= Display the city of User -=-=-=-=-=-===-=--=-=-=-=-=-=-=-=-=-=--==-=-
 
-    // socket.on('display-saved-city', data => {
+    // socketIO.on('display-saved-city', data => {
     //   User.findById(data.userId)
     //     .then(userFromDb => {
     //       // console.log('userFromDb', userFromDb);
@@ -33,7 +31,7 @@ module.exports = client => {
     //           let windSpeed = Math.round(2.23694 * parseInt(wind.speed));
     //           let pressure = Math.round(6895 / parseInt(main.pressure));
 
-    //           socket.emit('response', {
+    //           socketIO.emit('response', {
     //             weather: weather.data,
     //             temperature,
     //             highTemp,
@@ -51,7 +49,7 @@ module.exports = client => {
     //     );
     // });
     //=-=-=--==-=-=-=-=-=-=-=-= Update User City -=-=-=-=-=-===-=--=-=-=-=-=-=-=-=-=-=--==-=-
-    socket.on('url', data => {
+    socketIO.on('url', data => {
       const { userId, city } = data;
       User.findByIdAndUpdate({ _id: userId }, { city: city }, { new: true })
         .then(updatedUser => {
@@ -74,7 +72,7 @@ module.exports = client => {
               let windSpeed = Math.round(2.23694 * parseInt(wind.speed));
               let pressure = Math.round(6895 / parseInt(main.pressure));
 
-              socket.emit('response', {
+              socketIO.emit('response', {
                 weather: weather.data,
                 temperature,
                 highTemp,
@@ -90,12 +88,12 @@ module.exports = client => {
         .catch(err =>
           console.log(`Error while creating the new city in DB ${err}`)
         ); //end  City.create()
-    }); //end socket.on('url',data)
+    }); //end socketIO.on('url',data)
 
     //------- Disconnected ---------------------------
-    // socket.on('disconnect', function() {
-    //   console.log('disconnect: ' + socket.id);
-    //   // io.emit('disconnect', socket.id)
+    // socketIO.on('disconnect', function() {
+    //   console.log('disconnect: ' + socketIO.id);
+    //   // io.emit('disconnect', socketIO.id)
     // });
-  }); //end socket connection
+  }); //end socketIO connection
 };

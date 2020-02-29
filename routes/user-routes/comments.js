@@ -77,7 +77,8 @@ router.get('/post-details/comments', (req, res, next) => {
                 username: authorId.username,
                 authorId: authorId._id,
                 userImage: authorId.path,
-                currentUserId: req.user._id,
+                // currentUserId: req.user._id,
+                isAuthor: true,
               };
             }
           }
