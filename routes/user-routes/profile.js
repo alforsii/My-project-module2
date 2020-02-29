@@ -292,7 +292,7 @@ router.get('/user-details', (req, res, next) => {
           imageName,
         };
       });
-      console.log('userFriends: ', userFriends);
+      // console.log('userFriends: ', userFriends);
 
       // Get user posts
       Post.find({ creatorId: user_id })
@@ -300,18 +300,32 @@ router.get('/user-details', (req, res, next) => {
           // Get all the users besides yourself from DB
           User.find()
             .then(users => {
-              res.render('users/user-details', {
-                _id: user_id,
-                firstName,
-                lastName,
-                username,
-                email,
-                path,
-                imageName,
-                userFriends,
-                posts: foundUserPosts,
-                users,
-              });
+              //Check if this user is friend with current user in session(so we can base  on that change add button to remove  - if they are friends)
+              User.findById(req.user._id)
+                .populate('friends')
+                .then(userData => {
+                  const getUserFromFriends = userData.friends.filter(
+                    friend => friend.userId.toString() === user_id.toString()
+                  );
+
+                  const isFriend = getUserFromFriends.length > 0 ? true : false;
+
+                  res.render('users/user-details', {
+                    _id: user_id,
+                    isFriend,
+                    userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends.
+                    firstName,
+                    lastName,
+                    username,
+                    email,
+                    path,
+                    imageName,
+                    userFriends,
+                    posts: foundUserPosts,
+                    users,
+                  });
+                })
+                .catch(err => console.log(err));
             })
             .catch(err =>
               console.log(
