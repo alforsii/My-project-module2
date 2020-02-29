@@ -21,33 +21,9 @@
 
             {{!-- drop down button --}}
             {{#if isCreator}}
-            <div class="btn-group1" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"></button>
-                {{!-- <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"> --}}
-                {{!-- <a class="dropdown-item" href="#"> --}}
-                <form class="dropdown-menu " action="/posts/delete-post?post_id={{postId}}" method="post">
-                    <button class="dropdown-item btn btn-primary">Delete Post</button>
-                </form>
-                {{!-- </a> --}}
-                {{!-- </div> --}}
-            </div>
-            {{!--  --}}
-            {{!-- <div class="btn-group1" role="group">
-                <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"></button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="text-center" href="/profile/user-details?user_id={{this._id}}">
-                        {{this.firstName}}'s profile
-                    </a>
-                    <a href="" class="send-message text-center" user_id={{this._id}} _username={{this.username}}>Send
-                        message</a>
-                    <button class="dropdown-item add-friend text-center" href="#" user_id={{this._id}}
-                        _username={{this.username}}>Add
-                        to friends</button>
-                </div>
-            </div> --}}
-            {{!--  --}}
+            <form id="post-delete-btn" action="/posts/delete-post?post_id={{postId}}" method="post">
+                <button class="btn btn-primary">Delete Post</button>
+            </form>
             {{/if}}
             {{!-- end drop down button --}}
         </div>
