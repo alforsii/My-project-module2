@@ -1,0 +1,23 @@
+<h2>News Feed</h2>
+<div class="column-items">
+  {{#each posts}}
+  {{!-- this div column-reversed from style.css --}}
+  <div class="card mb-2">
+    {{!-- author of post details (image and name) --}}
+    <div class="author-info">
+      <a href="/profile/user-details?user_id={{this.userId}}">
+        <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
+      </a>
+      <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
+    </div>
+    {{!-- posted photo --}}
+    <div class="profile-user-box">
+      <a href="/posts/post-details?post_id={{this._id}}">
+        <img class="profile-post-image" src="{{this.picPath}}" alt="{{this.picName}}">
+      </a>
+    </div>
+  </div>
+  {{else}}
+  <h2>Post Something!</h2>
+  {{/each}}
+</div>

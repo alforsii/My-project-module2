@@ -24,8 +24,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px 5px;
-  background-color: #25274D;
-  border-bottom: 5px solid #2E9CCA;
+  background-color: #25274d;
+  border-bottom: 5px solid #2e9cca;
 }
 nav div {
   display: flex;
@@ -37,25 +37,25 @@ nav div {
 }
 
 nav a {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 a {
-  color: #2E9CCA;
+  color: #2e9cca;
   padding: 5px 10px;
 }
 
 nav a:hover {
   text-decoration: none;
-  color: #2E9CCA;
+  color: #2e9cca;
 }
 
 .logout-button {
-  border-color: #2E9CCA;
+  border-color: #2e9cca;
 }
 
 .logout-button:hover {
-  background-color: #2E9CCA;
+  background-color: #2e9cca;
 }
 
 p {
@@ -125,7 +125,7 @@ p {
 .curr-user {
   position: fixed;
   z-index: 3;
-  background-color: #AAABB8;
+  background-color: #aaabb8;
   width: 48%;
   cursor: pointer;
 }
@@ -148,7 +148,7 @@ p {
   text-decoration: none;
 }
 .users-info:hover {
-  background-color: #2E9CCA;
+  background-color: #2e9cca;
 }
 .chat-user {
   position: relative;
@@ -179,7 +179,7 @@ p {
   /* transition: transform 2.5s ease-in-out; */
 }
 .chat-user:hover {
-  background-color: #2E9CCA;
+  background-color: #2e9cca;
   color: #fff;
   cursor: pointer;
 }
@@ -226,7 +226,7 @@ p {
   justify-content: flex-start;
   align-items: center;
   width: 15%;
-  background-color: #AAABB8;
+  background-color: #aaabb8;
 }
 .profile-image {
   width: 7rem;
@@ -247,16 +247,16 @@ p {
   background-color: lightgray;
 }
 #user-profile a {
-  background-color: #25274D;
+  background-color: #25274d;
 }
 #user-profile a:hover {
-  color: #2E9CCA;
+  color: #2e9cca;
 }
 #user-profile h5 {
-  color: #25274D;
+  color: #25274d;
 }
 #user-profile button {
-  background-color: #25274D;
+  background-color: #25274d;
 }
 .friends-list {
   margin-top: 5px;
@@ -314,7 +314,7 @@ p {
 }
 .each-friend .user a:hover,
 .each-friend .user-friend a:hover {
-  color: #25274D;
+  color: #25274d;
 }
 
 .each-friend img {
@@ -335,12 +335,12 @@ p {
   align-items: center;
   width: 41.3vw;
   min-width: 125px;
-  background-color: #AAABB8;
+  background-color: #aaabb8;
   color: white;
 }
 
 .center-div h2 {
-  color: #25274D;
+  color: #25274d;
 }
 
 /* weather div */
@@ -367,7 +367,7 @@ p {
 .weather {
   width: 23.5vw;
   height: 100vh;
-  background-color: #25274D;
+  background-color: #25274d;
   color: #ffffff;
   overflow: scroll;
 }
@@ -401,7 +401,7 @@ p {
   flex-direction: column;
   width: 75px;
   height: 75px;
-  background-color: #2E9CCA;
+  background-color: #2e9cca;
   margin: 6px;
   font-size: 14px;
   text-transform: uppercase;
@@ -431,11 +431,11 @@ p {
 .weather-form input {
   width: 20vw;
   outline: 0;
-  border-color: #25274D;
+  border-color: #25274d;
   font-size: 0.9rem;
 }
 .weather-form input:focus {
-  border-color: #25274D;
+  border-color: #25274d;
 }
 
 .weather-form button {
@@ -500,6 +500,23 @@ p {
     background-color: #999;
     color: white;
   }
+<<<<<<< HEAD
+=======
+
+  .weather-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    left: 68.3%;
+    top: 60px;
+    bottom: 0;
+    width: 23.5vw;
+    color: #fff;
+  }
+
+>>>>>>> c2af4f93d1ebc252decdb7d814d3d11fdb84e4dc
   .weather {
     width: 40vw;
     height: 100vh;
@@ -510,7 +527,7 @@ p {
   .weather-form input {
     width: 30vw;
     outline: 0;
-    border-color: #25274D;
+    border-color: #25274d;
     font-size: 0.9rem;
   }
   .weather-details > div:first-child {
@@ -586,14 +603,14 @@ form label {
 }
 input:focus {
   outline: 0;
-  border-color: #25274D;
+  border-color: #25274d;
 }
 form button {
   font-size: 16px;
   width: 150px;
   cursor: pointer;
-  background-color: #25274D;
-  border-color: #25274D;
+  background-color: #25274d;
+  border-color: #25274d;
   color: #fff;
   margin-top: 5px;
 }
@@ -728,7 +745,7 @@ pre {
   border-radius: 50px;
   text-align: center;
   outline: 0;
-  border-color: #25274D;
+  border-color: #25274d;
 }
 #chat {
   position: relative;
@@ -742,7 +759,7 @@ pre {
 #sendTo,
 .card {
   outline: 0;
-  border-color: #25274D;
+  border-color: #25274d;
 }
 
 #status {
@@ -800,7 +817,7 @@ pre {
 .dropdown-menu {
   max-height: 200px;
   padding: 5px;
-  background-color: #AAABB8;
+  background-color: #aaabb8;
   margin: 5px;
 }
 .dropdown-toggle:focus {

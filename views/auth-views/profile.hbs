@@ -1,7 +1,7 @@
 <div id="main-profile">
     <div class="left-div profile-boxes">
         <div id="user-profile">
-            <h5>Welcome, {{user.firstName}}! </h5>
+            <h5 class="text-center">Welcome, {{user.firstName}}! </h5>
             <img class="user-image profile-image" src="{{user.path}}" alt="{{user.username}}">
             <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
             <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
@@ -11,58 +11,31 @@
             </div>
             {{!-- current user --}}
             <div class="friends-header-title">
-                {{!-- <a href="">
-                    <img class="chat-users-small" src="{{user.path}}" alt="{{user.username}}">
-                </a> --}}
                 <a class="username">
-                    My Friends List
+                    My Friends
                 </a>
                 <div class="dropdown">
                     <button class="dropbtn">...</button>
                 </div>
             </div>
 
+            {{!-- each friend --}}
+            {{#each userFriends}}
+            {{> friendsList friends='true'}}
+            {{/each}}
+            {{!-- end each friend --}}
+
         </div>
     </div>
     {{!-- --------------------------------------------------------------- --}}
     <div class="center-div profile-boxes">
-        {{#if posts}}
-        <h2>News Feed</h2>
-        <div class="column-items">
-
-            {{#each posts}}
-            {{!-- this div column-reversed from style.css --}}
-            <div class="card mb-2">
-                <div class="author-info">
-                    <a href="/profile/user-details?user_id={{this.userId}}">
-                        <img class="users-small" src="{{this.path}}" alt="{{this.username}}">
-                    </a>
-                    <a href="/profile/user-details?user_id={{this.userId}}"> {{this.firstName}} {{this.lastName}}</a>
-                </div>
-                <div class="profile-user-box">
-                    {{!-- <span>{{this.picName}}</span> --}}
-                    <a href="/posts/post-details?post_id={{this._id}}">
-                        <img class="profile-post-image" src="{{this.picPath}}" alt="{{this.picName}}">
-                    </a>
-                </div>
-            </div>
-            {{/each}}
-
-        </div>
-        {{else}}
-        <h2>Post Something!</h2>
-        {{/if }}
+        {{> newsFeed}}
     </div>
-
     {{!-- ---------------------------------------------- --}}
     <div id="weatherMain" class="weather-div">
         {{> weather}}
-        {{!-- {{> footer}} --}}
     </div>
-
     {{!-- ---------------------------------------------------------------------------- --}}
-
-
     <div class="right-div profile-boxes">
         <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
             placeholder="Search...">
@@ -73,14 +46,12 @@
 
 </div>
 
-{{!-- -- ----------------- visible max-width: 899px--------------------------------------------- --}}
+{{!-- -- ------------- Sidebar visible max-width: 899px--------------------------------------------- --}}
 {{> mobilMenu}}
+{{!-- ----------------------------------------------------------------------------------- --}}
 {{!-- socket message board --}}
 {{> messageBoard}}
 {{!--end socket message board --}}
-
-
-{{!-- ----------------------------------------------------------------------------------- --}}
 
 
 {{!-- Start Chat menu --}}
