@@ -280,16 +280,15 @@ p {
   width: 13.75vw;
   height: 60px;
   z-index: 2;
-  background-color: rgb(0, 0, 0, 0.07);
-  color: #25274d;
+  color: #25274D;
   font-family: monospace;
   padding: 15px 0;
   cursor: pointer;
   border-radius: 5px;
 }
 .friends-header-title {
-  /* height: 90px; */
   margin-bottom: 20px;
+  color: #25274D;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -329,7 +328,7 @@ p {
 .center-div {
   position: relative;
   min-height: 100vh;
-  left: 14.5%;
+  left: 14%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -351,10 +350,10 @@ p {
   justify-content: flex-start;
   align-items: center;
   position: fixed;
-  left: 56%;
+  left: 55%;
   top: 60px;
   bottom: 0;
-  width: 24.5vw;
+  width: 25vw;
   color: #fff;
 }
 
@@ -457,7 +456,7 @@ p {
 .right-div {
   position: fixed;
   right: 0;
-  left: 80%;
+  left: 79.5%;
   top: 60px;
   bottom: 0;
   overflow: scroll;
@@ -484,7 +483,6 @@ p {
     width: 7.5rem;
     border-radius: 3px;
   }
-
   .left-div {
     display: none;
   }
@@ -502,6 +500,8 @@ p {
     background-color: #999;
     color: white;
   }
+<<<<<<< HEAD
+=======
 
   .weather-div {
     display: flex;
@@ -516,6 +516,7 @@ p {
     color: #fff;
   }
 
+>>>>>>> c2af4f93d1ebc252decdb7d814d3d11fdb84e4dc
   .weather {
     width: 40vw;
     height: 100vh;

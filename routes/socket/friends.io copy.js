@@ -1,69 +1,24 @@
 module.exports = client => {
-  const Chat = require('../../models/Chat.model');
-  const Message = require('../../models/Message.model');
   const User = require('../../models/User.model');
   const Friend = require('../../models/Friend.model');
-  //if user signed in (it's set to signed in - where message board)
+  //---------------- socket.io connection to the Server(through configs/server.js) ----------------------------------
   client.on('connection', socketIO => {
-    // console.log('Output for: socketIO', socketIO);
-    console.log('A friends.io.js connected');
     // console.log('new connection: ' + socketIO.id);
 
-    socketIO.on('redisplay-friends-list', data => {
-      // console.log('data', data);
-      //Get current user in session id and check in User.friends if he has any friends
-      //if current user has friend or friends then send them to the client(front end to display)
-      User.findById(data.userId)
-        .populate({
-          path: 'friends',
-          populate: [{ path: 'userId' }],
-        })
-        .then(userFromDB => {
-          const { friends } = userFromDB;
-          const populatedFriends = friends.map(friend => {
-            const {
-              _id,
-              username,
-              firstName,
-              lastName,
-              email,
-              path,
-              imageName,
-            } = friend.userId;
-            return {
-              _id: friend._id,
-              userId: _id,
-              username,
-              firstName,
-              lastName,
-              email,
-              path,
-              imageName,
-            };
-          });
-          // console.log('friends: ', populatedFriends);
-
-          // console.log('userFromDB: ', friends);
-          if (friends.length !== 0) {
-            socketIO.emit('output-friends', populatedFriends); //
-          }
-        })
-        .catch(err =>
-          console.log(`Error while getting friends list from DB: ${err}`)
-        );
-    });
-
-    //Display newly added friend
+    //------------Create a new friend----------------------
+    //================================================================
     socketIO.on('create-friend', usersData => {
+      // usersData[0] - userInSession(current user) id.
+      // usersData[1] - other user id.
       User.findById(usersData[0])
         .populate('friends')
         .then(userFromDB => {
-          // console.log('friend: ', userFromDB.friends);
+          // checking if the user exist in current(me) user friends list
           const isFriend = userFromDB.friends.filter(
             friend => friend.userId.toString() === usersData[1].toString()
           );
-          console.log('isFriend: ', isFriend);
           if (isFriend.length == 0) {
+            //if this user is not a friend yet then call createFriend() to make a new friends
             createFriend(usersData);
           }
         })
@@ -71,87 +26,36 @@ module.exports = client => {
     });
     //end socketIO.on('redisplay-friends-list')
 
-    // createFriend() callback/helper function
+    //---------- createFriend() callback/helper function --------------
+    //================================================================
     function createFriend(usersData) {
       //1.Current user in session
-      User.findById(usersData[0])
-        .then(userInSessionFromDB => {
-          const { _id } = userInSessionFromDB;
-
-          //Create current user(ourself) as a new friend to other User friends list
-          Friend.create({ userId: _id })
-            .then(newlyCreatedFriend => {
-              console.log('Output for: newlyCreatedFriend');
-              //call addToFriendsList and pass  newlyCreatedFriend for current user
-              // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
-              addToFriendsList(newlyCreatedFriend, usersData[1]); //
-            })
-            .catch(err =>
-              console.log(`Error while creating a new friend ${err}`)
-            );
-          //end Friend.creat()
+      //Create current user(ourself) as a new friend to other User friends list
+      Friend.create({ userId: usersData[0] })
+        .then(newlyCreatedFriend => {
+          console.log('newlyCreatedFriend');
+          //call addToFriendsList and pass  newlyCreatedFriend for current user
+          // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
+          addToFriendsList(newlyCreatedFriend, usersData[1]); //
         })
-        .catch(err =>
-          console.log(
-            `Error while getting specific user from friends.io.js ${err}`
-          )
-        );
-      //end of current user
+        .catch(err => console.log(`Error while creating a new friend ${err}`));
+      //end Friend.creat() - 1
+
       //2.Other user
-      User.findById(usersData[1])
-        .then(otherUserFromDB => {
-          const { _id } = otherUserFromDB;
-
-          //Create a new Friend
-          Friend.create({ userId: _id })
-            .then(newlyCreatedFriend => {
-              console.log('Output for: newlyCreatedFriend');
-              Friend.findById(newlyCreatedFriend._id)
-                .populate('userId')
-                .then(populatedFriends => {
-                  //call addToFriendsList and pass  newlyCreatedFriend for current user
-                  // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
-                  addToFriendsList(newlyCreatedFriend, usersData[0]); //
-                  const {
-                    _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                    imageName,
-                  } = populatedFriends.userId;
-
-                  // socketIO.emit('display-added-friend');
-                  //and here also we're sending other user as a newlyCreatedFriend to display in our friends list
-                  socketIO.emit('display-added-friend', {
-                    _id: populatedFriends._id,
-                    userId: _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                    imageName,
-                  });
-                })
-                .catch(err => console.log(err));
-            })
-            .catch(err =>
-              console.log(`Error while creating a new friend ${err}`)
-            );
-          //end Friend.creat()
+      //Create a new Friend
+      Friend.create({ userId: usersData[1] })
+        .then(newlyCreatedFriend => {
+          console.log('newlyCreatedFriend');
+          addToFriendsList(newlyCreatedFriend, usersData[0]); //
+          socketIO.emit('friend-created', newlyCreatedFriend);
         })
-        .catch(err =>
-          console.log(
-            `Error while getting specific user from friends.io.js ${err}`
-          )
-        );
+        .catch(err => console.log(`Error while creating a new friend ${err}`));
+      //end Friend.creat() - 2
     }
-    //end createFriend()
     //end  createFriend() callback/helper function
 
-    //Add to friends list callback/helper function
+    //--------- Add to friends list callback/helper function -----------------
+    //================================================================
     function addToFriendsList(newlyCreatedFriend, userId) {
       User.findByIdAndUpdate(
         userId,
@@ -173,9 +77,9 @@ module.exports = client => {
       //end of User.findByIdAndUpdate(userId)
     }
 
-    // Delete friend from DB
+    //------------------ Delete friend from DB ---------------------------
+    //================================================================
     socketIO.on('req-delete-friend', usersData => {
-      console.log('usersData: ', usersData);
       const currentUserId = usersData[0]; //current user actual(User) id
       Friend.findById(usersData[1]) // other user's friend(Friend) id for this/current user
         .populate({
@@ -191,7 +95,7 @@ module.exports = client => {
             friend => friend.userId.toString() === currentUserId.toString()
           ); //
           // const  {_id, userId} = currentUser[0];
-
+          //call deleteUser()
           deleteUser(
             [currentUser[0]._id, friendFromDB._id], //Sending this array of Friend ids for deletion from DB
             [currentUserId, otherUserId] //Sending this array of User ids for removing deleted Friend ids from their User.friends list
@@ -202,10 +106,9 @@ module.exports = client => {
         );
     });
 
-    // Delete from DB function
+    //---------------- Delete from DB callback/helper function ------------------------------
+    //================================================================
     function deleteUser(arrFriendsId, arrUsersId) {
-      console.log('arrFriendsId: ', arrFriendsId);
-      console.log('arrUsersId: ', arrUsersId);
       //1.Friend.remove({_id: {$in:arrayOfIds} }) - for multiple deletion
       Friend.deleteMany({ _id: { $in: arrFriendsId } }) //deletes multiple id's from DB (need to pass id's as an array)
         .then(res => {
