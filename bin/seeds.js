@@ -36,7 +36,8 @@ const users = [
       'http://res.cloudinary.com/dml50vwsd/image/upload/v1581608885/users/IMG_2612.JPG.jpg',
   },
   {
-    path: 'https://ca.slack-edge.com/T02CQ4EN4-ULH9QEHDF-514133710ead-512',
+    path:
+      'http://res.cloudinary.com/dml50vwsd/image/upload/v1583011599/users/profile_pic.jpeg.jpg',
     username: 'kevin',
     firstName: 'Kevin',
     lastName: 'Medina',

@@ -2,7 +2,9 @@
   <div class="left-div profile-boxes">
     <div id="user-profile">
       <h5 class="text-center">{{firstName}} {{lastName}} </h5>
-      <img class="user-image profile-image" src="{{path}}" alt="{{username}}">
+      <div class="crop-user-image">
+        <img class="user-image profile-image" src="{{path}}" alt="{{username}}">
+      </div>
       <a class="btn btn-secondary send-message mb-0 mt-2" href="" user_id={{_id}} _username={{username}}
         _name="{{firstName}} {{lastName}}">Send
         message</a>
