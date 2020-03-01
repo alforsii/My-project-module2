@@ -11,11 +11,11 @@ body {
   box-sizing: border-box;
 }
 .main-container {
-  margin-top: 50px;
+  margin-top: 60px;
 }
-
 nav {
   position: fixed;
+  min-height: 70px;
   top: 0;
   left: 0;
   right: 0;
@@ -23,7 +23,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 10px 5px;
+  padding: 10px;
   background-color: #25274d;
   border-bottom: 5px solid #2e9cca;
 }
@@ -35,41 +35,31 @@ nav div {
 .hidden-user {
   display: none;
 }
-
 nav a {
   color: #ffffff;
 }
-
 a {
   color: #2e9cca;
   padding: 5px 10px;
   text-decoration: none;
 }
-
 nav a:hover {
   text-decoration: none;
   color: #2e9cca;
 }
-
 .logout-button {
   border-color: #2e9cca;
 }
-
 .logout-button:hover {
   background-color: #2e9cca;
-}
-.logBtns {
-  margin-left: 60px;
 }
 .logBtns:hover {
   background-color: #2e9cca;
   color: #ffffff;
 }
-
 p {
   margin: 0;
 }
-
 .error-message {
   color: #f00;
   text-align: center;
@@ -137,6 +127,7 @@ p {
   padding-right: 50px;
   color: #2e9cca;
 }
+
 /* profile page or hbs */
 .column-items {
   display: flex;
@@ -197,19 +188,20 @@ p {
   align-items: center;
 }
 .all-users {
-  margin-top: 40px;
-  width: 100%;
+  /* margin-top: 40px; */
+  margin-left: 10px;
+  overflow: scroll;
 }
 .chat-mt {
   margin-top: 65px;
   position: relative;
 }
 #search-user2 {
-  position: fixed;
-  bottom: 0;
-
-  /* transition: transform 2.5s ease-in-out; */
-}
+  position: absolute;
+  top: 0; 
+  margin: 0 10px;
+  transition: transform 2.5s ease-in-out;
+} 
 .chat-user:hover,
 .each-friend:hover {
   background-color: #2e9cca;
@@ -249,23 +241,17 @@ p {
   border: none;
 }
 #main-profile {
-  min-width: 850px;
-  display: flex;
-  /* flex-wrap: wrap; */
-}
-/* .profile-boxes {
-  width: 30%;
-} */
-
-.left-div {
+  width: 100%;
   position: fixed;
+  height: 100vh;
+  display: flex;
+  /* margin-top: 20px; */
+}
+.left-div {
   z-index: 1;
-  left: 0;
-  top: 60px;
-  bottom: 0;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   width: 18%;
   background-color: #ffffff;
@@ -281,6 +267,11 @@ p {
   height: 7rem;
   width: 7rem;
   overflow: hidden;
+}
+.update-profile-pic {
+  width: 300px;
+  height: 300px;
+  border-radius: 5px;
 }
 #user-profile {
   display: flex;
@@ -391,20 +382,19 @@ p {
   color: #333;
 }
 .center-div {
-  position: relative;
   min-height: 100vh;
   left: 17.99%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  padding-top: 15px;
+  padding: 10px;
+  width: 41.3vw;
   width: 37.1vw;
   min-width: 125px;
   background-color: #ffffff;
   color: white;
+  overflow: scroll;
 }
-
 .center-div h2 {
   color: #25274d;
 }
@@ -413,31 +403,25 @@ p {
 .weather-div {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  position: fixed;
-  left: 55%;
-  top: 60px;
   bottom: 0;
-  width: 24.5vw;
+  width: 23vw;
   color: #fff;
+  overflow: scroll;
 }
-
 .title {
   text-align: center;
-  padding-top: 10px;
+  padding-top: 20px;
   color: #ffffff;
   font-size: 1.6rem;
 }
-
 .weather {
-  width: 23.5vw;
+  width: 23vw;
   height: 100vh;
   background-color: #25274d;
   color: #ffffff;
   overflow: scroll;
 }
-
 .weather-details {
   display: flex;
   justify-content: center;
@@ -446,11 +430,9 @@ p {
   overflow: scroll;
   padding: 0 7px;
 }
-
 .description {
   font-size: 16px !important;
 }
-
 .weather-details > div:first-child {
   display: flex;
   justify-content: space-evenly;
@@ -459,7 +441,6 @@ p {
   height: 15vw;
   padding: 0 7px;
 }
-
 .weather-details > div {
   display: flex;
   justify-content: center;
@@ -473,19 +454,15 @@ p {
   text-transform: uppercase;
   border-radius: 4px;
 }
-
 .weather-details h3 {
   font-size: 14px;
 }
-
 .weather-details > div:first-child h2 {
   font-size: 2rem;
 }
-
 .weather-details > div:first-child p {
   font-size: 2rem;
 }
-
 .weather-form {
   display: flex;
   justify-content: center;
@@ -493,7 +470,6 @@ p {
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
-
 .weather-form input {
   width: 20vw;
   outline: 0;
@@ -503,7 +479,6 @@ p {
 .weather-form input:focus {
   border-color: #25274d;
 }
-
 .weather-form button {
   width: 60px;
   height: 30px;
@@ -513,19 +488,17 @@ p {
   border: none;
   font-size: 14px;
 }
-
 .search-message {
   text-align: center;
 }
-/*  */
-
 .right-div {
-  position: fixed;
-  right: 0;
-  left: 79.5%;
-  top: 60px;
-  bottom: 0;
+  position: relative;
+  margin: 15px 5px 0 5px;
   overflow: scroll;
+}
+.right-div input {
+  margin: 0 10px;
+  width: 96%;
 }
 
 @media (max-width: 900px) {
@@ -625,6 +598,7 @@ p {
     display: none;
   }
 }
+
 /* login and signup forms */
 .form {
   position: relative;
@@ -641,7 +615,6 @@ p {
   margin-top: 50px;
   /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); */
 }
-
 .form form {
   height: 400px;
   width: 300px;
@@ -744,7 +717,6 @@ form button {
   border-radius: 30px;
   background-color: rgb(248, 245, 245);
 }
-
 .comments a {
   font-size: 16px;
 }
@@ -812,7 +784,6 @@ pre {
   outline: 0;
   border-color: #25274d;
 }
-
 #status {
   z-index: 20;
   color: red;
@@ -823,8 +794,8 @@ pre {
   margin: 2px 0;
   width: 100%;
 }
-.user-in-chat {
-}
+/* .user-in-chat {
+} */
 .msg-div {
   width: 200px;
   background-color: lightskyblue;
@@ -839,7 +810,6 @@ pre {
   padding: 7px 7px 0 0;
   width: 100%;
 }
-
 .deleteMsgBtn,
 .hideBtn {
   color: transparent;
@@ -911,3 +881,106 @@ a.delete-friend:hover {
   width: 100%;
 }
 /*---------------end Btn Drop down styles ---------------------*/
+
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  #main-profile {
+    /* min-width: 400px; */
+    /* display: block; */
+    /* justify-content: space-around; */
+  }
+  .user-image {
+    width: 7.5rem;
+    border-radius: 3px;
+  }
+  .left-div {
+    display: none;
+  }
+  .center-div {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 60vw;
+    background-color: #ffffff;
+    color: white;
+  }
+
+  .weather-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    left: 60%;
+    top: 60px;  
+    bottom: 0;
+    width: 40vw;
+    color: #fff;
+  }
+  .title {
+    padding-top: 20px;
+  }
+  .weather {
+    width: 40vw;
+    height: 100vh;
+    color: #ffffff;
+    overflow: scroll;
+  }
+  .weather-form input {
+    width: 30vw;
+    outline: 0;
+    border-color: #25274d;
+    font-size: 0.9rem;
+  }
+  .weather-details > div:first-child {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30vw;
+    height: 25vw;
+    padding: 0 10px;
+  }
+  .right-div {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-page-container > div:first-child {
+    display: none;
+  }
+  .left-div {
+    display: none;
+  }
+  .center-div {
+    display: block;
+    width: 100%;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  .weather-div {
+    display: none;
+  }
+  .right-div {
+    display: none;
+  }
+}
