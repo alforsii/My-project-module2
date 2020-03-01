@@ -2,13 +2,20 @@
   <div class="left-div profile-boxes">
     <div id="user-profile">
       <h5 class="text-center">{{firstName}} {{lastName}} </h5>
-      <img class="user-image profile-image" src="{{path}}" alt="{{username}}">
+      <div class="crop-user-image">
+        <img class="user-image profile-image" src="{{path}}" alt="{{username}}">
+      </div>
       <a class="btn btn-secondary send-message mb-0 mt-2" href="" user_id={{_id}} _username={{username}}
         _name="{{firstName}} {{lastName}}">Send
         message</a>
 
-      <button class="btn btn-secondary add-friend mb-0 mt-2" user_id={{this._id}} _username={{this.username}}>Add to
+      {{#if isFriend}}
+      <a href="" class="btn btn-secondary delete-friend text-center" friendId="{{this.userFriendId}}"> Remove friend
+      </a>
+      {{else}}
+      <button class="btn btn-secondary add-friend" user_id={{this._id}} _username={{this.username}}>Add to
         friends</button>
+      {{/if}}
 
     </div>
     <div id="user-friends-list" class="friends-list">

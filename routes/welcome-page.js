@@ -12,7 +12,7 @@ router.post(
   ensureLoggedOut(),
   passport.authenticate('local-signup', {
     successRedirect: '/profile/user-page',
-    failureRedirect: '/auth/signup',
+    failureRedirect: '/',
     failureFlash: true,
   })
 );

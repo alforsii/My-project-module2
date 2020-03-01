@@ -2,7 +2,9 @@
 <div class="chat-user">
   <div class="user user2">
     <a href="">
-      <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+      <div class="crop-chat-users-small">
+        <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+      </div>
     </a>
     <a class="username" href="/profile/user-details?user_id={{this._id}}" _id={{this._id}} _username={{this.username}}>
       {{this.firstName}} {{this.lastName}}

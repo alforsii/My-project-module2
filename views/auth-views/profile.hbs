@@ -1,10 +1,12 @@
 <div id="main-profile">
-    <div class="left-div profile-boxes">
+    <div class="left-div">
         <div id="user-profile">
             <h5 class="text-center">Welcome, {{user.firstName}}! </h5>
-            <img class="user-image profile-image" src="{{user.path}}" alt="{{user.username}}">
+            <div class="crop-user-image">
+                <img class="user-image profile-image" src="{{user.path}}" alt="{{user.username}}">
+            </div>
             <a class="btn btn-secondary mb-0 mt-2" href="/profile/user-photo-upload">Upload Photo</a>
-            <a class="btn btn-secondary mb-0 mt-2" href="/profile/profile-update">Update Profile</a>
+            <a class="btn btn-secondary " href="/profile/profile-update">Update Profile</a>
         </div>
         <div id="friends-list" class="friends-list">
             <div id="friends-header">
@@ -28,7 +30,7 @@
         </div>
     </div>
     {{!-- --------------------------------------------------------------- --}}
-    <div class="center-div profile-boxes">
+    <div class="center-div">
         {{> newsFeed}}
     </div>
     {{!-- ---------------------------------------------- --}}
@@ -36,14 +38,13 @@
         {{> weather}}
     </div>
     {{!-- ---------------------------------------------------------------------------- --}}
-    <div class="right-div profile-boxes">
-        <input id="search-user1" class="form-control search-user" style="position: fixed; z-index:3;" type="text"
+    <div class="right-div">
+        <input id="search-user1" class="form-control search-user" style="z-index:3;" type="text"
             placeholder="Search...">
         <div class="all-users">
             {{> usersList}}
         </div>
     </div><!-- end right div-->
-
 </div>
 
 {{!-- -- ------------- Sidebar visible max-width: 899px--------------------------------------------- --}}

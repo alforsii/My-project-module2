@@ -1,5 +1,6 @@
 <div class="form col-md-6 m-auto">
     <h4>Update your profile photo</h4>
+    <img class="update-profile-pic" src={{user.path}} alt="profile-pic">
     <form action="/profile/user-photo-upload" method="post" enctype="multipart/form-data">
         <input type="file" name="image">
         <button>Save</button>
