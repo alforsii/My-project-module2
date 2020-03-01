@@ -20,7 +20,7 @@ router.post(
 );
 
 router.get('/signup', ensureLoggedOut(), (req, res) => {
-  res.render('auth-views/signup', { message: req.flash('error') });
+  res.render('welcome-page', { message: req.flash('error') });
 });
 
 router.post(
