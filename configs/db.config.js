@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const db_Atlas = process.env.DB_CLOUD;
-const db = 'mongodb://localhost/project-module2';
 mongoose
-  .connect(db, {
+  .connect(process.env.MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
