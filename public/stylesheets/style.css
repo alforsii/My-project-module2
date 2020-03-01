@@ -202,7 +202,8 @@ p {
   margin: 0 10px;
   transition: transform 2.5s ease-in-out;
 } 
-.chat-user:hover {
+.chat-user:hover,
+.each-friend:hover {
   background-color: #2e9cca;
   color: #fff;
   cursor: pointer;
@@ -211,10 +212,19 @@ p {
   font-size: 12px;
 }
 .chat-users-small {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: auto;
   border-radius: 30px;
 }
+.crop-chat-users-small {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+/* .friends-img {
+  transform: translateX(-7px);
+} */
 .username {
   font-size: 14px;
 }
@@ -244,11 +254,19 @@ p {
   flex-direction: column;
   align-items: center;
   width: 18%;
+  background-color: #ffffff;
 }
 .profile-image {
   width: 7rem;
   border-radius: 3px;
-  height: 7.2rem;
+  /* height: auto; */
+  /* transform: translateY(-5px); */
+}
+.crop-user-image {
+  /* -webkit-transform: scale(1, 1); */
+  height: 7rem;
+  width: 7rem;
+  overflow: hidden;
 }
 .update-profile-pic {
   width: 300px;
@@ -298,22 +316,27 @@ p {
 }
 #friends-header {
   position: fixed;
-  width: 13.75vw;
+  width: 16.6vw;
   height: 60px;
-  z-index: 2;
-  color: #25274D;
+  z-index: 3;
+  color: #25274d;
   font-family: monospace;
   padding: 15px 0;
   cursor: pointer;
   border-radius: 5px;
 }
 .friends-header-title {
-  margin-bottom: 20px;
-  color: #25274D;
+  position: fixed;
+  width: 16.5vw;
+  height: 60px;
+  color: #25274d;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 5px;
 }
 #friends-header:hover {
   background-color: rgb(0, 0, 0, 0.3);
@@ -322,22 +345,34 @@ p {
 #friends-list hr {
   margin: 0;
 }
+.friends-dropdown {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 3;
+  font-size: 4vw;
+  width: 5.5vw;
+  height: 4.5vw;
+  background-color: turquoise;
+  opacity: 0;
+}
 .each-friend {
+  position: relative;
+  top: 60px;
   margin: 1px 0;
-  padding: 5px;
+  height: 4vw;
   width: 100%;
-  border-bottom: 1px solid rgb(190, 189, 189);
+  border-bottom: 1px solid rgb(219, 218, 218);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); */
   position: relative;
 }
 .each-friend .user a:hover,
 .each-friend .user-friend a:hover {
   color: #25274d;
 }
-
 .each-friend img {
   width: 3.5vw;
   height: 3.5vw;
@@ -348,11 +383,13 @@ p {
 }
 .center-div {
   min-height: 100vh;
+  left: 17.99%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
   width: 41.3vw;
+  width: 37.1vw;
   min-width: 125px;
   background-color: #ffffff;
   color: white;
@@ -464,6 +501,104 @@ p {
   width: 96%;
 }
 
+@media (max-width: 900px) {
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: #333;
+  }
+  #main-profile {
+    min-width: 400px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .user-image {
+    width: 7.5rem;
+    border-radius: 3px;
+  }
+  .left-div {
+    display: none;
+  }
+  .center-div {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 60vw;
+    padding-top: 10px;
+    overflow: scroll;
+    background-color: #999;
+    color: white;
+  }
+
+  .weather-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    left: 68.3%;
+    top: 60px;
+    bottom: 0;
+    width: 23.5vw;
+    color: #fff;
+  }
+
+  .weather {
+    width: 40vw;
+    height: 100vh;
+    background-color: rgb(23, 104, 196, 0.8);
+    color: #ffffff;
+    overflow: scroll;
+  }
+  .weather-form input {
+    width: 30vw;
+    outline: 0;
+    border-color: #25274d;
+    font-size: 0.9rem;
+  }
+  .weather-details > div:first-child {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30vw;
+    height: 25vw;
+    padding: 0 10px;
+  }
+  .right-div {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+}
+@media (max-width: 500px) {
+  .center-div {
+    position: relative;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    background-color: #999;
+    color: white;
+  }
+  .weather-div {
+    display: none;
+  }
+}
+
 /* login and signup forms */
 .form {
   position: relative;
@@ -550,28 +685,6 @@ form button {
   right: 0;
   bottom: 0;
 }
-.btn-group1 {
-  z-index: 2;
-  /* opacity: 0; */
-}
-.btn-group1:hover {
-  animation-name: btn;
-  animation-duration: 0.5s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
-}
-@keyframes btn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-#btnGroupDrop1 {
-  border-radius: 30px;
-}
 
 /* comments page */
 .comments {
@@ -614,9 +727,17 @@ footer {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  line-height: 20px;
+}
+hr.socket {
+  background-color: #fff;
+}
+footer a {
+  font-size: 30px;
+  padding: 5px;
 }
 #logo {
-  width: 50px;
+  width: 70px;
   align-self: center;
 }
 pre {
@@ -719,6 +840,7 @@ pre {
   padding: 5px;
   background-color: #ffffff;
   margin: 5px;
+  z-index: 5;
 }
 .dropdown-toggle:focus {
   outline: 0;

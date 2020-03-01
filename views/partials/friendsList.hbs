@@ -1,7 +1,7 @@
 <div class="each-friend">
   <div class="user">
     <a href="/profile/user-details?user_id={{this.userId}}">
-      <img class="chat-users-small" src="{{this.path}}" alt="{{this.username}}">
+      <img class="chat-users-small friends-img" src="{{this.path}}" alt="{{this.username}}">
     </a>
     <a href="/profile/user-details?user_id={{this.userId}}" class="username">
       {{this.firstName}} {{this.lastName}}
@@ -10,7 +10,7 @@
 
   {{#if friends}}
   <div class="btn-group1" role="group">
-    <button id="btnGroupDrop1" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+    <button id="btnGroupDrop1" class="dropdown-toggle friends-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
       aria-expanded="false"></button>
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
       <a class="text-center" href="/profile/user-details?user_id={{this.userId}}">
