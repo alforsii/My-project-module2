@@ -9,16 +9,14 @@
             <a class="btn btn-secondary " href="/profile/profile-update">Update Profile</a>
         </div>
         <div id="friends-list" class="friends-list">
-            <div id="friends-header">
-            </div>
             {{!-- current user --}}
             <div class="friends-header-title">
                 <a class="username">
                     My Friends
                 </a>
-                <div class="dropdown">
-                    <button class="dropbtn">...</button>
-                </div>
+
+                <span>...</span>
+
             </div>
 
             {{!-- each friend --}}
@@ -58,13 +56,14 @@
 {{!-- Start Chat menu --}}
 <div id="side-menu2" class="side-nav2">
     <div class="curr-user">
-        <a>
+        <a class="curr-user-img">
             <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
         </a>
+        <input id="search-user2" class="form-control search-user" type="text" placeholder="Search...">
     </div>
 
     {{!--  --}}
-    <div class="all-users chat-mt">
+    <div class="chat-mt">
         {{> usersList2}}
     </div>
 </div><!-- end slide menu-->

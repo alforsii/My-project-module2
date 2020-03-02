@@ -1,5 +1,5 @@
 <div id="main-profile">
-  <div class="left-div profile-boxes">
+  <div class="left-div">
     <div id="user-profile">
       <h5 class="text-center">{{firstName}} {{lastName}} </h5>
       <div class="crop-user-image">
@@ -10,25 +10,22 @@
         message</a>
 
       {{#if isFriend}}
-      <a href="" class="btn btn-secondary delete-friend text-center" friendId="{{this.userFriendId}}"> Remove friend
+      <a class="btn btn-secondary delete-friend text-center" friendId="{{this.userFriendId}}"> Remove friend
       </a>
       {{else}}
-      <button class="btn btn-secondary add-friend" user_id={{this._id}} _username={{this.username}}>Add to
-        friends</button>
+      <a class="btn btn-secondary add-friend text-center" user_id={{this._id}} _username={{this.username}}>Add to
+        friends</a>
       {{/if}}
 
     </div>
     <div id="user-friends-list" class="friends-list">
-      <div id="friends-header">
-      </div>
-
       <div class="friends-header-title">
         <a class="username">
           {{firstName}}'s Friends
         </a>
-        <div class="dropdown">
-          <button class="dropbtn">...</button>
-        </div>
+
+        <span>...</span>
+
       </div>
       {{!-- user friends list - each friend --}}
       {{#each userFriends}}
@@ -66,13 +63,14 @@
 {{!-- Start Chat menu --}}
 <div id="side-menu2" class="side-nav2">
   <div class="curr-user">
-    <a>
+    <a class="curr-user-img">
       <img class="users-small" src="{{user.path}}" alt="{{user.imageName}}">
     </a>
+    <input id="search-user2" class="form-control search-user" type="text" placeholder="Search...">
   </div>
 
   {{!--  --}}
-  <div class="all-users chat-mt">
+  <div class="chat-mt">
     {{> usersList2}}
   </div>
 </div><!-- end slide menu-->

@@ -16,11 +16,11 @@
     {{#if user}}
     <div>
       <a href="/profile/user-page">Profile </a>
-      <a href="/posts/upload-photo">Post</a>
+      <a href="/posts/upload-photo"><i class="fas fa-plus-circle"></i></a>
     </div>
     {{!-- it's also in profile.hbs, friends list menu sidebar --}}
-    <form class="logBtns" action="/auth/logout" method="POST">
-      <button class="logout-button">Logout</button>
+    <form action="/auth/logout" method="POST">
+      <button class="btn btn-secondary logBtns">Logout</button>
     </form>
 
     {{else}}
@@ -28,13 +28,12 @@
     <a href="/">
       <img src="/images/debugger.png" style="width:40px;margin:0;" alt="">
     </a>
-
-    <div>
-      <a class="btn btn-secondary logBtns" href="#"></a>
-    </div>
-    <div>
-      <a class="btn btn-secondary logBtns" href="/auth/login">Login</a>
-    </div>
+    <form action="/auth/login" method="POST">
+      <button class="btn btn-secondary logBtns">Login</button>
+    </form>
+    {{!-- <div>
+      <button class="btn btn-secondary logBtns" href="/auth/login">Login</button>
+    </div> --}}
     {{/if}}
   </nav>
   <div class="main-container">
