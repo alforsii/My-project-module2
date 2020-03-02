@@ -896,11 +896,11 @@ a.delete-friend:hover {
     align-items: center;
     padding: 10px;
   }
-  #main-profile {
-    /* min-width: 400px; */
-    /* display: block; */
-    /* justify-content: space-around; */
-  }
+  /* #main-profile {
+    min-width: 400px; 
+    display: block;
+    justify-content: space-around;
+  } */
   .user-image {
     width: 7.5rem;
     border-radius: 3px;
