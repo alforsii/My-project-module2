@@ -342,4 +342,18 @@ router.get('/user-details', (req, res, next) => {
     );
 });
 
+//Delete account
+router.post(
+  '/delete-account',
+  ensureLoggedIn('/auth/login'),
+  (req, res, next) => {
+    User.findByIdAndDelete(req.user._id)
+      .then(userFromDB => {
+        console.log('userFromDB', userFromDB);
+        res.redirect('/');
+      })
+      .catch(err => console.log(`Error while deleting user account ${err}`));
+  }
+);
+
 module.exports = router;

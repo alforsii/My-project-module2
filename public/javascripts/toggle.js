@@ -68,7 +68,7 @@ if (
 
   //--------------open and close chat list -----------------
   document
-    .getElementsByClassName('curr-user')[0]
+    .getElementsByClassName('curr-user-img')[0]
     .addEventListener('click', () => {
       if (h === 50) {
         openChatList();
@@ -79,23 +79,4 @@ if (
         h = parseInt(document.getElementById('side-menu2').style.height);
       }
     });
-
-  //------------open/close friends list-----------------
-  function openFriendsList() {
-    document.getElementById('friends-list').style.height = '250px';
-  }
-  function closeFriendsList() {
-    document.getElementById('friends-list').style.height = '60px';
-  }
-  // document.getElementById('friends-list').style.height = '250px';
-  // document.getElementById('friends-list').addEventListener('click', () => {
-  //   if (height === 60) {
-  //     openFriendsList();
-  //     height = parseInt(document.getElementById('friends-list').style.height);
-  //     // h = 350;
-  //   } else if (height === 250) {
-  //     closeFriendsList();
-  //     height = parseInt(document.getElementById('friends-list').style.height);
-  //   }
-  // });
 }
