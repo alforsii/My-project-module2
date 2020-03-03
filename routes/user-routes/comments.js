@@ -12,97 +12,92 @@ const Comment = require('../../models/Comment.model');
 router.post('/post-details', (req, res, next) => {
   const user = req.user;
   const { post_id } = req.query;
-  Post.findById(post_id)
-    .populate('creatorId')
-    .then(foundOne => {
-      //   console.log('foundOne: ', foundOne);
-      const { _id, content, creatorId, picPath, picName } = foundOne;
-      const newObj = {
-        postId: _id,
-        picPath,
-        picName,
-        content,
-        userId: creatorId._id,
-        username: creatorId.username,
-        userEmail: creatorId.email,
-        userImg: creatorId.path,
-      };
+  // Post.findById(post_id)
+  //   .populate('author')
+  //   .then(foundOne => {
+  //   console.log('foundOne: ', foundOne);
+  // const { _id, content, author, picPath, picName } = foundOne;
+  // const newObj = {
+  //   postId: _id,
+  //   picPath,
+  //   picName,
+  //   content,
+  //   userId: author._id,
+  //   username: author.username,
+  //   userEmail: author.email,
+  //   userImg: author.path,
+  // };
 
-      if (!user) {
-        res.render('post-views/post-details', {
-          ...newObj,
-          message: 'Please sign in to add comments',
-        });
-        return;
-      }
+  // if (!user) {
+  //   res.render('post-views/post-details', {
+  //     ...newObj,
+  //     message: 'Please sign in to add comments',
+  //   });
+  //   return;
+  // }
 
-      const { comment } = req.body;
-      Comment.create({
-        content: comment, //here I just add comment
-        authorId: user._id, //authorId to know who commented
-        postId: post_id, //postId we need to separate each post comments
-        imgPath: user.path, //for imgPath I add author image
-        imageName: user.imageName, //author image name
-      })
-        .then(commentFromDB => {
-          console.log('Comment created: ', commentFromDB);
-          res.redirect('back');
-        })
-        .catch(err =>
-          console.log(`Error while trying to create comments ${err}`)
-        );
+  const { comment } = req.body;
+  Comment.create({
+    content: comment, //here I just add comment
+    author: user._id, //author to know who commented
+    postId: post_id, //postId we need to separate each post comments
+    imgPath: user.path, //for imgPath I add author image
+    imageName: user.imageName, //author image name
+  })
+    .then(commentFromDB => {
+      console.log('Comment created: ', commentFromDB);
+      res.redirect(
+        `/comments/post-details/comments?post_id=${commentFromDB.postId}`
+      );
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(`Error while trying to create comments ${err}`));
+  // })
+  // .catch(err => console.log(err));
 });
 
 //Post comments - Get
 // -=-=-=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-
-router.get('/post-details/comments', (req, res, next) => {
-  const { post_id } = req.query;
-  //   Comment.findOne({ postId: post_id })
-  Comment.find({})
-    .populate('authorId')
-    .then(comments => {
-      const allComments = comments
-        .filter(comment => {
-          return comment.postId.toString() === post_id.toString(); // == because one is string and the other is a number, they are 2 diff types
-        }) //map is to filter out hash password from every author
-        .map(comment => {
-          const { _id, content, authorId } = comment;
-          if (req.user) {
-            if (authorId._id.toString() === req.user._id.toString()) {
-              return {
-                _id,
-                content,
-                username: authorId.username,
-                authorId: authorId._id,
-                userImage: authorId.path,
-                // currentUserId: req.user._id,
-                isAuthor: true,
-              };
+router.get(
+  '/post-details/comments',
+  ensureLoggedIn('/auth/login'),
+  (req, res, next) => {
+    const { post_id } = req.query;
+    //   Comment.findOne({ postId: post_id })
+    Comment.find({})
+      .populate('author')
+      .then(comments => {
+        const allComments = comments
+          .filter(comment => {
+            return comment.postId.toString() === post_id.toString(); // == because one is string and the other is a number, they are 2 diff types
+          }) //map is to filter out hash password from every author
+          .map(comment => {
+            const { _id, content, author } = comment;
+            if (req.user) {
+              if (author._id.toString() === req.user._id.toString()) {
+                return {
+                  _id,
+                  content,
+                  author,
+                  isAuthor: true,
+                };
+              }
             }
-          }
-          return {
-            _id,
-            content,
-            username: authorId.username,
-            authorId: authorId._id,
-            userImage: authorId.path,
-          };
-        });
+            return comment;
+          });
 
-      if (allComments.length === 0) {
-        res.render('post-views/post-comments', {
-          message: "There's no comments",
-        });
-        return;
-      }
+        if (allComments.length === 0) {
+          res.render('post-views/post-comments', {
+            message: "There's no comments",
+          });
+          return;
+        }
 
-      console.log('filtered comments: ', allComments);
-      res.render('post-views/post-comments', { allComments });
-    })
-    .catch(err => console.log(`Error while getting comments from DB ${err}`));
-});
+        // console.log('filtered comments: ', allComments);
+        res.render('post-views/post-comments', { allComments });
+      })
+      .catch(err => console.log(`Error while getting comments from DB ${err}`));
+  }
+);
 
 //Post deleted comments
 // -=-=-=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-

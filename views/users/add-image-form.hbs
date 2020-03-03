@@ -1,6 +1,11 @@
-<form action="/posts/album/add-image?album_id={{album_id}}" method="POST" enctype="multipart/form-data">
-  <input type="text" name="name">
-  <input type="text" name="description">
-  <input type="file" name="image">
-  <button>Save</button>
-</form>
+<div class="image-form">
+  <div class="container form">
+    <form class="form-control" style="background:#f0f0f0;" action="/posts/album/add-image?album_id={{album_id}}"
+      method="POST" enctype="multipart/form-data">
+      <input class="form-control mb-2" type="text" name="name" placeholder="Title">
+      <input class="form-control mb-2" type="text" name="description" placeholder="Description">
+      <input class="form-control mb-2" type="file" name="image">
+      <button>Save</button>
+    </form>
+  </div>
+</div>

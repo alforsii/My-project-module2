@@ -1,17 +1,27 @@
+{{!-- position absolute - add images icon --}}
+<div class="add-image-icon">
+  <a href="/posts/album/add-image?album_id={{album_id}}">
+    <i class="far fa-image"></i>
+    <h4>Add New Photo</h4>
+  </a>
+</div>
+{{!-- end position absolute - add images icon --}}
+</div>
+
+
 <div class="main-album">
   <aside class="aside-bar">
-    <h3 class="text-center">Go to other Albums</h3>
+    <h3 class="text-center">{{author}} other albums</h3>
     <div class="other-albums">
       {{!-- here goes all other albums --}}
       {{#each albums}}
       <div class="album-folder text-center">
         <h5>{{this.name}}</h5>
-        <img src="/images/album/nature-2.jpg" alt="">
-        <img src="/images/album/nature-2.jpg" alt="">
-        <img src="/images/album/nature-2.jpg" alt="">
-        <img src="/images/album/nature-2.jpg" alt="">
+        {{#each this.images}}
+        <img src="{{this.path}}" alt="{{this.name}}">
+        {{/each}}
         {{!-- positioned on top --}}
-        <a href="/posts/album?album_id={{_id}}">
+        <a href="/posts/album?album_id={{this._id}}">
           <div class="fas fa-folder folder-icon"> </div>
         </a>
         {{!-- end folder positioned --}}
@@ -22,7 +32,7 @@
   </aside>
 
   <div class="images-collection">
-    <h3 class="text-center">Images collection</h3>
+    <h3 class="text-center">{{albumName}}</h3>
     <div class="album-images">
       {{!-- here all images that belongs to current album --}}
       {{!-- Bootstrap card --}}
@@ -30,11 +40,11 @@
         {{#each images}}
         <div class="each-image">
           <div class="col-md-12">
-            <div class="card text-center" style="max-height:300px;">
+            <div class="card text-center" style="max-height:280px;min-height:280px;position: relative;">
               <a href="{{this.path}}" target="_blank">
-                <img class="col-12" style="max-height:180px;max-width:300px;" src="{{this.path}}" alt="{{this.name}}" />
+                <img class="col-12" src="{{this.path}}" alt="{{this.name}}" />
               </a>
-              <div class="card-body">
+              <div class="card-body" style="position: absolute;bottom:0; ">
                 <h4>{{this.name}}</h4>
                 <p>
                   {{this.description}}
@@ -47,17 +57,16 @@
       </div>
       {{!--end Bootstrap card --}}
       {{!-- end all images that belongs to current album --}}
+      {{!-- delete album btn --}}
+      <form class="delete-album" action="/posts/delete-album?album_id={{album_id}}" method="post">
+        <button class="delete-btn">
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <span class="hint">
+          Delete album
+        </span>
+
+      </form>
+      {{!-- end delete album btn --}}
     </div>
   </div>
-
-  {{!-- position absolute - add images icon --}}
-  <div class="add-image-icon">
-    <a href="/posts/album/add-image?album_id={{album_id}}"
-      style="display:flex;justify-content:space-between;align-items:center;">
-      {{!-- <i class="btn btn-success">Add new photo</i> --}}
-      <i class="far fa-image" style="font-size:50px;margin:0;color:#25274d;"></i>
-      <h4>Add New Photo</h4>
-    </a>
-  </div>
-  {{!-- end position absolute - add images icon --}}
-</div>
