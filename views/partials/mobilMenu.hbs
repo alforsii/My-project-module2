@@ -20,19 +20,18 @@
   <div class="main-menu">
     <div class="menu-context">
     </div>
-    <form class="logoutBtn2" action="/auth/logout" method="POST">
+    <form class="text-center" action="/auth/logout" method="POST">
       <button class="">Logout</button>
     </form>
     {{else}}
-    <form class="logoutBtn2" action="/auth/login" method="GET">
+    <form class="text-center" action="/auth/login" method="GET">
       <button class="">Login</button>
     </form>
-    <form class="logoutBtn2" action="/auth/signup" method="GET">
+    <form class="text-center" action="/auth/signup" method="GET">
       <button class="">Signup</button>
     </form>
     {{/if}}
-    <div>
-      {{> footer}}
-    </div>
+    {{> footer}}
   </div>
+
 </div><!-- end slide menu-->

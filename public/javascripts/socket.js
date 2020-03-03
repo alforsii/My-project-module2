@@ -205,8 +205,8 @@
         <div class="chat-message" style="">
             <div  class="user-in-chat">
                 <div>
-                    <a href="" style="color:${color};font-weight:bold;">
-                        <img class="chat-users-small" src="${user.path}" alt="${name}">
+                    <a href="/profile/user-details?user_id=${user._id}" style="color:${color};font-weight:bold;">
+                        <img class="chat-users-small chat-users-small2" src="${user.path}" alt="${name}">
                     </a>
                 </div> 
             </div>
@@ -229,8 +229,8 @@
             </div>
                 <div class="user-in-chat">
                   <div>
-                    <a href="" style="color:${color};font-weight:bold;">
-                      <img class="chat-users-small" src="${user.path}" alt="${name}">
+                    <a href="/profile/user-details?user_id=${user._id}"  style="color:${color};font-weight:bold;">
+                      <img class="chat-users-small chat-users-small2" src="${user.path}" alt="${name}">
                     </a>
                   </div>
                   
