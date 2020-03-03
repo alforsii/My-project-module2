@@ -81,10 +81,14 @@ if (
     });
 }
 
-document
-  .querySelector('.friends-header-title span')
-  .addEventListener('click', event => {
-    console.log('Output for: event', event);
-    document.querySelector('.friends-header-title a').classList.toggle('hide');
-    document.getElementById('search-user3').classList.toggle('show');
-  });
+if (document.querySelector('.friends-header-title span')) {
+  document
+    .querySelector('.friends-header-title span')
+    .addEventListener('click', event => {
+      // console.log('Output for: event', event);
+      document
+        .querySelector('.friends-header-title a')
+        .classList.toggle('hide');
+      document.getElementById('search-user3').classList.toggle('show');
+    });
+}

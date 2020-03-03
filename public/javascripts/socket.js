@@ -214,7 +214,9 @@
                 <div class="msg-div">
                     <span>${message}</span>
                 </div> 
-                  <span class="deleteMsgBtn" msg_id=${messageId}>Delete</span>
+                  <span class="deleteMsgBtn" msg_id=${messageId}>
+                    <i class="far fa-trash-alt"></i>
+                  </span>
             </div>
         </div>
       `;
@@ -222,7 +224,9 @@
           messages.innerHTML += `
          <div class="chat-message" >
             <div class="parent-msg-div" style="justify-content: flex-end;">
-                <span class="hideBtn" msg_id=${messageId}>Hide</span>
+                <span class="hideBtn" msg_id=${messageId}>
+                  <i class="fas fa-eye-slash"></i>
+                </span>
                 <div class="msg-div">
                     <span>${message}</span>
                 </div>  

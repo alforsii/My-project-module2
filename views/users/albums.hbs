@@ -1,28 +1,25 @@
-<div class="albums-header">
-  <h2>Albums collection</h2>
-  <a href="/posts/create-album" class="btn btn-success">
-    <i class="fas fa-folder-plus"></i>
-  </a>
-</div>
-<div class="main-albums">
-  <div class="album-folder text-center">
-    <h5>Nature</h5>
-    <img src="{{this.path}}" alt="nature-image">
-    {{!-- positioned on top --}}
-    <a href="/posts/album?album_id={{_id}}">
-      <div class="fas fa-folder folder-icon"> </div>
+<div class="albums-body">
+  <div class="albums-header">
+    <h2>Albums collection</h2>
+    <a href="/posts/create-album" class="btn btn-success">
+      <i class="fas fa-folder-plus"></i>
     </a>
-    {{!-- end folder positioned --}}
   </div>
-  {{#each albums}}
-  <div class="album-folder text-center">
-    <h5>{{this.name}}</h5>
-    <img src="{{this.path}}" alt="nature-image">
-    {{!-- positioned on top --}}
-    <a href="/posts/album?album_id={{_id}}">
-      <div class="fas fa-folder folder-icon"> </div>
-    </a>
-    {{!-- end folder positioned --}}
+  <div class="main-albums">
+    {{#each albums}}
+    <div class="album-folder text-center">
+      <a href="/posts/album?album_id={{_id}}">
+        <h5>{{this.name}}</h5>
+      </a>
+      {{#each this.images}}
+      <img src="{{this.path}}" alt="{{this.name}}">
+      {{/each}}
+      {{!-- positioned on top --}}
+      <a href="/posts/album?album_id={{_id}}">
+        <div class="fas fa-folder folder-icon"> </div>
+      </a>
+      {{!-- end folder positioned --}}
+    </div>
+    {{/each}}
   </div>
-  {{/each}}
 </div>

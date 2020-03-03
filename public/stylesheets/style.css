@@ -36,6 +36,14 @@ nav div {
   justify-content: center;
   align-items: center;
 }
+#post-icon,
+#album-icon {
+  position: relative;
+}
+#post-icon:hover span.hint,
+#album-icon:hover span.hint {
+  opacity: 1;
+}
 .hidden-user {
   display: none;
 }
@@ -407,7 +415,7 @@ p {
 }
 .each-friend {
   position: relative;
-  top: 60px;
+  /* top: 60px; */
   margin: 1px 0;
   height: 4vw;
   width: 100%;
@@ -573,11 +581,18 @@ input::placeholder {
   margin-top: 40px;
 }
 /*------- albums -------- */
+.albums-body {
+  background: url('../images/bg-1.jpeg') no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
 .albums-header {
+  position: fixed;
+  top: 10px;
+  left: 40vw;
+  z-index: 5;
   display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+  color: #fff;
 }
 .albums-header h2,
 .albums-header a {
@@ -606,12 +621,13 @@ input::placeholder {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  min-width: 50vw;
-  max-width: 90vw;
-  min-height: 60vh;
-  max-height: 80vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
   overflow: scroll;
-  background-color: #2e9cca;
+
+  /* background-color: #2e9cca; */
 }
 .album-folder {
   width: 200px;
@@ -622,6 +638,16 @@ input::placeholder {
   overflow: hidden;
   border-radius: 30px;
   position: relative;
+}
+.album-folder h5 {
+  position: absolute;
+  color: #fff;
+  font-size: 20px;
+  top: 120px;
+  left: 20px;
+  z-index: 5;
+  max-width: 160px;
+  overflow: hidden;
 }
 .folder-icon {
   position: absolute;
@@ -656,31 +682,47 @@ input::placeholder {
   align-items: flex-start;
   margin-top: 100px;
   min-height: 80vh;
-  max-height: 100vh;
+  max-height: 80vh;
 }
 .add-image-icon {
-  position: absolute;
-  left: 20px;
-  top: 70px;
+  position: fixed;
+  left: 45vw;
+  top: 7px;
+  z-index: 5;
+  color: #fff;
+}
+.add-image-icon a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #2e9cca;
+  text-decoration: none;
+}
+.add-image-icon a:hover {
+  color: #fff;
+}
+.add-image-icon i {
+  font-size: 50px;
+  margin-bottom: 5px;
+}
+.add-image-icon h4 {
+  padding-left: 15px;
 }
 .album-images {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center; */
   min-width: 73vw;
   max-width: 73vw;
   min-height: 70vh;
   max-height: 70vh;
   background-color: #2e9cca;
+  position: relative;
 }
 .album-images .all-images {
   display: flex;
   flex-wrap: wrap;
   min-width: 73vw;
   max-width: 73vw;
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 75vh;
+  max-height: 75vh;
   overflow: scroll;
   background-color: #25274d;
 }
@@ -692,24 +734,11 @@ input::placeholder {
   max-height: 300px;
   border-radius: 5px;
 }
-.album-image {
-  /* width: 200px;
-  height: 200px;
-  border-radius: 5px; */
+.each-image img {
+  width: 500px;
+  height: 180px;
 }
-.each-image h4 {
-  /* max-width: 200px;
-  overflow: hidden;
-  color: #fff; */
-}
-.each-image p {
-  /* max-width: 200px;
-  height: 60px;
-  overflow: scroll;
-  background: #fff;
-  padding: 10px;
-  border-radius: 5px; */
-}
+
 .aside-bar {
 }
 .other-albums {
@@ -720,11 +749,56 @@ input::placeholder {
   background-color: #2e9cca;
   min-width: 25vw;
   max-width: 25vw;
-  min-height: 70vh;
-  max-height: 80vh;
+  min-height: 75vh;
+  max-height: 75vh;
   overflow: scroll;
 }
 
+/* post image form */
+.image-form {
+  background: url('../images/album/nature-8.jpg') no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+/* delete album */
+.delete-album {
+  position: absolute;
+  bottom: 10px;
+  right: 0px;
+  /* display: none; */
+  opacity: 0;
+  transition: opacity 0.5s linear;
+}
+.album-images:hover .delete-album {
+  display: block;
+  opacity: 1;
+}
+.delete-album i:hover {
+  color: lightcoral;
+}
+.delete-btn {
+  position: relative;
+  color: #999;
+}
+.delete-btn:focus {
+  outline: 0;
+}
+.hint {
+  color: #fff;
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  font-size: 12px;
+  padding: 5px 10px;
+  background-color: #111;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.5s linear;
+}
+.delete-album:hover span.hint {
+  opacity: 1;
+}
 /* login and signup forms */
 .form {
   position: relative;
@@ -1175,6 +1249,24 @@ a.delete-friend:hover {
   }
   .username {
     display: none;
+  }
+  .aside-bar {
+    display: none;
+  }
+  .album-images {
+    min-width: 90vw;
+    max-width: 90vw;
+    min-height: 90vh;
+    max-height: 90vh;
+  }
+  .album-images .all-images {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 90vw;
+    max-width: 90vw;
+    min-height: 90vh;
+    max-height: 90vh;
+    overflow: scroll;
   }
 }
 /* ---------------  768 ----------------- */

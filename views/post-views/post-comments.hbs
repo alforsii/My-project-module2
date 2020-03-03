@@ -9,7 +9,11 @@
         <div class="eachComment">
 
             <div>
-                <a href="/profile/user-details?user_id={{this.authorId}}">{{this.username}}</a>
+                <a href="/profile/user-details?user_id={{this.author._id}}">
+                    <img class="chat-users-small chat-users-small2" src="{{this.author.path}}"
+                        alt="{{this.author.username}}">
+                    {{this.author.username}}
+                </a>
                 <p>{{this.content}}</p>
             </div>
 
@@ -17,7 +21,9 @@
             {{#if this.isAuthor}}
             <div class="deleteDropDown">
                 <form action="/comments/delete-comment?comment_id={{this._id}}" method="post">
-                    <button style="margin:0;padding:0;" class="btn btn-link">Delete</button>
+                    <button style="margin:0;padding:0;" class="btn btn-link">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                 </form>
             </div>
             {{/if}}

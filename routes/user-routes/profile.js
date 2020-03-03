@@ -14,18 +14,18 @@ const Album = require('../../models/Album.model');
 router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
   //1.Get all the post to display on profile/user-page for current user in session
   Post.find()
-    .populate('creatorId')
+    .populate('author')
     .then(posts => {
       //Take out authors password(not to send to the front end, so no one can see)
       const newPosts = posts.map(post => {
         let { _id, content, picPath, picName } = post;
-        let { username, firstName, lastName, email, path } = post.creatorId;
+        let { username, firstName, lastName, email, path } = post.author;
         let newPost = {
           _id,
           content,
           picPath,
           picName,
-          userId: post.creatorId._id,
+          userId: post.author._id,
           username,
           firstName,
           lastName,
@@ -57,30 +57,11 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
               const userFriendsId = friends.map(friend => friend.userId._id); //getting friends User id
 
               // const uniqUsers = Array.from(new Set(allUsers));
-              const uniqUsers = allUsers
-                .filter(
-                  user =>
-                    user._id.toString() !== req.user._id.toString() &&
-                    userFriendsId.indexOf(user._id.toString()) == -1
-                )
-                .map(user => {
-                  const {
-                    _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                  } = user;
-                  return {
-                    _id,
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    path,
-                  };
-                });
+              const uniqUsers = allUsers.filter(
+                user =>
+                  user._id.toString() !== req.user._id.toString() &&
+                  userFriendsId.indexOf(user._id.toString()) == -1
+              );
 
               //friends details
               const populatedFriends = friends.map(friend => {
@@ -239,7 +220,7 @@ router.post('/profile-update', (req, res, next) => {
 //user details - other user page
 router.get('/user-details', (req, res, next) => {
   const { user_id } = req.query;
-  console.log('Output for: user_id', user_id);
+  // console.log('Output for: user_id', user_id);
   const userInSession = req.user;
   User.findById(user_id)
     .populate({
@@ -298,7 +279,7 @@ router.get('/user-details', (req, res, next) => {
       // console.log('userFriends: ', userFriends);
 
       // Get user posts
-      Post.find({ creatorId: user_id })
+      Post.find({ author: user_id })
         .then(foundUserPosts => {
           // Get all the users besides yourself from DB
           User.find()
@@ -310,7 +291,7 @@ router.get('/user-details', (req, res, next) => {
                   const getUserFromFriends = userData.friends.filter(
                     friend => friend.userId.toString() === user_id.toString()
                   );
-
+                  //check if selected user friend with current user
                   const isFriend = getUserFromFriends.length > 0 ? true : false;
 
                   //Get user albums
@@ -319,7 +300,7 @@ router.get('/user-details', (req, res, next) => {
                       res.render('users/user-details', {
                         _id: user_id,
                         isFriend,
-                        userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends.
+                        userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends. This is just for add or remove buttons I believe(if users the selected user friends with current user then displays remove button, else add)
                         firstName,
                         lastName,
                         username,
