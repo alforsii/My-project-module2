@@ -7,6 +7,7 @@ const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const uploadCloud = require('../../configs/cloudinary.config');
 const Post = require('../../models/Post.model');
 const User = require('../../models/User.model');
+const Album = require('../../models/Album.model');
 
 //user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
@@ -312,20 +313,28 @@ router.get('/user-details', (req, res, next) => {
 
                   const isFriend = getUserFromFriends.length > 0 ? true : false;
 
-                  res.render('users/user-details', {
-                    _id: user_id,
-                    isFriend,
-                    userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends.
-                    firstName,
-                    lastName,
-                    username,
-                    email,
-                    path,
-                    imageName,
-                    userFriends,
-                    posts: foundUserPosts,
-                    users,
-                  });
+                  //Get user albums
+                  Album.find({ author: user_id })
+                    .then(userAlbums => {
+                      res.render('users/user-details', {
+                        _id: user_id,
+                        isFriend,
+                        userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends.
+                        firstName,
+                        lastName,
+                        username,
+                        email,
+                        path,
+                        imageName,
+                        userFriends,
+                        posts: foundUserPosts,
+                        users,
+                        albums: userAlbums,
+                      });
+                    })
+                    .catch(err =>
+                      console.log(`Error while getting user albums ${err}`)
+                    );
                 })
                 .catch(err => console.log(err));
             })

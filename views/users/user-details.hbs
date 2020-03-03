@@ -44,49 +44,24 @@
   </div>
   {{!-- ---------------------------------------------------------------------------- --}}
   <div class="right-div">
-    {{!-- Users-list --}}
-    {{!-- <input id="search-user1" class="form-control search-user" style="position:fixed;z-index:3;" type="text"
-      placeholder="Search...">
-    <div class="all-users all-users2 ">
-      {{> usersList}}
-    </div> --}}
-    {{!-- end Users-list --}}
-    {{!-- ------------- --}}
-    <h4 class="text-center">{{firstName}}'s photos</h4>
+    {{!-- ------ Albums ------- --}}
+    <h4 class="text-center">{{firstName}}'s Albums</h4>
     <div class="album">
-      <a href="/images/album/nature-2.jpg" target="_blank">
+      {{#each albums}}
+      <div class="album-folder text-center">
+        <h5>{{this.name}}</h5>
         <img src="/images/album/nature-2.jpg" alt="">
-      </a>
-      <a href="/images/album/nature-3.jpeg" target="_blank">
-        <img src="/images/album/nature-3.jpeg" alt="">
-      </a>
-      <a href="/images/album/nature-4.jpeg" target="_blank">
-        <img src="/images/album/nature-4.jpeg" alt="">
-      </a>
-      <a href="/images/album/nature-5.jpeg" target="_blank">
-        <img src="/images/album/nature-5.jpeg" alt="">
-      </a>
-      <a href="/images/album/nature-6.jpg" target="_blank">
-        <img src="/images/album/nature-6.jpg" alt="">
-      </a>
-      <a href="/images/album/nature-7.jpeg" target="_blank">
-        <img src="/images/album/nature-7.jpeg" alt="">
-      </a>
-      <a href="/images/album/nature-8.jpg" target="_blank">
-        <img src="/images/album/nature-8.jpg" alt="">
-      </a>
-      <a href="/images/album/nature-9.jpeg" target="_blank">
-        <img src="/images/album/nature-9.jpeg" alt="">
-      </a>
-      <a href="/images/album/nature-91.jpg" target="_blank">
-        <img src="/images/album/nature-91.jpg" alt="">
-      </a>
-      <a href="/images/album/nature-91.jpg" target="_blank">
-        <img src="/images/album/nature-91.jpg" alt="">
-      </a>
-      <a href="/images/album/nature-91.jpg" target="_blank">
-        <img src="/images/album/nature-91.jpg" alt="">
-      </a>
+        <img src="/images/album/nature-2.jpg" alt="">
+        <img src="/images/album/nature-2.jpg" alt="">
+        <img src="/images/album/nature-2.jpg" alt="">
+        {{!-- positioned on top --}}
+        <a href="/posts/album?album_id={{this._id}}">
+          <div class="fas fa-folder folder-icon"> </div>
+        </a>
+        {{!-- end folder positioned --}}
+      </div>
+      {{/each}}
+      {{!-- </div> --}}
     </div>
   </div><!-- end right div-->
 </div>

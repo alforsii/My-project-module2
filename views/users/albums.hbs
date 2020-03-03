@@ -7,10 +7,7 @@
 <div class="main-albums">
   <div class="album-folder text-center">
     <h5>Nature</h5>
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
+    <img src="{{this.path}}" alt="nature-image">
     {{!-- positioned on top --}}
     <a href="/posts/album?album_id={{_id}}">
       <div class="fas fa-folder folder-icon"> </div>
@@ -20,10 +17,7 @@
   {{#each albums}}
   <div class="album-folder text-center">
     <h5>{{this.name}}</h5>
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
-    <img src="/images/album/nature-2.jpg" alt="">
+    <img src="{{this.path}}" alt="nature-image">
     {{!-- positioned on top --}}
     <a href="/posts/album?album_id={{_id}}">
       <div class="fas fa-folder folder-icon"> </div>
