@@ -6,7 +6,88 @@ const uploadCloud = require('../../configs/cloudinary.config');
 const Post = require('../../models/Post.model');
 const User = require('../../models/User.model');
 const Comment = require('../../models/Comment.model');
+const Album = require('../../models/Album.model');
+const Image = require('../../models/Image.model');
 
+//Get photo to albums page
+router.get('/photo-albums', (req, res, next) => {
+  Album.find({ author: req.user._id })
+    .then(albumsFromDB => {
+      // console.log('albumFromDB: ', albumFromDB);
+      res.render('users/albums.hbs', { albums: albumsFromDB });
+    })
+    .catch(err => console.log(`Error while getting all albums ${err}`));
+});
+//Create album
+router.get('/create-album', (req, res, next) => {
+  res.render('users/create-album.hbs');
+});
+//Post photo to albums
+router.post('/create-album', (req, res, next) => {
+  const { name } = req.body;
+  Album.create({ name, author: req.user._id })
+    .then(newlyCreatedAlbum => {
+      console.log('newlyCreatedAlbum: ', newlyCreatedAlbum);
+      res.redirect('/posts/photo-albums');
+    })
+    .catch(err => console.log(`Error while creating a new Album ${err}`));
+});
+// Album page
+router.get('/album', (req, res, next) => {
+  const { album_id } = req.query;
+  if (album_id !== undefined) {
+    console.log('Output for: album_id', album_id);
+    //get images
+    Image.find({ author: req.user._id, album: album_id })
+      .then(imagesFromDB => {
+        //get albums
+        Album.find({ author: req.user._id })
+          .then(albumsFromDB => {
+            // console.log('albumFromDB: ', albumFromDB);
+            const filerOutCurrentAlbum = albumsFromDB.filter(
+              album => album._id.toString() !== album_id.toString()
+            );
+            res.render('users/album.hbs', {
+              images: imagesFromDB,
+              album_id,
+              albums: filerOutCurrentAlbum,
+            });
+          })
+          .catch(err => console.log(`Error while getting all albums ${err}`));
+      })
+      .catch(err => console.log(`Error finding images ${err}`));
+    // console.log(album_id);
+  } else res.render('users/album.hbs');
+});
+//Get add image form
+router.get('/album/add-image', (req, res, next) => {
+  const { album_id } = req.query;
+  console.log('album_id: ', album_id);
+  res.render('users/add-image-form.hbs', { album_id });
+});
+//Post image(add)
+router.post(
+  '/album/add-image',
+  uploadCloud.single('image'),
+  (req, res, next) => {
+    const { name, description } = req.body;
+    const { album_id } = req.query;
+    // console.log({ file: req.file, body: req.body });
+
+    Image.create({
+      name,
+      description,
+      path: req.file.url,
+      author: req.user._id,
+      album: album_id,
+    })
+      .then(savedImage => {
+        console.log('savedImage: ', savedImage);
+        res.redirect(`/posts/album?album_id=${album_id}`);
+      })
+      .catch(err => console.log(`Error while creating image ${err}`));
+  }
+);
 //Post from user profile
 //=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-==-=-
 router.get('/upload-photo', (req, res, next) => {
@@ -77,52 +158,4 @@ router.post('/delete-post', (req, res, next) => {
     .catch(err => next(err));
 });
 
-//add and remove friends routes
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-router.post('/profile/add-new-friend', (req, res, next) => {
-  const { friends_id } = req.query;
-});
-router.post('/profile/remove-friend', (req, res, next) => {
-  const { friends_id } = req.query;
-});
-
 module.exports = router;
-
-// //just getting uniq user which belongs to the post
-// Post.find({})
-//   .populate('authorId')
-//   .then(posts => {
-//     const allPosts = posts
-//       .filter(post => {
-//         return post.postId.toString() === post_id.toString(); // == because one is string and the other is a number, they are 2 diff types
-//       }) //map is to filter out hash password from every author
-//       .map(post => {
-//         const { _id, content, creatorId } = post;
-//         if (req.user) {
-//           if (creatorId._id.toString() === req.user._id.toString()) {
-//             return {
-//               _id,
-//               content,
-//               username: creatorId.username,
-//               creatorId: creatorId._id,
-//               userImage: creatorId.path,
-//               currentUserId: req.user._id,
-//             };
-//           }
-//         }
-//         return {
-//           _id,
-//           content,
-//           username: creatorId.username,
-//           creatorId: creatorId._id,
-//           userImage: creatorId.path,
-//         };
-//       });
-
-//     if (allPosts.length === 0) {
-//       res.render('post-views/post-details', {
-//         message: "There's no Posts",
-//       });
-//       return;
-//     }
-//   });

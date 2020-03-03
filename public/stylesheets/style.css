@@ -10,8 +10,12 @@ body {
   font: 16px 'monospace,Lucida Grande, Helvetica, Arial, sans-serif';
   box-sizing: border-box;
 }
+#user-profile .btn {
+  border: 2px solid #2e9cca;
+  margin-top: 1px;
+}
 .main-container {
-  margin-top: 60px;
+  margin-top: 70px;
 }
 nav {
   position: fixed;
@@ -43,6 +47,9 @@ nav i {
   color: #ffffff;
   font-size: 1em;
 }
+nav i:hover {
+  color: #2e9cca;
+}
 a {
   color: #000;
   padding: 5px 10px;
@@ -72,6 +79,7 @@ p {
 }
 .user-image {
   width: 7rem;
+  max-width: 7rem;
   border-radius: 3px;
 }
 .users-small {
@@ -147,6 +155,7 @@ p {
 }
 .profile-post-image {
   max-width: 100%;
+  width: 38vw;
 }
 .curr-user {
   position: fixed;
@@ -204,12 +213,15 @@ p {
   cursor: pointer;
 }
 .chat-user a {
-  font-size: 12px;
+  font-size: 14px;
 }
 .chat-users-small {
   width: 35px;
   height: auto;
   border-radius: 30px;
+}
+.chat-users-small2 {
+  height: 35px;
 }
 .crop-chat-users-small {
   width: 35px;
@@ -276,10 +288,16 @@ p {
 #user-profile a {
   background-color: #25274d;
   color: #fff;
-  width: 60%;
+  width: 130px;
+  font-size: 1rem;
 }
 #user-profile a:hover {
   color: #2e9cca;
+}
+#user-profile .delete-friend:hover {
+  color: #fff;
+  border: 2px solid lightcoral;
+  background-color: lightcoral;
 }
 #user-profile h5 {
   color: #25274d;
@@ -287,10 +305,16 @@ p {
 #user-profile button {
   background-color: #25274d;
 }
+#user-profile .delete-friend {
+  background-color: rgba(17, 17, 17, 0.1);
+  border: 2px solid rgba(17, 17, 17, 0.1);
+}
 .friends-list {
   margin-top: 5px;
   width: 93%;
-  height: 27vw;
+  min-height: 40vh;
+  max-height: 80vh;
+  padding-bottom: 20vh;
   overflow: scroll;
   display: flex;
   flex-direction: column;
@@ -321,14 +345,52 @@ p {
   color: #25274d;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   background-color: #25274d;
   color: #fff;
   z-index: 2;
   border-radius: 5px;
 }
-
+.friends-header-title a {
+  font-size: 1rem;
+}
+.friends-header-title span {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 5px;
+}
+.circles {
+  width: 10px;
+  height: 10px;
+  margin: 0 3px;
+  border-radius: 100%;
+  background-color: #fff;
+}
+.friends-header-title span div:nth-child(1):hover {
+  background-color: red;
+}
+.friends-header-title span div:nth-child(2):hover {
+  background-color: yellow;
+}
+.friends-header-title span div:nth-child(3):hover {
+  background-color: green;
+}
+.search-user3 {
+  display: none;
+}
+.show {
+  display: block;
+  z-index: 4;
+  height: 25px;
+  width: 95%;
+}
+.hide {
+  display: none;
+}
 #friends-list h5,
 #friends-list hr {
   margin: 0;
@@ -370,7 +432,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 10px 10px 100px 0;
   width: 38vw;
   min-width: 125px;
   background-color: #ffffff;
@@ -405,6 +467,7 @@ p {
   width: 25vw;
   height: 100vh;
   overflow: scroll;
+  padding-bottom: 10vh;
 }
 .weather-details {
   display: flex;
@@ -480,116 +543,179 @@ input::placeholder {
 }
 .right-div {
   position: relative;
-  margin-top: 5px;
-  padding: 15px 0;
-  overflow: scroll;
+  margin-top: 10px;
+  padding: 10px 3px 20px 0;
   width: 20vw;
   box-sizing: border-box;
-  min-height: 100vh;
 }
 .right-div input {
-  width: 99%;
+  width: 19.5vw;
+  border-color: #25274d;
+}
+.right-div input:focus {
+  border-color: #25274d;
 }
 .all-users {
   overflow: scroll;
   width: 99%;
-  min-height: 100vh;
+  min-height: 30vh;
+  max-height: 100vh;
+  padding-bottom: 20vh;
 }
-
-@media (max-width: 900px) {
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 10px;
-  }
-  #main-profile {
-    min-width: 400px;
-    display: flex;
-    justify-content: space-around;
-  }
-  .user-image {
-    width: 7.5rem;
-    border-radius: 3px;
-  }
-  .left-div {
-    display: none;
-  }
-  .center-div {
-    position: fixed;
-    left: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 60vw;
-    padding-top: 10px;
-    overflow: scroll;
-    background-color: #999;
-    color: white;
-  }
-
-  .weather-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    position: fixed;
-    left: 68.3%;
-    top: 60px;
-    bottom: 0;
-    width: 23.5vw;
-    color: #fff;
-  }
-
-  .weather {
-    width: 40vw;
-    height: 100vh;
-    color: #ffffff;
-    overflow: scroll;
-  }
-  .weather-form input {
-    width: 30vw;
-    outline: 0;
-    border-color: #25274d;
-    font-size: 0.9rem;
-  }
-  .weather-details > div:first-child {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 30vw;
-    height: 25vw;
-    padding: 0 10px;
-  }
-  .right-div {
-    display: none;
-  }
-  .username {
-    display: none;
-  }
+.all-users2 {
+  margin-top: 40px;
 }
-@media (max-width: 500px) {
-  .center-div {
-    position: relative;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100vw;
-    background-color: #999;
-    color: white;
-  }
-  .weather-div {
-    display: none;
-  }
+/*------- albums -------- */
+.albums-header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.albums-header h2,
+.albums-header a {
+  margin-right: 10px;
+}
+.album {
+  margin: 0 auto;
+  max-width: 20vw;
+  min-height: 50vh;
+  max-height: 80vh;
+  padding-bottom: 30vh;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  /* grid-column-gap: 0.2rem; */
+  /* grid-row-gap: 0.2rem; */
+}
+.album img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.main-albums {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-width: 50vw;
+  max-width: 90vw;
+  min-height: 60vh;
+  max-height: 80vh;
+  overflow: scroll;
+  background-color: #2e9cca;
+}
+.album-folder {
+  width: 200px;
+  height: 200px;
+  margin: 5px;
+  padding: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 30px;
+  position: relative;
+}
+.folder-icon {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  bottom: 0;
+  font-size: 210px;
+  color: #25274d;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 100%;
+}
+.album-folder h5 {
+  margin: 0 0 5px;
+}
+.album-folder img {
+  /* margin: 0.3px; */
+  width: 85px;
+  height: 85px;
+  border-radius: 3px;
+  transition: 0.5s ease-in-out;
+}
+.album-folder img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+/*---each album page----*/
+.main-album {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 100px;
+  min-height: 80vh;
+  max-height: 100vh;
+}
+.add-image-icon {
+  position: absolute;
+  left: 20px;
+  top: 70px;
+}
+.album-images {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center; */
+  min-width: 73vw;
+  max-width: 73vw;
+  min-height: 70vh;
+  max-height: 70vh;
+  background-color: #2e9cca;
+}
+.album-images .all-images {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 73vw;
+  max-width: 73vw;
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow: scroll;
+  background-color: #25274d;
+}
+.each-image {
+  margin: 5px;
+  padding: 10px 0;
+  background-color: #2e9cca;
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 5px;
+}
+.album-image {
+  /* width: 200px;
+  height: 200px;
+  border-radius: 5px; */
+}
+.each-image h4 {
+  /* max-width: 200px;
+  overflow: hidden;
+  color: #fff; */
+}
+.each-image p {
+  /* max-width: 200px;
+  height: 60px;
+  overflow: scroll;
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px; */
+}
+.aside-bar {
+}
+.other-albums {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #2e9cca;
+  min-width: 25vw;
+  max-width: 25vw;
+  min-height: 70vh;
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 /* login and signup forms */
@@ -720,13 +846,15 @@ footer {
   align-items: center;
   flex-direction: column;
   line-height: 20px;
+  color: #25274d;
 }
 hr.socket {
-  background-color: #fff;
+  background-color: #2e9cca;
 }
 footer a {
   font-size: 30px;
   padding: 5px;
+  color: #2e9cca;
 }
 #logo {
   width: 70px;
@@ -734,6 +862,14 @@ footer a {
 }
 pre {
   color: #25274d;
+}
+footer .social-links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+footer .social-links a {
+  color: #2e9cca;
 }
 
 /*------------------ socket message board ---------------------------*/
@@ -823,14 +959,16 @@ pre {
 /* ---------------Btn Drop down styles ---------------------------*/
 .dropbtn {
   border: none;
-  background: transparent;
+  /* background: transparent; */
 }
 .dropdown-menu {
-  max-height: 200px;
+  min-height: 150px;
+  max-height: 250px;
   padding: 5px;
-  background-color: #ffffff;
+  background-color: #fff;
   margin: 5px;
-  z-index: 5;
+  z-index: 10;
+  overflow: scroll;
 }
 .dropdown-toggle:focus {
   outline: 0;
@@ -850,7 +988,7 @@ pre {
 }
 
 .dropdown-menu a:hover {
-  background-color: green;
+  background-color: #2e9cca;
   color: #dbdddd;
   width: 100%;
   border-radius: 5px;
@@ -859,14 +997,14 @@ pre {
   font-size: 12px;
 }
 .dropdown-menu button:hover {
-  background-color: green;
+  background-color: #2e9cca;
   padding: 12px 16px;
   color: #dbdddd;
   width: 100%;
   border-radius: 5px;
 }
 a.delete-friend:hover {
-  background-color: red;
+  background-color: lightcoral;
   color: #dbdddd;
   width: 100%;
 }
@@ -904,7 +1042,10 @@ a.delete-friend:hover {
     background-color: #ffffff;
     color: white;
   }
-
+  .profile-post-image {
+    max-width: 100%;
+    width: 55vw;
+  }
   .weather-div {
     display: flex;
     flex-direction: column;
@@ -914,14 +1055,14 @@ a.delete-friend:hover {
     left: 60%;
     top: 60px;
     bottom: 0;
-    width: 40vw;
+    width: 39.5vw;
     color: #fff;
   }
   .title {
     padding-top: 20px;
   }
   .weather {
-    width: 40vw;
+    width: 39.5vw;
     height: 100vh;
     color: #ffffff;
     overflow: scroll;
@@ -947,7 +1088,89 @@ a.delete-friend:hover {
     display: none;
   }
 }
+/* ----------- max 900 -------------   */
+@media (max-width: 900px) {
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+  }
+  #main-profile {
+    min-width: 400px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .user-image {
+    width: 7.5rem;
+    border-radius: 3px;
+  }
+  .left-div {
+    display: none;
+  }
+  .center-div {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 60vw;
+    padding-top: 10px;
+    overflow: scroll;
+    color: white;
+  }
+  .profile-post-image {
+    max-width: 100%;
+    width: 90vw;
+  }
+  .weather-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    left: 60%;
+    top: 60px;
+    bottom: 0;
+    width: 39.5vw;
+    color: #fff;
+  }
 
+  .weather {
+    width: 39.5vw;
+    height: 100vh;
+    color: #ffffff;
+    overflow: scroll;
+  }
+  .weather-form input {
+    width: 30vw;
+    outline: 0;
+    border-color: #25274d;
+    font-size: 0.9rem;
+  }
+  .weather-details > div:first-child {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30vw;
+    height: 25vw;
+    padding: 0 10px;
+  }
+  .right-div {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+}
+/* ---------------  768 ----------------- */
 @media (max-width: 768px) {
   .welcome-page-container > div:first-child {
     display: none;
@@ -965,6 +1188,26 @@ a.delete-friend:hover {
     display: none;
   }
   .right-div {
+    display: none;
+  }
+}
+/* -------- max 500 ---------------- */
+@media (max-width: 500px) {
+  .center-div {
+    position: relative;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    color: white;
+  }
+  .profile-post-image {
+    max-width: 100%;
+    width: 90vw;
+  }
+  .weather-div {
     display: none;
   }
 }

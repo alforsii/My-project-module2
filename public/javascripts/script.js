@@ -5,7 +5,8 @@ document.addEventListener(
     //=-=-=-=-=-=--=-=-=-=-=Search user list---==-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
     if (
       document.getElementById('search-user1') ||
-      document.getElementById('search-user2')
+      document.getElementById('search-user2') ||
+      document.getElementById('search-user3')
     ) {
       document
         .getElementById('search-user1')
@@ -13,6 +14,9 @@ document.addEventListener(
       document
         .getElementById('search-user2')
         .addEventListener('keyup', () => filterList('search-user2', '.user2'));
+      document
+        .getElementById('search-user3')
+        .addEventListener('keyup', () => filterList('search-user3', '.user3'));
 
       function filterList(id, user) {
         const users = document.querySelectorAll(user);

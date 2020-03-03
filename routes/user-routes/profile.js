@@ -108,6 +108,8 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
                 posts: newPosts,
                 users: uniqUsers,
                 userFriends: populatedFriends,
+                totalFriends: populatedFriends.length,
+                isOneFriend: populatedFriends.length == 1 ? true : false,
                 myStyle: '/stylesheets/toggle.css',
               });
             })

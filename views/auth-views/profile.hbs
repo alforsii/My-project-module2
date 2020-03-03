@@ -12,10 +12,20 @@
             {{!-- current user --}}
             <div class="friends-header-title">
                 <a class="username">
-                    My Friends
+                    {{!-- My Friends --}}
+                    {{#if isOneFriend}}
+                    You have <i style="color:#2e9cca;font-weight:bold;font-size:18px;">{{totalFriends}}</i> Friend
+                    {{else}}
+                    You have <i style="color:#2e9cca;font-weight:bold;font-size:18px;">{{totalFriends}}</i> Friends
+                    {{/if}}
                 </a>
-
-                <span>...</span>
+                <span>
+                    <div class="circles"></div>
+                    <div class="circles"></div>
+                    <div class="circles"></div>
+                    <i class="fas fa-user-friends" style="font-size:20px;color:#2e9cca;margin-left:2px;"></i>
+                </span>
+                <input id="search-user3" class="form-control search-user3" type="text" placeholder="Search friends...">
 
             </div>
 
