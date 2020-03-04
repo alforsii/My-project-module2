@@ -14,15 +14,6 @@ module.exports = client => {
       }, 500);
     };
 
-    socketIO.on('call-socket-io', data => {
-      console.log("('call-socket-io')'", data);
-      passToSocket(data);
-    });
-
-    function passToSocket(data) {
-      socketIO.emit('call-socket', data);
-    }
-
     //Receive the data from socketIO.js(client) when user clicked
     socketIO.on('display', usersData => {
       console.log('Output for: usersData', usersData);
