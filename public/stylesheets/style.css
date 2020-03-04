@@ -738,9 +738,9 @@ input::placeholder {
   width: 500px;
   height: 180px;
 }
-
+/* 
 .aside-bar {
-}
+} */
 .other-albums {
   display: flex;
   flex-wrap: wrap;
