@@ -7,7 +7,7 @@ module.exports = client => {
   client.on('connection', socketIO => {
     // console.log('new connection: ' + socketIO.id);
 
-    //Create function to send the status
+    //Send the status
     const sendStatus = function(s) {
       setTimeout(() => {
         socketIO.emit('status', s);

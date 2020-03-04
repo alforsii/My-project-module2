@@ -33,7 +33,7 @@ router.post('/create-album', (req, res, next) => {
   const { name } = req.body;
   Album.create({ name, author: req.user._id })
     .then(newlyCreatedAlbum => {
-      console.log('newlyCreatedAlbum: ', newlyCreatedAlbum);
+      // console.log('newlyCreatedAlbum: ', newlyCreatedAlbum);
       res.redirect('/posts/photo-albums');
     })
     .catch(err => console.log(`Error while creating a new Album ${err}`));
@@ -44,7 +44,7 @@ router.post('/create-album', (req, res, next) => {
 router.get('/album', ensureLoggedIn('/auth/login'), (req, res, next) => {
   const { album_id } = req.query;
   if (album_id !== undefined) {
-    console.log('Output for: album_id', album_id);
+    // console.log('Output for: album_id', album_id);
     //1.Get current album
     //2.Get All the images for selected album userAlbum[0].images
     Album.find({ _id: album_id })
@@ -69,6 +69,7 @@ router.get('/album', ensureLoggedIn('/auth/login'), (req, res, next) => {
               album_id,
               albumName: userAlbum[0].name,
               author: authorOfAlbums,
+              isMyAlbum: authorOfAlbums === 'Your' ? true : false,
               images: userAlbum[0].images,
               albums: filerOutCurrentAlbum,
             });
@@ -163,6 +164,28 @@ router.post('/delete-album', (req, res, next) => {
     .catch(err =>
       console.log(`Error while looking for album for deletion ${err}`)
     );
+});
+
+//Delete image from album
+router.post('/delete-image', (req, res, next) => {
+  const { image_id } = req.query;
+  //1.Find image by id and delete
+  Image.findByIdAndDelete(image_id)
+    .then(deletedImage => {
+      //2. Remove the deleted image id from Albums images array in DB
+      Album.findOneAndUpdate(
+        { _id: deletedImage.album },
+        { $pull: { images: deletedImage._id } }
+      )
+        .then(updatedAlbum => {
+          console.log('updated album', updatedAlbum);
+          res.redirect(`/posts/album?album_id=${deletedImage.album}`);
+        })
+        .catch(err =>
+          console.log(`Error while updating Album for deleted image ${err}`)
+        );
+    })
+    .catch(err => console.log(`Error while deleting image ${err}`));
 });
 
 //Post from user profile

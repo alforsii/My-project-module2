@@ -9,7 +9,8 @@
       .getAttribute('userInSession');
 
     let deleteEachFriend = document.querySelectorAll('.delete-friend');
-
+    // let statusOutput = document.getElementById('status-output');
+    // statusOutput.value = 'hello world!';
     //Connect to socket.io
     //=-=-=-=-===-=-=-=-=-=-= Socket event listener -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     // 1.
@@ -28,7 +29,7 @@
     });
 
     // -----------get response from DB that new friend was added to DB
-    socket.on('friend-created', data => {
+    socket.on('friend-created', newlyCreatedFriend => {
       location.reload();
     });
 
@@ -45,7 +46,6 @@
     socket.on('removed-user', deletedUsers => {
       location.reload();
     });
-
     // <-- end of function -->
   }
 })();

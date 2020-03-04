@@ -10,19 +10,19 @@ module.exports = client => {
     socketIO.on('create-friend', usersData => {
       // usersData[0] - userInSession(current user) id.
       // usersData[1] - other user id.
-      User.findById(usersData[0])
-        .populate('friends')
-        .then(userFromDB => {
-          // checking if the user exist in current(me) user friends list
-          const isFriend = userFromDB.friends.filter(
-            friend => friend.userId.toString() === usersData[1].toString()
-          );
-          if (isFriend.length == 0) {
-            //if this user is not a friend yet then call createFriend() to make a new friends
-            createFriend(usersData);
-          }
-        })
-        .catch(err => console.log(`Error while${err}`));
+      // User.findById(usersData[0])
+      //   .populate('friends')
+      //   .then(userFromDB => {
+      //     // checking if the user exist in current(me) user friends list
+      //     const isFriend = userFromDB.friends.filter(
+      //       friend => friend.userId.toString() === usersData[1].toString()
+      //     );
+      // if (isFriend.length == 0) {
+      //if this user is not a friend yet then call createFriend() to make a new friends
+      createFriend(usersData);
+      // }
+      // })
+      // .catch(err => console.log(`Error while${err}`));
     });
     //end socketIO.on('redisplay-friends-list')
 
@@ -33,7 +33,7 @@ module.exports = client => {
       //Create current user(ourself) as a new friend to other User friends list
       Friend.create({ userId: usersData[0] })
         .then(newlyCreatedFriend => {
-          console.log('newlyCreatedFriend');
+          // console.log('newlyCreatedFriend');
           //call addToFriendsList and pass  newlyCreatedFriend for current user
           // and pass the other user id to add (newlyCreatedFriend) current user as a friend to other users friends list
           addToFriendsList(newlyCreatedFriend, usersData[1]); //
@@ -45,7 +45,7 @@ module.exports = client => {
       //Create a new Friend
       Friend.create({ userId: usersData[1] })
         .then(newlyCreatedFriend => {
-          console.log('newlyCreatedFriend');
+          // console.log('newlyCreatedFriend');
           addToFriendsList(newlyCreatedFriend, usersData[0]); //
           socketIO.emit('friend-created', newlyCreatedFriend);
         })

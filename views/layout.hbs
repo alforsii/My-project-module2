@@ -15,7 +15,7 @@
   <nav>
     {{#if user}}
     <div>
-      <a href="/profile/user-page">Profile </a>
+      {{#if isMyPage}}
       <a id="post-icon" href="/posts/upload-photo">
         <i class="fas fa-plus-circle"></i>
         <span class="hint">
@@ -28,7 +28,34 @@
           Albums
         </span>
       </a>
+      {{else}}
+      {{#if isOtherUser}}
+      <a href="/profile/user-page">Profile</a>
+      {{!-- visible max-900px --}}
+      <a class="otherUser" href="/profile/user-details?user_id={{_id}}">
+        <div class="crop-chat-users-small">
+          <img class="chat-users-small" src="{{path}}" alt="{{username}}">
+        </div>
+        <h5 class="">{{firstName}} {{lastName}} </h5>
+      </a>
+      {{!--  --}}
+      {{else}}
+      <a href="/profile/user-page">Profile</a>
+      {{/if}}
+      {{/if}}
     </div>
+    {{!-- s --}}
+    {{#if isMyPage}}
+    {{!-- Search --}}
+    {{!-- <input type="text" id="status-output" class="form-control status-output" style="width: 40vw;" placeholder="..."
+      disabled name="search"> --}}
+    {{/if }}
+    {{#if isOtherUser}}
+    {{!-- Search --}}
+    {{!-- <input type="text" id="status-output" class="form-control status-output" style="width: 40vw;" placeholder="..."
+      disabled name="search"> --}}
+    {{/if }}
+    {{!-- s --}}
     {{!-- it's also in profile.hbs, friends list menu sidebar --}}
     <form action="/auth/logout" method="POST">
       <button class="btn btn-secondary logBtns">Logout</button>

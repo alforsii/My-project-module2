@@ -165,6 +165,17 @@ p {
   max-width: 100%;
   width: 55vw;
 }
+.otherUser {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  top: 10px;
+  left: 80px;
+  width: 200px;
+  z-index: 5;
+  display: none;
+}
 .curr-user {
   position: fixed;
   z-index: 3;
@@ -560,9 +571,17 @@ input::placeholder {
   width: 4.5vw;
   border-color: #25274d;
   transition: width 1s linear;
+  padding-left: 40px;
 }
 .right-div input:focus {
   border-color: #25274d;
+}
+.search-icon {
+  position: absolute;
+  top: 22px;
+  padding-left: 17px;
+  color: #333;
+  /* right: 3vw; */
 }
 .right-div:hover {
   width: 16vw;
@@ -711,8 +730,8 @@ input::placeholder {
 .album-images {
   min-width: 73vw;
   max-width: 73vw;
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 75vh;
+  max-height: 75vh;
   background-color: #2e9cca;
   position: relative;
 }
@@ -724,7 +743,7 @@ input::placeholder {
   min-height: 75vh;
   max-height: 75vh;
   overflow: scroll;
-  background-color: #25274d;
+  /* background-color: #25274d; */
 }
 .each-image {
   margin: 5px;
@@ -733,9 +752,10 @@ input::placeholder {
   max-width: 300px;
   max-height: 300px;
   border-radius: 5px;
+  position: relative;
 }
 .each-image img {
-  width: 500px;
+  /* width: 500px; */
   height: 180px;
 }
 /* 
@@ -761,44 +781,43 @@ input::placeholder {
   height: 100vh;
   overflow: hidden;
 }
-/* delete album */
-.delete-album {
-  position: absolute;
-  bottom: 10px;
-  right: 0px;
-  /* display: none; */
-  opacity: 0;
-  transition: opacity 0.5s linear;
-}
-.album-images:hover .delete-album {
-  display: block;
-  opacity: 1;
-}
-.delete-album i:hover {
-  color: lightcoral;
-}
-.delete-btn {
-  position: relative;
-  color: #999;
-}
-.delete-btn:focus {
-  outline: 0;
-}
+
 .hint {
   color: #fff;
   position: absolute;
-  top: -10px;
+  top: -20px;
   right: 0px;
-  font-size: 12px;
-  padding: 5px 10px;
-  background-color: #111;
+  font-size: 14px;
+  padding: 7px 20px;
+  background-color: #999;
   border-radius: 3px;
   opacity: 0;
   transition: opacity 0.5s linear;
 }
-.delete-album:hover span.hint {
+
+/* delete image from album */
+button.delete-image-btn {
+  position: absolute;
+  right: 3px;
+  bottom: 0px;
+  background: #fff;
+  width: 30px;
+  border: none;
+}
+button.delete-image-btn:focus {
+  outline: 0;
+}
+button.delete-image-btn i {
+  color: gray;
+  transition: color 0.2s linear;
+}
+button.delete-image-btn:hover i {
+  color: lightcoral;
+}
+button.delete-image-btn:hover span {
   opacity: 1;
 }
+
 /* login and signup forms */
 .form {
   position: relative;
@@ -1089,6 +1108,45 @@ a.delete-friend:hover {
   color: #dbdddd;
   width: 100%;
 }
+/* delete album */
+#delete-album {
+  /* position: absolute;
+  top: 0;
+  right: 40vw; */
+  z-index: 5;
+  /* display: none; */
+  /* opacity: 0;
+  transition: opacity 0.5s linear; */
+}
+/* .album-images:hover .delete-album {
+  display: block;
+  opacity: 1;
+} */
+button#btnGroupDrop4 {
+  background-color: transparent;
+}
+button#btnGroupDrop4:hover {
+  color: #2e9cca;
+}
+.delete-album #btnGroupDrop1:hover i {
+  color: #2e9cca;
+}
+a.add-photo {
+  /* background-color: #2e9cca; */
+  border-radius: 5px;
+}
+button.delete-btn {
+  background-color: transparent;
+  border: none;
+}
+button.delete-btn:hover {
+  background-color: lightcoral;
+  color: #dbdddd;
+  width: 100%;
+}
+.delete-btn:focus {
+  outline: 0;
+}
 /*---------------end Btn Drop down styles ---------------------*/
 
 /* Media Queries */
@@ -1167,6 +1225,9 @@ a.delete-friend:hover {
   }
   .username {
     display: none;
+  }
+  .otherUser {
+    display: flex;
   }
 }
 /* ----------- max 900 -------------   */
