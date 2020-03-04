@@ -1,7 +1,7 @@
 /* Colors
 Dark blue: #25274D
 Light blue: #2E9CCA
-Grey: #ffffff
+White: #ffffff
 */
 
 body {
@@ -758,9 +758,9 @@ input::placeholder {
   /* width: 500px; */
   height: 180px;
 }
-
+/* 
 .aside-bar {
-}
+} */
 .other-albums {
   display: flex;
   flex-wrap: wrap;
