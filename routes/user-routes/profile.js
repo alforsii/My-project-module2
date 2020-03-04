@@ -87,6 +87,7 @@ router.get('/user-page', ensureLoggedIn('/auth/login'), (req, res) => {
               });
               //render profile.hbs
               res.render('auth-views/profile', {
+                isMyPage: true,
                 posts: newPosts,
                 users: uniqUsers,
                 userFriends: populatedFriends,
@@ -296,8 +297,10 @@ router.get('/user-details', (req, res, next) => {
 
                   //Get user albums
                   Album.find({ author: user_id })
+                    .populate('images')
                     .then(userAlbums => {
                       res.render('users/user-details', {
+                        isOtherUser: true,
                         _id: user_id,
                         isFriend,
                         userFriendId: isFriend ? getUserFromFriends[0]._id : '', //this user friend id that is created if friends. This is just for add or remove buttons I believe(if users the selected user friends with current user then displays remove button, else add)

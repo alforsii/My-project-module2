@@ -1,12 +1,31 @@
 {{!-- position absolute - add images icon --}}
+{{#if isMyAlbum}}
 <div class="add-image-icon">
-  <a href="/posts/album/add-image?album_id={{album_id}}">
-    <i class="far fa-image"></i>
-    <h4>Add New Photo</h4>
-  </a>
+  {{!-- delete album dropdown btn --}}
+  <div id="delete-album" class="btn-group1" role="group">
+    <button id="btnGroupDrop4" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false"><i class="far fa-image" style="color:lightcoral;"></i></button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+      <a href="/posts/create-album">
+        <i class="fas fa-folder-plus" style="font-size: 20px;"></i>
+        <span>Create Album</span>
+      </a>
+      <a class="add-photo" href="/posts/album/add-image?album_id={{album_id}}">
+        <i class="far fa-image" style="font-size: 20px;"></i>
+        <span>Add Photo</span>
+      </a>
+      <form action="/posts/delete-album?album_id={{album_id}}" method="post">
+        <button class="delete-btn btn btn-secondary">
+          <i class="far fa-trash-alt" style="font-size: 20px;"></i>
+          <span>Delete Album</span>
+        </button>
+      </form>
+    </div>
+  </div>
+  {{!-- end delete album btn --}}
 </div>
+{{/if}}
 {{!-- end position absolute - add images icon --}}
-</div>
 
 
 <div class="main-album">
@@ -16,7 +35,9 @@
       {{!-- here goes all other albums --}}
       {{#each albums}}
       <div class="album-folder text-center">
-        <h5>{{this.name}}</h5>
+        <a href="/posts/album?album_id={{this._id}}">
+          <h5>{{this.name}}</h5>
+        </a>
         {{#each this.images}}
         <img src="{{this.path}}" alt="{{this.name}}">
         {{/each}}
@@ -44,11 +65,21 @@
               <a href="{{this.path}}" target="_blank">
                 <img class="col-12" src="{{this.path}}" alt="{{this.name}}" />
               </a>
-              <div class="card-body" style="position: absolute;bottom:0; ">
+              <div class="card-body" style="position: absolute;bottom:0;right:0;left:0; ">
                 <h4>{{this.name}}</h4>
                 <p>
                   {{this.description}}
                 </p>
+                {{!-- delete button --}}
+                {{#if ../isMyAlbum}}
+                <form action="/posts/delete-image?image_id={{this._id}}" method="post">
+                  <button class="delete-image-btn">
+                    <i class="far fa-trash-alt" style="font-size: 20px;"></i>
+                    <span class="hint">Delete</span>
+                  </button>
+                </form>
+                {{/if}}
+                {{!--  --}}
               </div>
             </div>
           </div>
@@ -57,16 +88,6 @@
       </div>
       {{!--end Bootstrap card --}}
       {{!-- end all images that belongs to current album --}}
-      {{!-- delete album btn --}}
-      <form class="delete-album" action="/posts/delete-album?album_id={{album_id}}" method="post">
-        <button class="delete-btn">
-          <i class="far fa-trash-alt"></i>
-        </button>
-        <span class="hint">
-          Delete album
-        </span>
 
-      </form>
-      {{!-- end delete album btn --}}
     </div>
   </div>
