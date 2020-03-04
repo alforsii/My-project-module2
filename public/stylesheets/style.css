@@ -959,8 +959,8 @@ footer .social-links a {
 }
 .messageBoard {
   position: fixed;
-  right: 3vw;
-  bottom: 0;
+  right: 5px;
+  bottom: -15px;
   z-index: 4;
   display: none;
   width: 400px;
