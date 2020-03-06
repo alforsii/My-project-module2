@@ -62,37 +62,12 @@
         _id = sendBtn.getAttribute('user_id');
         _username = sendBtn.getAttribute('_username');
         let fullName = sendBtn.getAttribute('_name');
-        console.log('fullName: ', fullName);
+        // console.log('fullName: ', fullName);
         sendTo.value = 'Send to: ' + fullName.trim();
         // sendBtn.parentElement.parentElement.previousElementSibling.children[1].innerHTML.trim(); //name of a user
         socket.emit('display', [userInSessionID, _id]);
       });
     });
-
-    //Receive data from friends.js -> socket.io.js -> socket.js
-    socket.on('call-socket', data => {
-      console.log("socket.on('call-socket')", data);
-      const { id, username, fullName } = data;
-      updateSendBtns(id, username, fullName);
-      // socket.emit('display', dataFromFriends);//dataFromFriends === [userInSessionID, otherUserId]
-    });
-
-    function updateSendBtns(id, username, fullName) {
-      // sendBtns = document.querySelectorAll('.send-message');
-      // sendBtns.forEach(sendBtn => {
-      //   sendBtn.addEventListener('click', event => {
-      // event.preventDefault();
-      messageBoard.style.display = 'block';
-      messages.innerHTML = '';
-      _id = id;
-      _username = username;
-      console.log('fullName: ', fullName);
-      sendTo.value = 'Send to: ' + fullName.trim();
-      // sendBtn.parentElement.parentElement.previousElementSibling.children[1].innerHTML.trim(); //name of a user
-      socket.emit('display', [userInSessionID, _id]);
-      // });
-      // });
-    }
 
     //Set default status
     //=-=-=-=-===-=-=-=-=-=-= Send Status to the current User -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -164,7 +139,7 @@
       socket.on('output', data => {
         //it's from messages collection
         if (data) {
-          console.log('Output fromDB: ', data);
+          // console.log('Output fromDB: ', data);
           // let arr = data[0].msg;
           for (let i = 0; i < data.length; i++) {
             const { sender, message, _id, author } = data[i];
@@ -186,7 +161,7 @@
       // socket.emit('display', [userInSessionID, _id]);
       if (data) {
         const { receiver, message, _id, author } = data;
-        console.log('Updated Output fromDB: ', data);
+        // console.log('Updated Output fromDB: ', data);
         //for test
         if (data.from !== socket.id) {
           // say(data.sender, data.message);
@@ -257,9 +232,9 @@
       deleteMsgBtn.forEach(btn => {
         btn.addEventListener('click', event => {
           event.preventDefault();
-          const msgId = event.target.getAttribute('msg_id');
+          const msgId = event.target.parentElement.getAttribute('msg_id');
           socket.emit('requestDeleteMsg', msgId); //remove from DB(sending req to remove)
-          event.target.parentElement.remove(); //then remove from screen
+          event.target.parentElement.parentElement.remove(); //then remove from screen
           messages.innerHTML = '';
           socket.emit('display', [userInSessionID, _id]); //I had to call back this function to redisplay the messages back, because when I click they all disappearing even if I prevent default
         });
